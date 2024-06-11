@@ -9,6 +9,7 @@ const WriteReview = () => {
     <Container hasHeader={true} hasNav={true}>
       <Header text="리뷰 작성" closeButton={true} />
       <Input labelText="아이디" width={280} />
+      <Button text="로그인" onClick={() => {}} />
       <Navbar />
     </Container>
   );
