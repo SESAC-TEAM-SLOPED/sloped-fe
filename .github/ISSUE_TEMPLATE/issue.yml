@@ -13,6 +13,14 @@ body:
       required: true
 
   - type: input
+    id: branchPrefix
+    attributes:
+      label: '브랜치 전략(GitFlow)'
+      description: '기능 개발의 경우 feat 이라고 작성하면 됩니다.'
+    validations:
+      required: true
+      
+  - type: input
     id: branchName
     attributes:
       label: '브랜치 이름(이슈 요약)'
