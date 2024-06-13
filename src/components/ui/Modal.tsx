@@ -21,7 +21,7 @@ const Modal = ({ onClose, children }: Props) => {
           className="absolute top-3 right-3 p-1 text-white"
           onClick={() => onClose()}
         >
-          <CloseIcon />
+          <CloseIcon color="#8d8d8d" />
         </button>
         {children}
       </div>
