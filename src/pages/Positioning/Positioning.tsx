@@ -5,8 +5,11 @@ import Container from "../../components/ui/Container";
 import useGeoLocation from "../../hooks/geoLocation";
 import { getAddressFromCoord } from "../../service/map";
 import Button from "../../components/ui/Button";
+import { useLocation } from "react-router-dom";
 
 const Positioning = () => {
+  const { pathname } = useLocation();
+
   const { location } = useGeoLocation();
   const [address, setAddress] = useState("");
 
@@ -20,7 +23,9 @@ const Positioning = () => {
 
   return (
     <Container hasHeader={true} full={true}>
-      <Header text="시설 등록" />
+      <Header
+        text={pathname.includes("facility") ? "시설 등록" : "도로 제보"}
+      />
       <div
         style={{ height: "calc(100vh - 70px)" }}
         className="px-10 flex flex-col gap-6"
