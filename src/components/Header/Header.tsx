@@ -13,7 +13,7 @@ const Header = ({ text, backButton = true, closeButton = false }: Props) => {
   };
 
   return (
-    <div className="bg-[#3F51B5] fixed min-w-96 max-w-screen-sm h-[70px] px-[15px] top-0 inset-x-0 mx-auto flex justify-between items-center">
+    <div className="bg-[#3F51B5] fixed min-w-96 max-w-screen-sm h-[70px] px-[15px] top-0 inset-x-0 mx-auto flex justify-between items-center z-10">
       <div className="w-[25px] h-[25px]">
         {backButton && (
           <button onClick={handleGoBack}>
