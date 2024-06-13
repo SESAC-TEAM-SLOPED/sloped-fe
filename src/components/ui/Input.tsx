@@ -12,7 +12,8 @@ const Input = ({ labelText, width }: Props) => {
       <input
         id="input"
         type="text"
-        className={`border-b h-7 border-[#949494] outline-none text-[#404040] w-[${width}px]`}
+        style={{ width: `${width}px` }}
+        className="border-b h-7 border-[#949494] outline-none text-[#404040]"
       />
     </div>
   );

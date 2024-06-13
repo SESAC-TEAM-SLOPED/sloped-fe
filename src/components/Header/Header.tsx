@@ -25,7 +25,7 @@ const Header = ({ text, backButton = true, closeButton = false }: Props) => {
       <div className="w-[25px] h-[25px]">
         {closeButton && (
           <button>
-            <CloseIcon />
+            <CloseIcon color="white" />
           </button>
         )}
       </div>

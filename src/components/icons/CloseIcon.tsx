@@ -1,7 +1,11 @@
 import { IoMdClose } from "react-icons/io";
 
-const CloseIcon = () => {
-  return <IoMdClose size="25" color="white" />;
+type Props = {
+  color: string;
+};
+
+const CloseIcon = ({ color }: Props) => {
+  return <IoMdClose size="25" color={color} />;
 };
 
 export default CloseIcon;
