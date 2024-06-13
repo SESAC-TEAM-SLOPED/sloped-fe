@@ -10,6 +10,7 @@ const Router = () => {
         <Route path="/" element={<Main />} />
         <Route path="/review/new" element={<WriteReview />} />
         <Route path="/facility/new/positioning" element={<Positioning />} />
+        <Route path="/road/new/positioning" element={<Positioning />} />
       </Routes>
     </BrowserRouter>
   );
