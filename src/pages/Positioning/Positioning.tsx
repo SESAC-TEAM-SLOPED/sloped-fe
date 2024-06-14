@@ -5,9 +5,10 @@ import Container from "../../components/ui/Container";
 import useGeoLocation from "../../hooks/geoLocation";
 import { getAddressFromCoord } from "../../service/map";
 import Button from "../../components/ui/Button";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Positioning = () => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const { location } = useGeoLocation();
@@ -21,10 +22,19 @@ const Positioning = () => {
     }
   }, [location]);
 
+  const handleNextClick = () => {
+    if (pathname.includes("facility")) {
+      // 시설 form 페이지 path 지정 필요
+      navigate("/report/facility/form", { state: { location, address } });
+    } else {
+      navigate("/report/road/form", { state: { location, address } });
+    }
+  };
+
   return (
     <Container hasHeader={true} full={true}>
       <Header
-        text={pathname.includes("facility") ? "시설 등록" : "도로 제보"}
+        text={pathname.includes("facility") ? "시설 등록" : "불편 도로 제보"}
       />
       <div
         style={{ height: "calc(100vh - 70px)" }}
@@ -38,8 +48,9 @@ const Positioning = () => {
             {address}
           </p>
         </div>
+
         <Map location={location} height="70%" setAddress={setAddress} />
-        <Button text="다음" onClick={() => {}} size="full" />
+        <Button text="다음" onClick={handleNextClick} size="full" />
       </div>
     </Container>
   );
