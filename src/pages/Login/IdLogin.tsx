@@ -4,9 +4,14 @@ import Container from "../../components/ui/Container";
 
 const IdLogin = () => {
   return (
-    <Container hasHeader={true}>
+    <Container hasHeader={true} hasNav={false} full={true}>
       <Header text="로그인" />
-      <IdLoginForm />
+      <div
+        style={{ height: "calc(100vh - 70px)" }}
+        className="px-10 flex flex-col gap-6"
+      >
+        <IdLoginForm />
+      </div>
     </Container>
   );
 };

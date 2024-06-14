@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FaRegQuestionCircle, FaCheckCircle } from "react-icons/fa";
+import { MdHeight } from "react-icons/md";
 
 const FindIdForm = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +18,10 @@ const FindIdForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen space-y-6 bg-white">
+    <div
+      style={{ minHeight: "80vh" }}
+      className="flex flex-col items-center justify-center min-h-screen space-y-6 bg-white"
+    >
       <h1 className="text-xl font-bold mb-6">본인확인 이메일로 인증</h1>
 
       <div className="w-[300px] mb-4">

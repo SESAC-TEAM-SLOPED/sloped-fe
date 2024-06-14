@@ -9,11 +9,13 @@ const FindId = () => {
   const [activeTab, setActiveTab] = useState("id");
 
   return (
-    <Container hasHeader={true}>
-      <Header text="아이디/비밀번호 찾기" />
-      <TabSwitcher activeTab={activeTab} setActiveTab={setActiveTab} />
-      {activeTab === "id" ? <FindIdForm /> : <FindPasswordForm />}
-    </Container>
+    <div style={{ height: "90vh" }} className="wrap-min-screen">
+      <Container hasHeader={true} full={false}>
+        <Header text="아이디/비밀번호 찾기" />
+        <TabSwitcher activeTab={activeTab} setActiveTab={setActiveTab} />
+        {activeTab === "id" ? <FindIdForm /> : <FindPasswordForm />}
+      </Container>
+    </div>
   );
 };
 

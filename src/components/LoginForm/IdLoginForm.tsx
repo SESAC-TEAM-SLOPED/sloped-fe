@@ -12,7 +12,10 @@ const IdLoginForm = () => {
   };
 
   return (
-    <form className="flex flex-col justify-center items-center min-h-screen space-y-8">
+    <form
+      style={{ minHeight: "89vh" }}
+      className="flex flex-col justify-center items-center min-h-screen space-y-8"
+    >
       <div className="flex flex-col mb-4 w-[280px]">
         <label htmlFor="id" className="text-sm text-gray-700 mb-2">
           아이디

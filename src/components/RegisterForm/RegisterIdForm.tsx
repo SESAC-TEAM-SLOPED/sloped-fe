@@ -25,9 +25,10 @@ const RegisterIdForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen space-y-4 bg-white">
-      <h1 className="text-4xl font-bold mb-6">회원 가입</h1>
-
+    <div
+      style={{ minHeight: "90vh" }}
+      className="flex flex-col items-center justify-center min-h-screen space-y-4 bg-white"
+    >
       <div className="w-[300px] mb-4">
         <label htmlFor="id" className="text-sm text-gray-700 mb-2">
           아이디
