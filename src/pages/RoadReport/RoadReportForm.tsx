@@ -28,7 +28,7 @@ const RoadReportForm = () => {
 
   return (
     <Container hasHeader={true} full={true}>
-      <Header text="불편 도로 제보" />
+      <Header text="통행 불편 제보" />
       <div
         style={{ height: "calc(100vh - 70px)" }}
         className="px-10 flex flex-col gap-2"

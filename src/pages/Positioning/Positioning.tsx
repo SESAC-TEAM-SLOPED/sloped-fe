@@ -34,7 +34,7 @@ const Positioning = () => {
   return (
     <Container hasHeader={true} full={true}>
       <Header
-        text={pathname.includes("facility") ? "시설 등록" : "불편 도로 제보"}
+        text={pathname.includes("facility") ? "시설 등록" : "통행 불편 제보"}
       />
       <div
         style={{ height: "calc(100vh - 70px)" }}
