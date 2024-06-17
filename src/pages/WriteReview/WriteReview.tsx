@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import Button from "../../components/ui/Button";
 import Container from "../../components/ui/Container";
 import Input from "../../components/ui/Input";
+import UploadButton from "../../components/ui/UploadButton";
 
 const WriteReview = () => {
   const [clickedButton, setClickedButton] = useState("");
@@ -62,13 +63,10 @@ const WriteReview = () => {
           />
         </div>
         <div className="flex flex-col mb-8">
-          <p className="mb-4">사진 추가</p>
-          <label htmlFor="img">
-            <div className="w-full h-36 border border-[#757575] rounded-lg flex items-center justify-center text-[#757575]">
-              사진을 업로드 해주세요 (최대 3장)
-            </div>
-          </label>
-          <input className="hidden" type="file" id="img" />
+          <UploadButton
+            onUploadChange={(value: boolean) => {}}
+            setUploadedFiles={(files) => {}}
+          />
         </div>
         <p className="text-[#757575] text-sm mb-8">
           * 여러분의 솔직하고 구체적인 리뷰가 다른 이용자들에게 큰 도움이
