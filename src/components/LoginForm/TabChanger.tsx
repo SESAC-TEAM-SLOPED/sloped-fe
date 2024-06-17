@@ -5,7 +5,7 @@ type Props = {
   setActiveTab: (tab: string) => void;
 };
 
-const TabSwitcher = ({ activeTab, setActiveTab }: Props) => {
+const TabChanger = ({ activeTab, setActiveTab }: Props) => {
   return (
     <div className="flex justify-around border-b-2 mb-4 w-full">
       <button
@@ -24,4 +24,4 @@ const TabSwitcher = ({ activeTab, setActiveTab }: Props) => {
   );
 };
 
-export default TabSwitcher;
+export default TabChanger;

@@ -12,7 +12,6 @@ import RoadReportForm from "../pages/RoadReport/RoadReportForm";
 import SubmitComplete from "../pages/SubmitComplete/SubmitComplete";
 import ViewFacilityDetails from "../pages/ViewFacilityDetails/ViewFacilityDetails";
 
-
 const Router = () => {
   return (
     <BrowserRouter>
