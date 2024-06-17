@@ -5,7 +5,7 @@ import FindIdForm from "../../components/LoginForm/FindIdForm";
 import FindPasswordForm from "../../components/LoginForm/FindPasswordForm";
 import FindIdPassForm from "../../components/LoginForm/FindIdPassForm"; // 추가된 폼 컴포넌트
 import FindPasswordPassForm from "../../components/LoginForm/FindPasswordPassForm"; // 추가된 폼 컴포넌트
-import TabSwitcher from "../../components/LoginForm/TabSwitcher";
+import TabChanger from "../../components/LoginForm/TabChanger";
 
 const FindInformation = () => {
   const [activeTab, setActiveTab] = useState("id");
@@ -14,7 +14,7 @@ const FindInformation = () => {
     <div style={{ height: "90vh" }} className="wrap-min-screen">
       <Container hasHeader={true} full={false}>
         <Header text="아이디/비밀번호 찾기" />
-        <TabSwitcher activeTab={activeTab} setActiveTab={setActiveTab} />
+        <TabChanger activeTab={activeTab} setActiveTab={setActiveTab} />
         {activeTab === "id" && <FindIdForm setActiveTab={setActiveTab} />}
         {activeTab === "password" && (
           <FindPasswordForm setActiveTab={setActiveTab} />
