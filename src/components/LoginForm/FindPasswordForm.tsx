@@ -13,18 +13,21 @@ const FindPasswordForm = ({ setActiveTab }: Props) => {
   const [customDomain, setCustomDomain] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
-  const [showHiddenButton, setShowHiddenButton] = useState(false);
   const [error, setError] = useState("");
   const [showHelp, setShowHelp] = useState(false);
 
   const handleVerify = () => {
-    // 여기에 인증번호 검증 로직을 추가하세요.
-    // 검증 실패 시 setError("인증번호가 오지 않나요?");
-    setIsVerified(true); //예시용
-    setShowHiddenButton(true); // 통과하면 다음 페이지 이동하는 버튼 표기
+    if (verificationCode === "123456") {
+      // 예시: 인증번호가 "123456"일 때 통과
+      setIsVerified(true);
+      setError("");
+    } else {
+      setIsVerified(false);
+      setError("잘못 입력하셨습니다!");
+    }
   };
 
-  const handleHiddenButtonClick = () => {
+  const handleContinue = () => {
     setActiveTab("password-pass"); // 통과페이지로
   };
 
@@ -60,7 +63,8 @@ const FindPasswordForm = ({ setActiveTab }: Props) => {
             className="flex-grow outline-none"
             placeholder="이메일 입력"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isVerified} // 이메일 수정 불가
           />
           <span className="mx-2">@</span>
           {domain === "custom" ? (
@@ -69,13 +73,15 @@ const FindPasswordForm = ({ setActiveTab }: Props) => {
               className="outline-none"
               placeholder="직접 입력"
               value={customDomain}
-              onChange={(event) => setCustomDomain(event.target.value)}
+              onChange={(e) => setCustomDomain(e.target.value)}
+              disabled={isVerified} // 이메일 수정 불가
             />
           ) : (
             <select
               value={domain}
-              onChange={(event) => setDomain(event.target.value)}
+              onChange={(e) => setDomain(e.target.value)}
               className="outline-none"
+              disabled={isVerified} // 이메일 수정 불가
             >
               <option value="naver.com">naver.com</option>
               <option value="gmail.com">gmail.com</option>
@@ -98,17 +104,23 @@ const FindPasswordForm = ({ setActiveTab }: Props) => {
           value={verificationCode}
           onChange={(e) => setVerificationCode(e.target.value)}
         />
-        <button
-          className="w-[50px] h-[40px] bg-signiture text-white rounded-lg ml-2"
-          onClick={handleVerify}
-        >
-          확인
-        </button>
+        {isVerified ? (
+          <FaCheckCircle className="text-green-500 ml-2" />
+        ) : (
+          <button
+            className="w-[50px] h-[40px] bg-signiture text-white rounded-lg ml-2"
+            onClick={handleVerify}
+          >
+            확인
+          </button>
+        )}
       </div>
 
-      <div>
-        {isVerified && <FaCheckCircle className="text-green-500 ml-2" />}
-      </div>
+      {!isVerified && error && (
+        <div className="w-[300px] mb-4 text-red-500">
+          인증 번호를 잘못 입력하셨습니다!
+        </div>
+      )}
 
       <div className="w-[300px] flex items-center text-gray-700 mt-2 text-xs">
         <p className="mr-2">인증번호가 오지 않나요?</p>
@@ -126,20 +138,17 @@ const FindPasswordForm = ({ setActiveTab }: Props) => {
         </div>
       )}
 
-      {error && (
-        <div className="w-[300px] text-red-500 mt-2">
-          <p>{error}</p>
-        </div>
-      )}
-
-      {showHiddenButton && (
-        <button
-          className="w-[300px] h-[40px] bg-signiture text-white rounded-lg mb-4"
-          onClick={handleHiddenButtonClick}
-        >
-          비밀번호 재설정 페이지로 이동
-        </button>
-      )}
+      <button
+        className={`w-[300px] h-[40px] rounded-lg mb-4 ${
+          isVerified
+            ? "bg-signiture text-white"
+            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }`}
+        onClick={handleContinue}
+        disabled={!isVerified}
+      >
+        비밀번호 재설정 페이지로 이동
+      </button>
     </div>
   );
 };
