@@ -8,7 +8,7 @@ const Main = () => {
 
   return (
     <Container hasHeader={false} hasNav={true}>
-      <Map location={location} height="calc(100vh - 64px)" />
+      <Map currentLocation={location} height="calc(100vh - 64px)" />
       <Navbar />
     </Container>
   );

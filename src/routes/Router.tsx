@@ -10,6 +10,7 @@ import RegisterId from "../pages/Register/RegisterId";
 import RegisterSocial from "../pages/Register/RegisterSocial";
 import RoadReportForm from "../pages/RoadReport/RoadReportForm";
 import SubmitComplete from "../pages/SubmitComplete/SubmitComplete";
+import ViewFacilityDetails from "../pages/ViewFacilityDetails/ViewFacilityDetails";
 
 
 const Router = () => {
@@ -28,7 +29,7 @@ const Router = () => {
         <Route path="/report/road/new" element={<Positioning />} />
         <Route path="/report/road/form" element={<RoadReportForm />} />
         <Route path="/submit/completed" element={<SubmitComplete />} />
-
+        <Route path="/facility/new/details" element={<ViewFacilityDetails />} />
       </Routes>
     </BrowserRouter>
   );

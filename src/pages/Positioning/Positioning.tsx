@@ -8,7 +8,6 @@ import Button from "../../components/ui/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Positioning = () => {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const { location } = useGeoLocation();
@@ -21,15 +20,6 @@ const Positioning = () => {
       );
     }
   }, [location]);
-
-  const handleNextClick = () => {
-    if (pathname.includes("facility")) {
-      // 시설 form 페이지 path 지정 필요
-      navigate("/report/facility/form", { state: { location, address } });
-    } else {
-      navigate("/report/road/form", { state: { location, address } });
-    }
-  };
 
   return (
     <Container hasHeader={true} full={true}>
@@ -49,8 +39,8 @@ const Positioning = () => {
           </p>
         </div>
 
-        <Map location={location} height="70%" setAddress={setAddress} />
-        <Button text="다음" onClick={handleNextClick} size="full" />
+        <Map currentLocation={location} height="70%" setAddress={setAddress} />
+        <Button text="다음" onClick={() => {}} size="full" />
       </div>
     </Container>
   );
