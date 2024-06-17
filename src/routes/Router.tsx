@@ -4,7 +4,7 @@ import WriteReview from "../pages/WriteReview/WriteReview";
 import Positioning from "../pages/Positioning/Positioning";
 import IdLogin from "../pages/Login/IdLogin";
 import JoinPage from "../pages/Login/JoinPage";
-import FindId from "../pages/Login/FindId";
+import FindInformation from "../pages/Login/FindInformation";
 import RegisterId from "../pages/Register/RegisterId";
 import RegisterSocial from "../pages/Register/RegisterSocial";
 
@@ -16,10 +16,10 @@ const Router = () => {
         <Route path="/review/new" element={<WriteReview />} />
         <Route path="/facility/new/positioning" element={<Positioning />} />
         <Route path="/road/new/positioning" element={<Positioning />} />
-        {/* ·Î±×ÀÎ °ü·Ã ÆäÀÌÁö */}
+        {/* ï¿½Î±ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */}
         <Route path="/login/id" element={<IdLogin />} />
         <Route path="/joinpage" element={<JoinPage />} />
-        <Route path="/find/id" element={<FindId />} />
+        <Route path="/find/information" element={<FindInformation />} />
         <Route path="/register/id" element={<RegisterId />} />
         <Route path="/register/social" element={<RegisterSocial />} />
       </Routes>

@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { FaRegQuestionCircle, FaCheckCircle } from "react-icons/fa";
 
-const FindPasswordForm = () => {
+//통과 페이지 호출용
+type Props = {
+  setActiveTab: (tab: string) => void;
+};
+
+const FindPasswordForm = ({ setActiveTab }: Props) => {
   const [id, setId] = useState("");
   const [email, setEmail] = useState("");
   const [domain, setDomain] = useState("naver.com");
   const [customDomain, setCustomDomain] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
+  const [showHiddenButton, setShowHiddenButton] = useState(false);
   const [error, setError] = useState("");
   const [showHelp, setShowHelp] = useState(false);
 
@@ -15,6 +21,11 @@ const FindPasswordForm = () => {
     // 여기에 인증번호 검증 로직을 추가하세요.
     // 검증 실패 시 setError("인증번호가 오지 않나요?");
     setIsVerified(true); //예시용
+    setShowHiddenButton(true); // 통과하면 다음 페이지 이동하는 버튼 표기
+  };
+
+  const handleHiddenButtonClick = () => {
+    setActiveTab("password-pass"); // 통과페이지로
   };
 
   return (
@@ -119,6 +130,15 @@ const FindPasswordForm = () => {
         <div className="w-[300px] text-red-500 mt-2">
           <p>{error}</p>
         </div>
+      )}
+
+      {showHiddenButton && (
+        <button
+          className="w-[300px] h-[40px] bg-signiture text-white rounded-lg mb-4"
+          onClick={handleHiddenButtonClick}
+        >
+          비밀번호 재설정 페이지로 이동
+        </button>
       )}
     </div>
   );
