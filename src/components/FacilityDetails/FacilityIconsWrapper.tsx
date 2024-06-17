@@ -55,9 +55,9 @@ const IconWithLabel = ({ icon, text, color }: IconWithLabelProps) => {
   return (
     <div className="flex flex-col items-center space-y-2">
       {icon}
-      <span className="text-sm" style={{ color }}>
+      <p className="text-sm" style={{ color }}>
         {text}
-      </span>
+      </p>
     </div>
   );
 };

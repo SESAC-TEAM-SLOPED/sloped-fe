@@ -25,11 +25,11 @@ const FacilityInformation = ({
     <div className="flex flex-col gap-2">
       <div className="flex items-center gap-2">
         <FaMapMarkerAlt color="#404040" size={20} />
-        <span>{address}</span>
+        <p>{address}</p>
       </div>
       <div className="flex items-center gap-2">
         <FaPhone color="#404040" size={20} />
-        <span>{contact}</span>
+        <p>{contact}</p>
       </div>
       <div className="flex flex-col">
         {Object.keys(businessHours).map((day, index) => (
@@ -39,9 +39,9 @@ const FacilityInformation = ({
             ) : (
               <div className="w-[20px]" />
             )}
-            <span>
+            <p>
               {daysOfWeek[index]}: {businessHours[day]}
-            </span>
+            </p>
           </div>
         ))}
       </div>

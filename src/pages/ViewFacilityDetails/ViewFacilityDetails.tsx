@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Header from "../../components/Header/Header";
 import Map from "../../components/Map/Map";
 import Container from "../../components/ui/Container";
@@ -8,6 +9,14 @@ import FacilityIconsWrapper from "../../components/FacilityDetails/FacilityIcons
 import FacilityInformation from "../../components/FacilityDetails/FacilityInformation";
 import ReportIcon from "../../components/icons/ReportIcon";
 import { Link } from "react-router-dom";
+import RightArrowIcon from "../../components/icons/RightArrowIcon";
+import ReviewPhotos from "../../components/FacilityReview/RieviewPhotos";
+import ReviewHeader from "../../components/FacilityReview/ReviewHeader";
+import Convenience from "../../components/FacilityReview/Convenience";
+import AISummary from "../../components/FacilityReview/AISummary";
+import ReviewFilter from "../../components/FacilityReview/ReviewFilter";
+import { Review } from "../../types/Review";
+import UserReview from "../../components/FacilityReview/UserReview";
 
 const ViewFacilityDetails = () => {
   const { location } = useGeoLocation();
@@ -32,6 +41,51 @@ const ViewFacilityDetails = () => {
     },
   };
 
+  // 임의로 리뷰 데이터 지정
+  const reviewPhotos = [
+    "https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/advices/168706489604934270.png?w=960&h=960&c=c",
+    "https://t3.ftcdn.net/jpg/08/08/64/76/240_F_808647692_npvJI21i4mJGygx12yvm4IGU035oSC3K.jpg",
+    "https://t3.ftcdn.net/jpg/07/02/60/46/240_F_702604626_9ojecqSF0MHmeV4St7PGi3mqcUWdygJh.jpg",
+    "https://t4.ftcdn.net/jpg/07/59/26/79/240_F_759267971_s8RJaXgaZAjpzh9rSPO1VUXLonyx765D.jpg",
+    "https://t3.ftcdn.net/jpg/07/29/56/12/240_F_729561297_8vLVkUUjfZ93LhuNpShkbTd1b5NjUFFU.jpg",
+  ];
+
+  // 리뷰 개수(임의)
+  const reviewCounts = {
+    comfortableCount: 2,
+    uncomfortableCount: 1,
+  };
+
+  // AI 한 줄 요약(임의)
+  const aiSummary = "아이와 이용하기 편하지만 엘리베이터 공사가 아쉬웠습니다.";
+
+  // 임의로 리뷰 데이터 지정
+  const reviewData: Review[] = [
+    {
+      id: 1,
+      username: "사용자1",
+      content: "아이와 이용하기 편했어요!",
+      type: "comfortable",
+      createdAt: new Date(),
+    },
+    {
+      id: 2,
+      username: "사용자2",
+      content: "공사가 불편해요!",
+      type: "uncomfortable",
+      createdAt: new Date(),
+    },
+    {
+      id: 3,
+      username: "사용자3",
+      content: "편했어요!",
+      type: "comfortable",
+      createdAt: new Date(),
+    },
+  ];
+  // 리뷰 필터링 상태 관리
+  const [filteredReviews, setFilteredReviews] = useState(reviewData);
+
   return (
     <Container hasHeader={true} full={true}>
       <Header text="시설 정보" closeButton={true} />
@@ -39,32 +93,69 @@ const ViewFacilityDetails = () => {
         style={{ height: "calc(100vh - 70px)" }}
         className="px-10 flex flex-col gap-6"
       >
-        <Map location={location} height="50%" />
+        <Map location={location} height="30%" />
+        {/* 시설 이름, 카테고리 */}
         <div className="flex items-center gap-4 h-3">
           <FacilityName name={facility.name} />
           <FacilityCategory category={facility.category} />
         </div>
+        {/* 경사로, 입구턱, 엘리베이터 유무 */}
         <FacilityIconsWrapper
           hasSlope={facility.hasSlope}
           isEntranceBarrier={facility.isEntranceBarrier}
           hasElevator={facility.hasElevator}
         />
+        {/* 주소, 전화번호, 영업시간 */}
         <FacilityInformation
           address={facility.address}
           contact={facility.contact}
           businessHours={facility.businessHours}
         />
+        {/* 틀린 정보 제보 하러 가기 */}
         <div className="flex justify-end items-center gap-1 mt-4">
-          {/* 틀린 정보 제보 페이지가 아직 없어서 우선은 메인 페이지로 경로 설정 */}
-          <Link to="/" className="flex items-center gap-1">
+          <Link
+            to="/facility/new/report"
+            className="flex items-center gap-1 cursor-pointer"
+          >
             <ReportIcon />
-            <span
-              style={{ color: "#F8837C", borderBottom: "1px solid #F8837C" }}
-            >
-              틀린 정보 제보
-            </span>
+            <p style={{ color: "#F8837C" }}>틀린 정보 제보</p>
+            <RightArrowIcon />
           </Link>
         </div>
+        {/* 리뷰 사진 이미지 나열 */}
+        <p className="text-[#404040] text-xl font-semibold">방문자 사진</p>
+        <ReviewPhotos photos={reviewPhotos} />
+        {/* 리뷰 총 개수, 리뷰 작성하러가기 */}
+        <ReviewHeader
+          reviewCount={
+            reviewCounts.comfortableCount + reviewCounts.uncomfortableCount
+          }
+        />
+        {/* 편해요/불편해요 개수 */}
+        <Convenience
+          comfortableCount={reviewCounts.comfortableCount}
+          uncomfortableCount={reviewCounts.uncomfortableCount}
+        />
+        {/* AI 한 줄 요약 */}
+        <p className="text-[#404040] text-xl font-semibold">AI 한 줄 요약</p>
+        <AISummary summary={aiSummary} />
+        {/* 리뷰 필터링 및 정렬 */}
+        <ReviewFilter
+          reviewData={reviewData}
+          setFilteredReviews={setFilteredReviews}
+        />
+        {/* 사용자 리뷰 */}
+        {filteredReviews.map((review) => (
+          <UserReview
+            key={review.id}
+            review={review}
+            username={review.username}
+            isMobilityImpaired={false}
+            createdAt={review.createdAt}
+            reviewText={review.content}
+            reviewImages={reviewPhotos}
+          />
+        ))}
       </div>
     </Container>
   );
