@@ -15,7 +15,7 @@ const Container = ({
 }: Props) => {
   return (
     <div
-      className={`${hasHeader && !full ? "mt-[70px] px-[30px] pt-[20px]" : ""} ${hasHeader && full ? "mt-[70px]" : ""} ${hasNav ? "mb-16" : ""}`}
+      className={`${hasHeader && !full ? "mt-[70px] px-[30px] pt-[20px]" : ""} ${hasHeader && full ? "mt-[70px]" : ""} ${hasNav ? "mb-16" : ""} text-[#404040]`}
     >
       {children}
     </div>
