@@ -9,21 +9,14 @@ type Props = {
   reviewImages: string[];
 };
 
-const UserReview = ({
-  review,
-  nickname,
-  isDisability,
-  createdAt,
-  reviewText,
-  reviewImages,
-}: Props) => {
+const UserReview = ({ review }: Props) => {
   return (
     <div className="mt-6 border-t border-gray-200 pt-6">
       {/* 사용자 닉네임, 교통약자 여부 */}
       <div className="flex items-center">
         <p className="text-[#404040] font-semibold text-lg">
-          {nickname}
-          {isDisability && (
+          {review.nickname}
+          {review.isDisability && (
             <span className="text-sm text-[#3F51B5] ml-4">교통약자</span>
           )}
         </p>
@@ -36,17 +29,17 @@ const UserReview = ({
           <p>{review.type === "comfortable" ? "편해요" : "불편해요"}</p>
         </div>
         <p className="text-[#404040] text-sm ml-4">
-          {createdAt.toLocaleDateString("ko-KR", {
+          {review.createdAt.toLocaleDateString("ko-KR", {
             year: "numeric",
             month: "long",
             day: "numeric",
           })}
         </p>
       </div>
-      <p className="text-[#404040] mt-5">{reviewText}</p>
+      <p className="text-[#404040] mt-5">{review.content}</p>
       {/* 리뷰 이미지 */}
       <div className="mt-5 grid grid-cols-3 gap-2">
-        {reviewImages.slice(0, 3).map((image, index) => (
+        {review.images.slice(0, 3).map((image, index) => (
           <img
             key={index}
             src={image}

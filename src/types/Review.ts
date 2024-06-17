@@ -7,4 +7,5 @@ export interface Review {
   content: string;
   type: ReviewType;
   createdAt: Date;
+  images: string[];
 }

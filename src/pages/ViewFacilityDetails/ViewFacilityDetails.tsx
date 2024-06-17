@@ -17,6 +17,7 @@ import AISummary from "../../components/FacilityReview/AISummary";
 import ReviewFilter from "../../components/FacilityReview/ReviewFilter";
 import { Review } from "../../types/Review";
 import UserReview from "../../components/FacilityReview/UserReview";
+import Footer from "../../components/ui/Footer";
 
 const ViewFacilityDetails = () => {
   const { location } = useGeoLocation();
@@ -41,15 +42,6 @@ const ViewFacilityDetails = () => {
     },
   };
 
-  // 임의로 리뷰 데이터 지정
-  const reviewPhotos = [
-    "https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/advices/168706489604934270.png?w=960&h=960&c=c",
-    "https://t3.ftcdn.net/jpg/08/08/64/76/240_F_808647692_npvJI21i4mJGygx12yvm4IGU035oSC3K.jpg",
-    "https://t3.ftcdn.net/jpg/07/02/60/46/240_F_702604626_9ojecqSF0MHmeV4St7PGi3mqcUWdygJh.jpg",
-    "https://t4.ftcdn.net/jpg/07/59/26/79/240_F_759267971_s8RJaXgaZAjpzh9rSPO1VUXLonyx765D.jpg",
-    "https://t3.ftcdn.net/jpg/07/29/56/12/240_F_729561297_8vLVkUUjfZ93LhuNpShkbTd1b5NjUFFU.jpg",
-  ];
-
   // 리뷰 개수(임의)
   const reviewCounts = {
     comfortableCount: 2,
@@ -68,6 +60,10 @@ const ViewFacilityDetails = () => {
       content: "아이와 이용하기 편했어요!",
       type: "comfortable",
       createdAt: new Date(),
+      images: [
+        "https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/advices/168706489604934270.png?w=960&h=960&c=c",
+        "https://t3.ftcdn.net/jpg/08/08/64/76/240_F_808647692_npvJI21i4mJGygx12yvm4IGU035oSC3K.jpg",
+      ],
     },
     {
       id: 2,
@@ -76,6 +72,9 @@ const ViewFacilityDetails = () => {
       content: "공사가 불편해요!",
       type: "uncomfortable",
       createdAt: new Date(),
+      images: [
+        "https://t3.ftcdn.net/jpg/07/02/60/46/240_F_702604626_9ojecqSF0MHmeV4St7PGi3mqcUWdygJh.jpg",
+      ],
     },
     {
       id: 3,
@@ -84,19 +83,27 @@ const ViewFacilityDetails = () => {
       content: "편했어요!",
       type: "comfortable",
       createdAt: new Date(),
+      images: [
+        "https://t4.ftcdn.net/jpg/07/59/26/79/240_F_759267971_s8RJaXgaZAjpzh9rSPO1VUXLonyx765D.jpg",
+        "https://t3.ftcdn.net/jpg/07/29/56/12/240_F_729561297_8vLVkUUjfZ93LhuNpShkbTd1b5NjUFFU.jpg",
+      ],
     },
   ];
   // 리뷰 필터링 상태 관리
   const [filteredReviews, setFilteredReviews] = useState(reviewData);
 
   return (
-    <Container hasHeader={true} full={true}>
+    <Container hasHeader={true}>
       <Header text="시설 정보" closeButton={true} />
-      <div
-        style={{ height: "calc(100vh - 70px)" }}
-        className="px-10 flex flex-col gap-6"
-      >
-        <Map location={location} height="30%" />
+      <div className="flex flex-col gap-6">
+        <div className="h-80 w-[580px]">
+          <Map
+            height="100%"
+            canDrag={false}
+            canZoom={false}
+            location={location}
+          />
+        </div>
         {/* 시설 이름, 카테고리 */}
         <div className="flex items-center gap-4 h-3">
           <FacilityName name={facility.name} />
@@ -125,9 +132,9 @@ const ViewFacilityDetails = () => {
             <RightArrowIcon />
           </Link>
         </div>
-        {/* 리뷰 사진 이미지 나열 */}
+        {/* 리뷰 사진 이미지 총 나열 */}
         <p className="text-[#404040] text-xl font-semibold">방문자 사진</p>
-        <ReviewPhotos photos={reviewPhotos} />
+        <ReviewPhotos photos={reviewData.flatMap((review) => review.images)} />
         {/* 리뷰 총 개수, 리뷰 작성하러가기 */}
         <ReviewHeader
           reviewCount={
@@ -156,10 +163,11 @@ const ViewFacilityDetails = () => {
             isDisability={review.isDisability}
             createdAt={review.createdAt}
             reviewText={review.content}
-            reviewImages={reviewPhotos}
+            reviewImages={review.images}
           />
         ))}
       </div>
+      <Footer />
     </Container>
   );
 };
