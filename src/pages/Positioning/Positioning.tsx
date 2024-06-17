@@ -38,7 +38,7 @@ const Positioning = () => {
             {address}
           </p>
         </div>
-        <Map location={location} height="70%" setAddress={setAddress} />
+        <Map currentLocation={location} height="70%" setAddress={setAddress} />
         <Button text="다음" onClick={() => {}} size="full" />
       </div>
     </Container>

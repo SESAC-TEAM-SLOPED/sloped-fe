@@ -87,13 +87,17 @@ const ViewFacilityDetails = () => {
   const [filteredReviews, setFilteredReviews] = useState(reviewData);
 
   return (
-    <Container hasHeader={true} full={true}>
+    <Container hasHeader={true}>
       <Header text="시설 정보" closeButton={true} />
-      <div
-        style={{ height: "calc(100vh - 70px)" }}
-        className="px-10 flex flex-col gap-6"
-      >
-        <Map location={location} height="30%" />
+      <div className="flex flex-col gap-6">
+        <div className="h-80 w-[580px]">
+          <Map
+            height="100%"
+            canDrag={false}
+            canZoom={false}
+            location={location}
+          />
+        </div>
         {/* 시설 이름, 카테고리 */}
         <div className="flex items-center gap-4 h-3">
           <FacilityName name={facility.name} />
