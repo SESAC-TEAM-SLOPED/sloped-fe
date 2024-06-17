@@ -7,20 +7,20 @@ type Props = {
 };
 
 const ReviewFilter = ({ reviewData, setFilteredReviews }: Props) => {
-  const [sortBy, setSortBy] = useState("latest"); // 최신순 기본 설정
+  // const [sortBy, setSortBy] = useState("latest"); // 최신순 기본 설정
   const [filterBy, setFilterBy] = useState<
     "all" | "comfortable" | "uncomfortable"
   >("all");
 
-  // 최신순 정렬 처리 함수
-  const handleSortBy = (type: string) => {
-    const sortedReviews = [...reviewData];
-    if (type === "latest") {
-      sortedReviews.sort((a, b) => b.id - a.id); // id를 기준으로 내림차순 정렬 (최신순)
-    }
-    setFilteredReviews(sortedReviews);
-    setSortBy(type); // sortBy 상태 업데이트
-  };
+  // // 최신순 정렬 처리 함수
+  // const handleSortBy = (type: string) => {
+  //   const sortedReviews = [...reviewData];
+  //   if (type === "latest") {
+  //     sortedReviews.sort((a, b) => b.id - a.id); // id를 기준으로 내림차순 정렬 (최신순)
+  //   }
+  //   setFilteredReviews(sortedReviews);
+  //   setSortBy(type); // sortBy 상태 업데이트
+  // };
 
   // 리뷰 필터링 처리 함수
   const handleFilterBy = (type: "all" | "comfortable" | "uncomfortable") => {
@@ -36,7 +36,7 @@ const ReviewFilter = ({ reviewData, setFilteredReviews }: Props) => {
 
   return (
     <div className="flex items-center gap-4 mt-4">
-      <button
+      {/* <button
         onClick={() => handleSortBy("latest")}
         className={`px-4 py-2 rounded-md ${
           sortBy === "latest"
@@ -46,6 +46,17 @@ const ReviewFilter = ({ reviewData, setFilteredReviews }: Props) => {
         style={{ borderRadius: "9999px" }}
       >
         최신순
+      </button> */}
+      <button
+        onClick={() => handleFilterBy("all")}
+        className={`px-4 py-2 rounded-md ${
+          filterBy === "all"
+            ? "bg-[#3F51B5] text-[#F1F9F1]"
+            : "bg-gray-200 text-gray-800"
+        }`}
+        style={{ borderRadius: "9999px" }}
+      >
+        전체
       </button>
       <button
         onClick={() => handleFilterBy("comfortable")}

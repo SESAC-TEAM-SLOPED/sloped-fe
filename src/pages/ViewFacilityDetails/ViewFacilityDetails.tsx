@@ -10,7 +10,7 @@ import FacilityInformation from "../../components/FacilityDetails/FacilityInform
 import ReportIcon from "../../components/icons/ReportIcon";
 import { Link } from "react-router-dom";
 import RightArrowIcon from "../../components/icons/RightArrowIcon";
-import ReviewPhotos from "../../components/FacilityReview/RieviewPhotos";
+import ReviewPhotos from "../../components/FacilityReview/ReviewPhotos";
 import ReviewHeader from "../../components/FacilityReview/ReviewHeader";
 import Convenience from "../../components/FacilityReview/Convenience";
 import AISummary from "../../components/FacilityReview/AISummary";
@@ -63,21 +63,24 @@ const ViewFacilityDetails = () => {
   const reviewData: Review[] = [
     {
       id: 1,
-      username: "사용자1",
+      nickname: "사용자1",
+      isDisability: true,
       content: "아이와 이용하기 편했어요!",
       type: "comfortable",
       createdAt: new Date(),
     },
     {
       id: 2,
-      username: "사용자2",
+      nickname: "사용자2",
+      isDisability: false,
       content: "공사가 불편해요!",
       type: "uncomfortable",
       createdAt: new Date(),
     },
     {
       id: 3,
-      username: "사용자3",
+      nickname: "사용자3",
+      isDisability: false,
       content: "편했어요!",
       type: "comfortable",
       createdAt: new Date(),
@@ -149,8 +152,8 @@ const ViewFacilityDetails = () => {
           <UserReview
             key={review.id}
             review={review}
-            username={review.username}
-            isMobilityImpaired={false}
+            nickname={review.nickname}
+            isDisability={review.isDisability}
             createdAt={review.createdAt}
             reviewText={review.content}
             reviewImages={reviewPhotos}

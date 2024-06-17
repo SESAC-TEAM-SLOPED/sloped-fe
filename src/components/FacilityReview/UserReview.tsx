@@ -2,8 +2,8 @@ import { Review } from "../../types/Review";
 
 type Props = {
   review: Review;
-  username: string;
-  isMobilityImpaired: boolean;
+  nickname: string;
+  isDisability: boolean;
   createdAt: Date;
   reviewText: string;
   reviewImages: string[];
@@ -11,8 +11,8 @@ type Props = {
 
 const UserReview = ({
   review,
-  username,
-  isMobilityImpaired,
+  nickname,
+  isDisability,
   createdAt,
   reviewText,
   reviewImages,
@@ -22,14 +22,14 @@ const UserReview = ({
       {/* 사용자 닉네임, 교통약자 여부 */}
       <div className="flex items-center">
         <p className="text-[#404040] font-semibold text-lg">
-          {username}
-          {isMobilityImpaired && (
-            <p className="text-sm text-[#3F51B5]">(교통약자)</p>
+          {nickname}
+          {isDisability && (
+            <span className="text-sm text-[#3F51B5] ml-4">교통약자</span>
           )}
         </p>
       </div>
       {/* 편해요/불편해요, 날짜, 리뷰 내용 */}
-      <div className="flex items-center mt-2">
+      <div className="flex items-center mt-3">
         <div
           className={`flex justify-center items-center w-20 h-9 rounded-full text-center ${review.type === "comfortable" ? "bg-[#F1F9F1] text-[#4caf50]" : "bg-[#FFF0EF] text-[#F8837C]"}`}
         >
@@ -43,9 +43,9 @@ const UserReview = ({
           })}
         </p>
       </div>
-      <p className="text-[#404040] mt-2">{reviewText}</p>
+      <p className="text-[#404040] mt-5">{reviewText}</p>
       {/* 리뷰 이미지 */}
-      <div className="mt-2 grid grid-cols-3 gap-2">
+      <div className="mt-5 grid grid-cols-3 gap-2">
         {reviewImages.slice(0, 3).map((image, index) => (
           <img
             key={index}
