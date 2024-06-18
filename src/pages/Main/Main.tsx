@@ -3,6 +3,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import Container from "../../components/ui/Container";
 import useGeoLocation from "../../hooks/geoLocation";
 import { Facility } from "../../types/facility";
+import { Road } from "../../types/road";
 
 const facilities: Facility[] = [
   {
@@ -28,6 +29,34 @@ const facilities: Facility[] = [
   },
 ];
 
+const roads: Road[] = [
+  {
+    id: 4,
+    latitude: 37.51739,
+    longitude: 126.886949,
+  },
+  {
+    id: 5,
+    latitude: 37.51739,
+    longitude: 126.88613,
+  },
+  {
+    id: 6,
+    latitude: 37.5172,
+    longitude: 126.88801,
+  },
+];
+
+const bookmarks: Facility[] = [
+  {
+    id: 1,
+    latitude: 37.517799,
+    longitude: 126.886949,
+    type: "병원",
+    address: "",
+  },
+];
+
 const Main = () => {
   const { location } = useGeoLocation();
 
@@ -36,7 +65,9 @@ const Main = () => {
       <Map
         currentLocation={location}
         height="calc(100vh - 64px)"
-        locations={facilities}
+        facilities={facilities}
+        roads={roads}
+        bookmarks={bookmarks}
       />
       <Navbar />
     </Container>

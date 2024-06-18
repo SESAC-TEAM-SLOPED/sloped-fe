@@ -6,6 +6,7 @@ import { getAddressFromCoord } from "../../service/map";
 import { useLocation } from "react-router-dom";
 import { Facility } from "../../types/facility";
 import Marker from "./Marker";
+import { Road } from "../../types/road";
 
 declare global {
   interface Window {
@@ -20,7 +21,9 @@ type Props = {
   canDrag?: boolean;
   canZoom?: boolean;
   location?: { lat: number; lng: number };
-  locations?: Facility[];
+  facilities?: Facility[];
+  roads?: Road[];
+  bookmarks?: any[];
 };
 
 const Map = ({
@@ -30,7 +33,9 @@ const Map = ({
   canDrag = true,
   canZoom = true,
   location,
-  locations,
+  facilities,
+  roads,
+  bookmarks,
 }: Props) => {
   const { Tmapv2 } = window;
   const [map, setMap] = useState<any>();
@@ -105,13 +110,37 @@ const Map = ({
   return (
     <>
       <div id="map_div" />
-      {locations?.map((location) => (
+      {facilities?.map((location) => (
         <Marker
           key={location.id}
           map={map}
           lat={location.latitude}
           lng={location.longitude}
           icon="pin"
+          clickedId={isClicked}
+          id={location.id}
+          onClick={() => setIsClicked(location.id)}
+        />
+      ))}
+      {roads?.map((location) => (
+        <Marker
+          key={location.id}
+          map={map}
+          lat={location.latitude}
+          lng={location.longitude}
+          icon="warning"
+          clickedId={isClicked}
+          id={location.id}
+          onClick={() => setIsClicked(location.id)}
+        />
+      ))}
+      {bookmarks?.map((location) => (
+        <Marker
+          key={location.id}
+          map={map}
+          lat={location.latitude}
+          lng={location.longitude}
+          icon="star"
           clickedId={isClicked}
           id={location.id}
           onClick={() => setIsClicked(location.id)}
