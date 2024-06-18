@@ -9,8 +9,11 @@ import {
   FaUserTimes,
 } from "react-icons/fa";
 
-const MyPageBaseForm = () => {
-  const nickname = "TEMP NICKNAME"; // 임시 닉네임
+type MyPageBaseFormProps = {
+  nickname: string;
+};
+
+const MyPageBaseForm = ({ nickname }: MyPageBaseFormProps) => {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
       <h1 className="text-3xl font-bold mb-6">{nickname}님, 안녕하세요!</h1>

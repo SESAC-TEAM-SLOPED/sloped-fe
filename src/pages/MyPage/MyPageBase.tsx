@@ -11,7 +11,7 @@ const MyPageBase = () => {
         style={{ height: "calc(100vh - 70px)" }}
         className="px-10 flex flex-col gap-6"
       >
-        <MyPageBaseForm />
+        <MyPageBaseForm nickname={"nickname2"} />
       </div>
       <Navbar />
     </Container>
