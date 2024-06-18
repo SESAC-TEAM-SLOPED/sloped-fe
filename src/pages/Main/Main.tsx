@@ -63,7 +63,7 @@ const bookmarks: Facility[] = [
 const Main = () => {
   const { location } = useGeoLocation();
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
-  const [clickedId, setClickedId] = useState<number | 0>(0);
+  const [clickedId, setClickedId] = useState<number>(0);
 
   const openBottomSheet = () => {
     setBottomSheetOpen(true);
@@ -90,10 +90,10 @@ const Main = () => {
           bookmarks={bookmarks}
           openBottomSheet={openBottomSheet}
           clickedId={clickedId}
-          setClickedId={(id: number | 0) => setClickedId(id)}
+          setClickedId={(id: number) => setClickedId(id)}
         />
         <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}>
-          <FacilityInfo />
+          <FacilityInfo id={clickedId} />
         </BottomSheet>
         <Navbar />
       </Container>

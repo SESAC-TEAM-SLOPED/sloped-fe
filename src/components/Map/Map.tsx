@@ -24,8 +24,8 @@ type Props = {
   roads?: Road[];
   bookmarks?: any[];
   openBottomSheet?: () => void;
-  clickedId?: number | 0;
-  setClickedId?: (id: number | 0) => void;
+  clickedId?: number;
+  setClickedId?: (id: number) => void;
 };
 
 const Map = ({
@@ -115,13 +115,12 @@ const Map = ({
     <div
       onClick={(e) => {
         if (e.target instanceof HTMLCanvasElement && setClickedId) {
-          setClickedId(0);
+          setClickedId(10);
         }
       }}
     >
       <div id="map_div" />
       {facilities &&
-        openBottomSheet &&
         setClickedId &&
         facilities.map((location) => (
           <Marker
@@ -134,7 +133,7 @@ const Map = ({
             id={location.id}
             onClick={() => {
               setClickedId(location.id);
-              openBottomSheet();
+              openBottomSheet && openBottomSheet();
             }}
           />
         ))}
@@ -163,7 +162,10 @@ const Map = ({
             icon="star"
             clickedId={clickedId}
             id={location.id}
-            onClick={() => setClickedId(location.id)}
+            onClick={() => {
+              setClickedId(location.id);
+              openBottomSheet && openBottomSheet();
+            }}
           />
         ))}
     </div>
