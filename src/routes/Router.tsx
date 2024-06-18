@@ -11,7 +11,7 @@ import RegisterSocial from "../pages/Register/RegisterSocial";
 import RoadReportForm from "../pages/RoadReport/RoadReportForm";
 import SubmitComplete from "../pages/SubmitComplete/SubmitComplete";
 import ViewFacilityDetails from "../pages/ViewFacilityDetails/ViewFacilityDetails";
-
+import MyPageBase from "../pages/MyPage/MyPageBase";
 const Router = () => {
   return (
     <BrowserRouter>
@@ -29,6 +29,7 @@ const Router = () => {
         <Route path="/report/road/form" element={<RoadReportForm />} />
         <Route path="/submit/completed" element={<SubmitComplete />} />
         <Route path="/facility/new/details" element={<ViewFacilityDetails />} />
+        <Route path="/mypage" element={<MyPageBase />} />
       </Routes>
     </BrowserRouter>
   );
