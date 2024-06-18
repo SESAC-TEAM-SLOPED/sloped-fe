@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import useGeoLocation from "../../hooks/geoLocation";
 import getCurrentMarker from "./CurrentMarker";
 import getCenterMarker from "./CenterMarker";
 import { getAddressFromCoord } from "../../service/map";
@@ -24,6 +23,9 @@ type Props = {
   facilities?: Facility[];
   roads?: Road[];
   bookmarks?: any[];
+  openBottomSheet?: () => void;
+  clickedId?: number | 0;
+  setClickedId?: (id: number | 0) => void;
 };
 
 const Map = ({
@@ -36,11 +38,13 @@ const Map = ({
   facilities,
   roads,
   bookmarks,
+  openBottomSheet,
+  clickedId = 0,
+  setClickedId,
 }: Props) => {
   const { Tmapv2 } = window;
   const [map, setMap] = useState<any>();
   const { pathname } = useLocation();
-  const [isClicked, setIsClicked] = useState<number>();
 
   // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때 한 번만 실행됩니다.
   useEffect(() => {
@@ -108,45 +112,61 @@ const Map = ({
   }, [Tmapv2.LatLng, currentLocation, location, map, pathname, setAddress]);
 
   return (
-    <>
+    <div
+      onClick={(e) => {
+        if (e.target instanceof HTMLCanvasElement && setClickedId) {
+          setClickedId(0);
+        }
+      }}
+    >
       <div id="map_div" />
-      {facilities?.map((location) => (
-        <Marker
-          key={location.id}
-          map={map}
-          lat={location.latitude}
-          lng={location.longitude}
-          icon="pin"
-          clickedId={isClicked}
-          id={location.id}
-          onClick={() => setIsClicked(location.id)}
-        />
-      ))}
-      {roads?.map((location) => (
-        <Marker
-          key={location.id}
-          map={map}
-          lat={location.latitude}
-          lng={location.longitude}
-          icon="warning"
-          clickedId={isClicked}
-          id={location.id}
-          onClick={() => setIsClicked(location.id)}
-        />
-      ))}
-      {bookmarks?.map((location) => (
-        <Marker
-          key={location.id}
-          map={map}
-          lat={location.latitude}
-          lng={location.longitude}
-          icon="star"
-          clickedId={isClicked}
-          id={location.id}
-          onClick={() => setIsClicked(location.id)}
-        />
-      ))}
-    </>
+      {facilities &&
+        openBottomSheet &&
+        setClickedId &&
+        facilities.map((location) => (
+          <Marker
+            key={location.id}
+            map={map}
+            lat={location.latitude}
+            lng={location.longitude}
+            icon="pin"
+            clickedId={clickedId}
+            id={location.id}
+            onClick={() => {
+              setClickedId(location.id);
+              openBottomSheet();
+            }}
+          />
+        ))}
+      {roads &&
+        setClickedId &&
+        roads.map((location) => (
+          <Marker
+            key={location.id}
+            map={map}
+            lat={location.latitude}
+            lng={location.longitude}
+            icon="warning"
+            clickedId={clickedId}
+            id={location.id}
+            onClick={() => setClickedId(location.id)}
+          />
+        ))}
+      {bookmarks &&
+        setClickedId &&
+        bookmarks.map((location) => (
+          <Marker
+            key={location.id}
+            map={map}
+            lat={location.latitude}
+            lng={location.longitude}
+            icon="star"
+            clickedId={clickedId}
+            id={location.id}
+            onClick={() => setClickedId(location.id)}
+          />
+        ))}
+    </div>
   );
 };
 

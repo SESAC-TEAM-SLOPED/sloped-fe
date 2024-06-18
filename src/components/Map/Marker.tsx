@@ -5,7 +5,7 @@ type Props = {
   lat: number;
   lng: number;
   icon: "star" | "warning" | "pin";
-  clickedId: number | undefined;
+  clickedId: number | 0;
   id: number;
   onClick: () => void;
 };
@@ -67,7 +67,7 @@ const Marker = ({ map, lat, lng, icon, clickedId, onClick, id }: Props) => {
   }, [marker, onClick]);
 
   useEffect(() => {
-    if (marker && clickedId) {
+    if (marker) {
       if (icon === "pin" && clickedId === id) {
         marker.setIconHTML(CLICKED_PIN_STYLE);
       } else if (icon === "pin" && clickedId !== id) {

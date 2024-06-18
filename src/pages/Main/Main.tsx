@@ -1,9 +1,12 @@
+import { useState } from "react";
 import Map from "../../components/Map/Map";
 import Navbar from "../../components/Navbar/Navbar";
+import BottomSheet from "../../components/ui/BottomSheet";
 import Container from "../../components/ui/Container";
 import useGeoLocation from "../../hooks/geoLocation";
 import { Facility } from "../../types/facility";
 import { Road } from "../../types/road";
+import FacilityInfo from "../../components/FacilityInfo/FacilityInfo";
 
 const facilities: Facility[] = [
   {
@@ -59,18 +62,42 @@ const bookmarks: Facility[] = [
 
 const Main = () => {
   const { location } = useGeoLocation();
+  const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
+  const [clickedId, setClickedId] = useState<number | 0>(0);
+
+  const openBottomSheet = () => {
+    setBottomSheetOpen(true);
+  };
+
+  const closeBottomSheet = () => {
+    setBottomSheetOpen(false);
+  };
 
   return (
-    <Container hasHeader={false} hasNav={true}>
-      <Map
-        currentLocation={location}
-        height="calc(100vh - 64px)"
-        facilities={facilities}
-        roads={roads}
-        bookmarks={bookmarks}
-      />
-      <Navbar />
-    </Container>
+    <div
+      onClick={(e) => {
+        if (e.target instanceof HTMLCanvasElement) {
+          closeBottomSheet();
+        }
+      }}
+    >
+      <Container hasHeader={false} hasNav={true}>
+        <Map
+          currentLocation={location}
+          height="calc(100vh - 64px)"
+          facilities={facilities}
+          roads={roads}
+          bookmarks={bookmarks}
+          openBottomSheet={openBottomSheet}
+          clickedId={clickedId}
+          setClickedId={(id: number | 0) => setClickedId(id)}
+        />
+        <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}>
+          <FacilityInfo />
+        </BottomSheet>
+        <Navbar />
+      </Container>
+    </div>
   );
 };
 
