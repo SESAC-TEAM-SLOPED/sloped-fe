@@ -3,6 +3,7 @@ import useGeoLocation from "../../hooks/geoLocation";
 import getCurrentMarker from "./CurrentMarker";
 import getCenterMarker from "./CenterMarker";
 import { getAddressFromCoord } from "../../service/map";
+import { useLocation } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -17,6 +18,7 @@ type Props = {
   canDrag?: boolean;
   canZoom?: boolean;
   location?: { lat: number; lng: number };
+  locations?: Array<{ lat: number; lng: number }>;
 };
 
 const Map = ({
@@ -26,10 +28,11 @@ const Map = ({
   canDrag = true,
   canZoom = true,
   location,
+  locations,
 }: Props) => {
   const { Tmapv2 } = window;
   const [map, setMap] = useState<any>();
-  const [centerMarker, setCenterMarker] = useState({ lat: 0, lng: 0 });
+  const { pathname } = useLocation();
 
   // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때 한 번만 실행됩니다.
   useEffect(() => {
@@ -66,21 +69,22 @@ const Map = ({
         lng: currentLocation.lng,
       });
 
-      const marker = getCenterMarker({
-        map,
-        lat: currentLocation.lat,
-        lng: currentLocation.lng,
-      });
-
-      // 지도가 드래그 될 때마다 중심 좌표에 마커를 그리는 함수
-      map.addListener("dragend", () => {
-        const center = map.getCenter();
-        marker.setPosition(new Tmapv2.LatLng(center._lat, center._lng));
-        getAddressFromCoord({ lat: center._lat, lng: center._lng }).then(
-          (addr) => setAddress && setAddress(addr),
-        );
-      });
+      if (pathname.includes("positioning")) {
+        const marker = getCenterMarker({
+          map,
+          lat: currentLocation.lat,
+          lng: currentLocation.lng,
+        });
+        map.addListener("dragend", () => {
+          const center = map.getCenter();
+          marker.setPosition(new Tmapv2.LatLng(center._lat, center._lng));
+          getAddressFromCoord({ lat: center._lat, lng: center._lng }).then(
+            (addr) => setAddress && setAddress(addr),
+          );
+        });
+      }
     }
+
     if (location) {
       map.setCenter(new Tmapv2.LatLng(location.lat, location.lng));
 
@@ -90,7 +94,7 @@ const Map = ({
         lng: location.lng,
       });
     }
-  }, [Tmapv2.LatLng, currentLocation, location, map, setAddress]);
+  }, [Tmapv2.LatLng, currentLocation, location, map, pathname, setAddress]);
 
   return <div id="map_div" />;
 };
