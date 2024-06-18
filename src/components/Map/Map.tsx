@@ -4,6 +4,8 @@ import getCurrentMarker from "./CurrentMarker";
 import getCenterMarker from "./CenterMarker";
 import { getAddressFromCoord } from "../../service/map";
 import { useLocation } from "react-router-dom";
+import { Facility } from "../../types/facility";
+import Marker from "./Marker";
 
 declare global {
   interface Window {
@@ -18,7 +20,7 @@ type Props = {
   canDrag?: boolean;
   canZoom?: boolean;
   location?: { lat: number; lng: number };
-  locations?: Array<{ lat: number; lng: number }>;
+  locations?: Facility[];
 };
 
 const Map = ({
@@ -33,6 +35,7 @@ const Map = ({
   const { Tmapv2 } = window;
   const [map, setMap] = useState<any>();
   const { pathname } = useLocation();
+  const [isClicked, setIsClicked] = useState<number>();
 
   // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때 한 번만 실행됩니다.
   useEffect(() => {
@@ -44,6 +47,7 @@ const Map = ({
       zoom: 15,
     });
 
+    // 정적 지도 생성
     if (!canDrag) {
       map.setOptions({ draggable: false });
     }
@@ -58,6 +62,7 @@ const Map = ({
 
   // 사용자의 위치가 브라우저로 전달되면 실행됩니다.
   useEffect(() => {
+    // 유저 위치 마커 생성
     if (currentLocation) {
       map.setCenter(
         new Tmapv2.LatLng(currentLocation.lat, currentLocation.lng),
@@ -69,6 +74,7 @@ const Map = ({
         lng: currentLocation.lng,
       });
 
+      // 지도 중심 좌표 생성
       if (pathname.includes("positioning")) {
         const marker = getCenterMarker({
           map,
@@ -96,7 +102,23 @@ const Map = ({
     }
   }, [Tmapv2.LatLng, currentLocation, location, map, pathname, setAddress]);
 
-  return <div id="map_div" />;
+  return (
+    <>
+      <div id="map_div" />
+      {locations?.map((location) => (
+        <Marker
+          key={location.id}
+          map={map}
+          lat={location.latitude}
+          lng={location.longitude}
+          icon="pin"
+          clickedId={isClicked}
+          id={location.id}
+          onClick={() => setIsClicked(location.id)}
+        />
+      ))}
+    </>
+  );
 };
 
 export default Map;
