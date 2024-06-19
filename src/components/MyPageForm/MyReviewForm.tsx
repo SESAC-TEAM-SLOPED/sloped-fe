@@ -1,9 +1,12 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaEdit, FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import ModalPortal from "../ui/ModalPortal";
+import Modal from "../ui/Modal";
 
-const MyReviewsPage = () => {
+const MyReviewForm = () => {
   const navigate = useNavigate();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [reviewToDelete, setReviewToDelete] = useState<number | null>(null);
 
   // 임시 데이터
   const reviews = [
@@ -33,14 +36,22 @@ const MyReviewsPage = () => {
 
   const handleEdit = (id: number) => {
     // id 임시로 number로 설정
-    // 수정 로직 추가
     navigate("/mypage/edit-review");
   };
 
   const handleDelete = (id: number) => {
-    // id 임시로 number로 설정
-    // 삭제 로직 추가
-    console.log(`삭제: ${id}`);
+    setReviewToDelete(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
+    if (reviewToDelete !== null) {
+      // 삭제 로직 추가
+      console.log(`삭제: ${reviewToDelete}`);
+      // 삭제 로직 후 상태 초기화
+      setReviewToDelete(null);
+      setShowDeleteModal(false);
+    }
   };
 
   return (
@@ -66,15 +77,15 @@ const MyReviewsPage = () => {
             </div>
           </div>
           <div className="flex items-center mb-2">
-            {review.rating === "편해요" ? (
-              <div className="bg-[#F1F9F1] text-[#4caf50] flex justify-center items-center w-20 h-9 rounded-full text-center">
-                <p>편해요</p>
-              </div>
-            ) : (
-              <div className="bg-[#FFF0EF] text-[#F8837C] flex justify-center items-center w-20 h-9 rounded-full text-center">
-                <p>불편해요</p>
-              </div>
-            )}
+            <span
+              className={`px-2 py-1 rounded ${
+                review.rating === "편해요"
+                  ? "bg-[#F1F9F1] text-[#4caf50]"
+                  : "bg-[#FFF0EF] text-[#F8837C]"
+              }`}
+            >
+              {review.rating}
+            </span>
             <span className="ml-4 text-gray-500">{review.createdAt}</span>
           </div>
           <p className="mb-4">{review.content}</p>
@@ -90,8 +101,35 @@ const MyReviewsPage = () => {
           </div>
         </div>
       ))}
+
+      {showDeleteModal && (
+        <ModalPortal>
+          <Modal onClose={() => setShowDeleteModal(false)}>
+            <div className="flex flex-col items-center p-4">
+              <p className="text-xl mb-4">리뷰를 삭제하시겠습니까?</p>
+              <div className="flex gap-8 mb-4">
+                <button
+                  onClick={confirmDelete}
+                  className="px-4 py-2 bg-signiture text-white rounded-lg"
+                >
+                  예
+                </button>
+                <button
+                  onClick={() => setShowDeleteModal(false)}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg"
+                >
+                  아니요
+                </button>
+              </div>
+              <p className="text-xs text-gray-600">
+                이 결정은 되돌릴 수 없습니다!
+              </p>
+            </div>
+          </Modal>
+        </ModalPortal>
+      )}
     </div>
   );
 };
 
-export default MyReviewsPage;
+export default MyReviewForm;

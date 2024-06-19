@@ -136,7 +136,7 @@ const MyPageBaseForm = ({ nickname }: MyPageBaseFormProps) => {
           <Modal onClose={() => setShowDeleteModal(false)}>
             <div className="p-4">
               <h2 className="text-xl font-bold mb-4">
-                정말 탈퇴하시겠습니까? <br /> 이 결정은 번복할 수 없습니다!
+                정말 탈퇴하시겠습니까? <br /> 이 결정은 되돌릴 수 없습니다!
               </h2>
               <button
                 className="w-full bg-red-500 text-white py-2 rounded-lg"
