@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-const MyProfileEditorForm = () => {
+const UpdateProfileForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -126,4 +126,4 @@ const MyProfileEditorForm = () => {
   );
 };
 
-export default MyProfileEditorForm;
+export default UpdateProfileForm;
