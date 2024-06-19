@@ -35,10 +35,10 @@ const Router = () => {
         <Route path="/submit/completed" element={<SubmitComplete />} />
         <Route path="/facility/new/details" element={<ViewFacilityDetails />} />
         <Route path="/mypage" element={<MyPageBase />} />
-        <Route path="/favorites" element={<MyFavorite />} />
-        <Route path="/edit-info" element={<MyProfileEditor />} />
-        <Route path="/my-reviews" element={<MyReview />} />
-        <Route path="/my-reports" element={<MyReport />} />
+        <Route path="/mypage/favorites" element={<MyFavorite />} />
+        <Route path="/mypage/edit-info" element={<MyProfileEditor />} />
+        <Route path="/mypage/my-reviews" element={<MyReview />} />
+        <Route path="/mypage/my-reports" element={<MyReport />} />
       </Routes>
     </BrowserRouter>
   );

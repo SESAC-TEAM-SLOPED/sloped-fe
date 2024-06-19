@@ -25,7 +25,7 @@ const MyPageBaseForm = ({ nickname }: MyPageBaseFormProps) => {
 
   const handleVerifyPassword = () => {
     if (password === "123456" && password === confirmPassword) {
-      navigate("/edit-info");
+      navigate("/mypage/edit-info");
       setShowModal(false);
     } else {
       setError("비밀번호가 일치하지 않거나 잘못되었습니다.");
@@ -50,17 +50,17 @@ const MyPageBaseForm = ({ nickname }: MyPageBaseFormProps) => {
             <FaUserEdit className="text-3xl mb-2" />
             <p>정보 수정</p>
           </button>
-          <Link to="/my-reviews" className="flex flex-col items-center">
+          <Link to="/mypage/my-reviews" className="flex flex-col items-center">
             <FaCommentDots className="text-3xl mb-2" />
             <p>내가 남긴 리뷰</p>
           </Link>
-          <Link to="/my-reports" className="flex flex-col items-center">
+          <Link to="/mypage/my-reports" className="flex flex-col items-center">
             <FaBell className="text-3xl mb-2" />
             <p>내가 남긴 제보</p>
           </Link>
         </div>
         <Link
-          to="/favorites"
+          to="/mypage/favorites"
           className="bg-white p-4 rounded-lg shadow flex items-center"
         >
           <FaBookmark className="text-2xl mr-4" />
