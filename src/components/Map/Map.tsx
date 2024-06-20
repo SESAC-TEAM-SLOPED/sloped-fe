@@ -1,11 +1,8 @@
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import getCurrentMarker from "./CurrentMarker";
 import getCenterMarker from "./CenterMarker";
 import { getAddressFromCoord } from "../../service/map";
 import { useLocation } from "react-router-dom";
-import { Facility } from "../../types/facility";
-import Marker from "./Marker";
-import { Road } from "../../types/road";
 
 declare global {
   interface Window {
