@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import getCurrentMarker from "./CurrentMarker";
 import getCenterMarker from "./CenterMarker";
 import { getAddressFromCoord } from "../../service/map";
@@ -20,12 +20,10 @@ type Props = {
   canDrag?: boolean;
   canZoom?: boolean;
   location?: { lat: number; lng: number };
-  facilities?: Facility[];
-  roads?: Road[];
-  bookmarks?: any[];
-  openBottomSheet?: () => void;
-  clickedId?: number;
+  children?: ReactNode;
   setClickedId?: (id: number) => void;
+  setMap: (map: any) => void;
+  map: any;
 };
 
 const Map = ({
@@ -35,15 +33,13 @@ const Map = ({
   canDrag = true,
   canZoom = true,
   location,
-  facilities,
-  roads,
-  bookmarks,
-  openBottomSheet,
-  clickedId = 0,
+  children,
   setClickedId,
+  setMap,
+  map,
 }: Props) => {
   const { Tmapv2 } = window;
-  const [map, setMap] = useState<any>();
+  //const [map, setMap] = useState<any>();
   const { pathname } = useLocation();
 
   // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때 한 번만 실행됩니다.
@@ -67,7 +63,7 @@ const Map = ({
     }
 
     setMap(map);
-  }, [Tmapv2.LatLng, Tmapv2.Map, canDrag, canZoom, height]);
+  }, [Tmapv2.LatLng, Tmapv2.Map, canDrag, canZoom, height, setMap]);
 
   // 사용자의 위치가 브라우저로 전달되면 실행됩니다.
   useEffect(() => {
@@ -112,63 +108,10 @@ const Map = ({
   }, [Tmapv2.LatLng, currentLocation, location, map, pathname, setAddress]);
 
   return (
-    <div
-      onClick={(e) => {
-        if (e.target instanceof HTMLCanvasElement && setClickedId) {
-          setClickedId(10);
-        }
-      }}
-    >
+    <>
       <div id="map_div" />
-      {facilities &&
-        setClickedId &&
-        facilities.map((location) => (
-          <Marker
-            key={location.id}
-            map={map}
-            lat={location.latitude}
-            lng={location.longitude}
-            icon="pin"
-            clickedId={clickedId}
-            id={location.id}
-            onClick={() => {
-              setClickedId(location.id);
-              openBottomSheet && openBottomSheet();
-            }}
-          />
-        ))}
-      {roads &&
-        setClickedId &&
-        roads.map((location) => (
-          <Marker
-            key={location.id}
-            map={map}
-            lat={location.latitude}
-            lng={location.longitude}
-            icon="warning"
-            clickedId={clickedId}
-            id={location.id}
-            onClick={() => setClickedId(location.id)}
-          />
-        ))}
-      {bookmarks &&
-        setClickedId &&
-        bookmarks.map((location) => (
-          <Marker
-            key={location.id}
-            map={map}
-            lat={location.latitude}
-            lng={location.longitude}
-            icon="star"
-            clickedId={clickedId}
-            id={location.id}
-            onClick={() => {
-              setClickedId(location.id);
-              openBottomSheet && openBottomSheet();
-            }}
-          />
-        ))}
-    </div>
+      {children}
+    </>
   );
 };
 

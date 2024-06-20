@@ -7,6 +7,7 @@ import useGeoLocation from "../../hooks/geoLocation";
 import { Facility } from "../../types/facility";
 import { Road } from "../../types/road";
 import FacilityInfo from "../../components/FacilityInfo/FacilityInfo";
+import Marker from "../../components/Map/Marker";
 
 const facilities: Facility[] = [
   {
@@ -64,6 +65,7 @@ const Main = () => {
   const { location } = useGeoLocation();
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [clickedId, setClickedId] = useState<number>(0);
+  const [map, setMap] = useState<any>();
 
   const openBottomSheet = () => {
     setBottomSheetOpen(true);
@@ -82,16 +84,68 @@ const Main = () => {
       }}
     >
       <Container hasHeader={false} hasNav={true}>
-        <Map
-          currentLocation={location}
-          height="calc(100vh - 64px)"
-          facilities={facilities}
-          roads={roads}
-          bookmarks={bookmarks}
-          openBottomSheet={openBottomSheet}
-          clickedId={clickedId}
-          setClickedId={(id: number) => setClickedId(id)}
-        />
+        <div
+          onClick={(e) => {
+            if (e.target instanceof HTMLCanvasElement && setClickedId) {
+              setClickedId(10);
+            }
+          }}
+        >
+          <Map
+            map={map}
+            setMap={setMap}
+            currentLocation={location}
+            height="calc(100vh - 64px)"
+            setClickedId={(id: number) => setClickedId(id)}
+          >
+            {facilities.map((location) => (
+              <Marker
+                key={location.id}
+                map={map}
+                lat={location.latitude}
+                lng={location.longitude}
+                icon="pin"
+                clickedId={clickedId}
+                id={location.id}
+                onClick={() => {
+                  closeBottomSheet();
+                  setClickedId(location.id);
+                  openBottomSheet && openBottomSheet();
+                }}
+              />
+            ))}
+            {roads.map((location) => (
+              <Marker
+                key={location.id}
+                map={map}
+                lat={location.latitude}
+                lng={location.longitude}
+                icon="warning"
+                clickedId={clickedId}
+                id={location.id}
+                onClick={() => {
+                  closeBottomSheet();
+                  setClickedId(location.id);
+                }}
+              />
+            ))}
+            {bookmarks.map((location) => (
+              <Marker
+                key={location.id}
+                map={map}
+                lat={location.latitude}
+                lng={location.longitude}
+                icon="star"
+                clickedId={clickedId}
+                id={location.id}
+                onClick={() => {
+                  setClickedId(location.id);
+                  openBottomSheet && openBottomSheet();
+                }}
+              />
+            ))}
+          </Map>
+        </div>
         <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}>
           <FacilityInfo id={clickedId} />
         </BottomSheet>
