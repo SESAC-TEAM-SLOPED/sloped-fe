@@ -1,3 +1,4 @@
+import { useSearchParams } from "react-router-dom";
 import Marker from "../Map/Marker";
 
 type Props = {
@@ -8,6 +9,7 @@ type Props = {
 };
 
 const RoadMarkers = ({ roads, map, clickedId, onClick }: Props) => {
+  const [searchParams, setSearchParams] = useSearchParams();
   return (
     <>
       {roads.map((location) => (
@@ -19,7 +21,13 @@ const RoadMarkers = ({ roads, map, clickedId, onClick }: Props) => {
           icon="warning"
           clickedId={clickedId}
           id={location.id}
-          onClick={() => onClick(location.id)}
+          onClick={() => {
+            onClick(location.id);
+            // setSearchParams({
+            //   category: searchParams.get("category") || "",
+            //   id: location.id.toString(),
+            // });
+          }}
         />
       ))}
     </>

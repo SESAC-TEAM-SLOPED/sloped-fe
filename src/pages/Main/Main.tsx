@@ -72,16 +72,21 @@ const bookmarksData: Facility[] = [
 
 const Main = () => {
   const { location } = useGeoLocation();
+
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [openRoadModal, setOpenRoadModal] = useState(false);
   const [clickedId, setClickedId] = useState<number>(0);
   const [map, setMap] = useState<any>();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [bookmarks, setBookmarks] = useState<any[]>([]);
   const [visibleBookmarks, setVisibleBookmarks] = useState(false);
   const [roads, setRoads] = useState<any[]>([]);
   const [visibleRoads, setVisibleRoads] = useState(false);
+
+  useEffect(() => {
+    searchParams.get("id") && setBottomSheetOpen(true);
+  }, [searchParams]);
 
   useEffect(() => {
     // 즐겨찾기를 받아오는 로직
@@ -144,6 +149,7 @@ const Main = () => {
             if (e.target instanceof HTMLCanvasElement) {
               closeBottomSheet();
               setClickedId(10);
+              setSearchParams({ category: searchParams.get("category") || "" });
             }
           }}
         >
@@ -192,10 +198,12 @@ const Main = () => {
               />
             )}
           </Map>
-          <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}>
-            <FacilityInfo id={clickedId} />
-          </BottomSheet>
-          <Navbar />{" "}
+          {searchParams.get("id") && (
+            <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}>
+              <FacilityInfo id={Number(searchParams.get("id"))} />
+            </BottomSheet>
+          )}
+          <Navbar />
         </div>
       </Container>
       {openRoadModal && (
