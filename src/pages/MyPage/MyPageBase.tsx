@@ -5,7 +5,7 @@ import Navbar from "../../components/Navbar/Navbar";
 
 const MyPageBase = () => {
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center w-full">
+    <div className="bg-gray-100">
       <Container hasHeader={true} hasNav={true} full={true}>
         <Header text="마이페이지" />
         <div
