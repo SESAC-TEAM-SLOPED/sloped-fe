@@ -5,16 +5,18 @@ import Navbar from "../../components/Navbar/Navbar";
 
 const MyPageBase = () => {
   return (
-    <Container hasHeader={true} hasNav={false} full={true}>
-      <Header text="마이페이지" />
-      <div
-        style={{ height: "calc(100vh - 70px)" }}
-        className="px-10 flex flex-col gap-6"
-      >
-        <MyPageBaseForm nickname={"nickname2"} />
-      </div>
-      <Navbar />
-    </Container>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center w-full">
+      <Container hasHeader={true} hasNav={true} full={true}>
+        <Header text="마이페이지" />
+        <div
+          style={{ height: "calc(100vh - 70px)" }}
+          className="px-10 flex flex-col gap-6 w-full"
+        >
+          <MyPageBaseForm nickname={"nickname2"} />
+        </div>
+        <Navbar />
+      </Container>
+    </div>
   );
 };
 

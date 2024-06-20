@@ -39,43 +39,50 @@ const MyPageBaseForm = ({ nickname }: MyPageBaseFormProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center pt-20 w-full">
       <h1 className="text-3xl font-bold mb-6">{nickname}님, 안녕하세요!</h1>
       <div className="w-full max-w-md space-y-6">
         <div className="flex justify-around bg-white p-4 rounded-lg shadow">
           <button
             onClick={() => setShowModal(true)}
-            className="flex flex-col items-center"
+            className="flex flex-col items-center px-4 rounded-lg"
           >
-            <FaUserEdit className="text-3xl mb-2" />
+            <FaUserEdit className="text-2xl mb-2" />
             <p>정보 수정</p>
           </button>
-          <Link to="/mypage/my-reviews" className="flex flex-col items-center">
-            <FaCommentDots className="text-3xl mb-2" />
-            <p>내가 남긴 리뷰</p>
+
+          <Link
+            to="/mypage/my-reviews"
+            className="flex flex-col items-center px-4 rounded-lg"
+          >
+            <FaCommentDots className="text-2xl mb-2" />
+            <p>나의 리뷰</p>
           </Link>
-          <Link to="/mypage/my-reports" className="flex flex-col items-center">
-            <FaBell className="text-3xl mb-2" />
-            <p>내가 남긴 제보</p>
+          <Link
+            to="/mypage/my-reports"
+            className="flex flex-col items-center px-4 rounded-lg"
+          >
+            <FaBell className="text-2xl mb-2" />
+            <p>나의 제보</p>
           </Link>
         </div>
         <Link
           to="/mypage/favorites"
-          className="bg-white p-4 rounded-lg shadow flex items-center"
+          className="bg-white p-4 rounded-lg shadow flex items-center w-full px-6 py-3 my-2"
         >
           <FaBookmark className="text-2xl mr-4" />
           <p>즐겨찾기</p>
         </Link>
         <Link
           to="/logout"
-          className="bg-white p-4 rounded-lg shadow flex items-center"
+          className="bg-white p-4 rounded-lg shadow flex items-center w-full px-6 py-3 my-2"
         >
           <FaSignOutAlt className="text-2xl mr-4" />
           <p>로그아웃</p>
         </Link>
         <button
           onClick={() => setShowDeleteModal(true)}
-          className="bg-white p-4 rounded-lg shadow flex items-center w-full"
+          className="bg-white p-4 rounded-lg shadow flex items-center w-full px-6 py-3 my-2"
         >
           <FaUserTimes className="text-2xl mr-4" />
           <p>회원 탈퇴</p>
