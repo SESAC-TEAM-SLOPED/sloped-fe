@@ -5,13 +5,14 @@ import Container from "../../components/ui/Container";
 import useGeoLocation from "../../hooks/geoLocation";
 import { getAddressFromCoord } from "../../service/map";
 import Button from "../../components/ui/Button";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Positioning = () => {
   const { pathname } = useLocation();
 
   const { location } = useGeoLocation();
   const [address, setAddress] = useState("");
+  const [map, setMap] = useState();
 
   useEffect(() => {
     if (location) {
@@ -38,8 +39,13 @@ const Positioning = () => {
             {address}
           </p>
         </div>
-
-        <Map currentLocation={location} height="70%" setAddress={setAddress} />
+        <Map
+          map={map}
+          setMap={setMap}
+          currentLocation={location}
+          height="70%"
+          setAddress={setAddress}
+        />
         <Button text="다음" onClick={() => {}} size="full" />
       </div>
     </Container>

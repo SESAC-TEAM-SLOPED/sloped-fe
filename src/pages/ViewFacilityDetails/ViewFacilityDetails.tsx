@@ -91,6 +91,7 @@ const ViewFacilityDetails = () => {
   ];
   // 리뷰 필터링 상태 관리
   const [filteredReviews, setFilteredReviews] = useState(reviewData);
+  const [map, setMap] = useState();
 
   return (
     <Container hasHeader={true}>
@@ -98,6 +99,8 @@ const ViewFacilityDetails = () => {
       <div className="flex flex-col gap-6">
         <div className="h-80 w-[580px]">
           <Map
+            map={map}
+            setMap={setMap}
             height="100%"
             canDrag={false}
             canZoom={false}
