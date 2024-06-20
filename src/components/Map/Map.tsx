@@ -31,7 +31,6 @@ const Map = ({
   canZoom = true,
   location,
   children,
-  setClickedId,
   setMap,
   map,
 }: Props) => {
@@ -48,7 +47,7 @@ const Map = ({
       height,
       zoom: 15,
     });
-
+    map.setOptions({ zoomControl: false });
     // 정적 지도 생성
     if (!canDrag) {
       map.setOptions({ draggable: false });
@@ -56,7 +55,6 @@ const Map = ({
 
     if (!canZoom) {
       map._data.options.scrollwheel = false;
-      map.setOptions({ zoomControl: false });
     }
 
     setMap(map);

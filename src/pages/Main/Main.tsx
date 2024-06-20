@@ -16,6 +16,7 @@ import Categories from "../../components/Categories/Categories";
 import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
+import RightSidebar from "../../components/RightSidebar/RightSidebar";
 
 const facilitiesData: Facility[] = [
   {
@@ -41,7 +42,7 @@ const facilitiesData: Facility[] = [
   },
 ];
 
-const roads: Road[] = [
+const roadsData: Road[] = [
   {
     id: 4,
     latitude: 37.51739,
@@ -59,7 +60,7 @@ const roads: Road[] = [
   },
 ];
 
-const bookmarks: Facility[] = [
+const bookmarksData: Facility[] = [
   {
     id: 1,
     latitude: 37.517799,
@@ -77,6 +78,21 @@ const Main = () => {
   const [map, setMap] = useState<any>();
   const [searchParams] = useSearchParams();
   const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [bookmarks, setBookmarks] = useState<any[]>([]);
+  const [visibleBookmarks, setVisibleBookmarks] = useState(false);
+  const [roads, setRoads] = useState<any[]>([]);
+  const [visibleRoads, setVisibleRoads] = useState(false);
+
+  useEffect(() => {
+    // 즐겨찾기를 받아오는 로직
+    //const data = await axios.get()
+    visibleBookmarks && setBookmarks(bookmarksData);
+  }, [visibleBookmarks]);
+
+  useEffect(() => {
+    // 불편 지역을 받아오는 로직
+    visibleRoads && setRoads(roadsData);
+  }, [visibleRoads]);
 
   useEffect(() => {
     const getByCategory = async () => {
@@ -87,13 +103,17 @@ const Main = () => {
       //return data;
 
       const data = facilitiesData.filter(
-        (data) => data.type === currentCategory || currentCategory === "all",
+        (data) =>
+          (data.type === currentCategory || currentCategory === "all") &&
+          !bookmarks.some(
+            (bookmark) => visibleBookmarks && bookmark.id === data.id,
+          ),
       );
       setFacilities(data);
     };
 
     getByCategory();
-  }, [searchParams]);
+  }, [bookmarks, searchParams, visibleBookmarks]);
 
   const openBottomSheet = () => {
     setBottomSheetOpen(true);
@@ -127,13 +147,19 @@ const Main = () => {
             }
           }}
         >
-          <div className="absolute z-10 flex flex-col gap-3 px-3 pt-3">
+          <div className="absolute z-10 flex flex-col gap-3 px-3 pt-3 w-full select-none">
             <SearchBar />
             <Categories
               onClick={() => {
                 closeBottomSheet();
                 setClickedId(10);
               }}
+            />
+            <RightSidebar
+              visibleBookmarks={visibleBookmarks}
+              visibleRoads={visibleRoads}
+              onClickRoads={() => setVisibleRoads(!visibleRoads)}
+              onClickBookmarks={() => setVisibleBookmarks(!visibleBookmarks)}
             />
           </div>
           <Map
@@ -149,18 +175,22 @@ const Main = () => {
               facilities={facilities}
               onClick={onClickMarkerForBottomSheet}
             />
-            {/* <RoadMarkers
-              map={map}
-              clickedId={clickedId}
-              roads={roads}
-              onClick={onClickMarkerForModal}
-            />
-            <BookmarkMarkers
-              map={map}
-              clickedId={clickedId}
-              bookmarks={bookmarks}
-              onClick={onClickMarkerForBottomSheet}
-            /> */}
+            {visibleRoads && (
+              <RoadMarkers
+                map={map}
+                clickedId={clickedId}
+                roads={roads}
+                onClick={onClickMarkerForModal}
+              />
+            )}
+            {visibleBookmarks && (
+              <BookmarkMarkers
+                map={map}
+                clickedId={clickedId}
+                bookmarks={bookmarks}
+                onClick={onClickMarkerForBottomSheet}
+              />
+            )}
           </Map>
           <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}>
             <FacilityInfo id={clickedId} />
