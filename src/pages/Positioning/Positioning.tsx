@@ -5,10 +5,11 @@ import Container from "../../components/ui/Container";
 import useGeoLocation from "../../hooks/geoLocation";
 import { getAddressFromCoord } from "../../service/map";
 import Button from "../../components/ui/Button";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Positioning = () => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const { location } = useGeoLocation();
   const [address, setAddress] = useState("");
@@ -21,6 +22,16 @@ const Positioning = () => {
       );
     }
   }, [location]);
+
+  const next = () => {
+    if (pathname.includes("facility")) {
+      // 시설 등록인 경우
+      navigate("/post/new/facility", { state: { address } }); // 주소 정보를 state로 전달
+    } else {
+      // 통행 불편 제보인 경우
+      navigate("/report/road/form", { state: { address } });
+    }
+  };
 
   return (
     <Container hasHeader={true} full={true}>
@@ -46,7 +57,7 @@ const Positioning = () => {
           height="70%"
           setAddress={setAddress}
         />
-        <Button text="다음" onClick={() => {}} size="full" />
+        <Button text="다음" onClick={next} size="full" />
       </div>
     </Container>
   );
