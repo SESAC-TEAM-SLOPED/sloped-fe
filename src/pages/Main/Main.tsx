@@ -15,6 +15,7 @@ import BookmarkMarkers from "../../components/BookmarkMarkers/BookmarkMarkers";
 import Categories from "../../components/Categories/Categories";
 import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
+import SearchBar from "../../components/SearchBar/SearchBar";
 
 const facilitiesData: Facility[] = [
   {
@@ -126,7 +127,10 @@ const Main = () => {
             }
           }}
         >
-          <Categories />
+          <div className="absolute z-10 flex flex-col gap-3 px-3 pt-3">
+            <SearchBar />
+            <Categories />
+          </div>
           <Map
             map={map}
             setMap={setMap}
