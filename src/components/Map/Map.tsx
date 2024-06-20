@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import useGeoLocation from "../../hooks/geoLocation";
+import { ReactNode, useEffect } from "react";
 import getCurrentMarker from "./CurrentMarker";
 import getCenterMarker from "./CenterMarker";
 import { getAddressFromCoord } from "../../service/map";
+import { useLocation } from "react-router-dom";
 
 declare global {
   interface Window {
@@ -17,6 +17,10 @@ type Props = {
   canDrag?: boolean;
   canZoom?: boolean;
   location?: { lat: number; lng: number };
+  children?: ReactNode;
+  setClickedId?: (id: number) => void;
+  setMap: (map: any) => void;
+  map: any;
 };
 
 const Map = ({
@@ -26,10 +30,13 @@ const Map = ({
   canDrag = true,
   canZoom = true,
   location,
+  children,
+  setMap,
+  map,
 }: Props) => {
   const { Tmapv2 } = window;
-  const [map, setMap] = useState<any>();
-  const [centerMarker, setCenterMarker] = useState({ lat: 0, lng: 0 });
+  //const [map, setMap] = useState<any>();
+  const { pathname } = useLocation();
 
   // 빈 배열을 전달하여 컴포넌트가 처음 렌더링될 때 한 번만 실행됩니다.
   useEffect(() => {
@@ -40,21 +47,22 @@ const Map = ({
       height,
       zoom: 15,
     });
-
+    map.setOptions({ zoomControl: false });
+    // 정적 지도 생성
     if (!canDrag) {
       map.setOptions({ draggable: false });
     }
 
     if (!canZoom) {
       map._data.options.scrollwheel = false;
-      map.setOptions({ zoomControl: false });
     }
 
     setMap(map);
-  }, [Tmapv2.LatLng, Tmapv2.Map, canDrag, canZoom, height]);
+  }, [Tmapv2.LatLng, Tmapv2.Map, canDrag, canZoom, height, setMap]);
 
   // 사용자의 위치가 브라우저로 전달되면 실행됩니다.
   useEffect(() => {
+    // 유저 위치 마커 생성
     if (currentLocation) {
       map.setCenter(
         new Tmapv2.LatLng(currentLocation.lat, currentLocation.lng),
@@ -66,21 +74,23 @@ const Map = ({
         lng: currentLocation.lng,
       });
 
-      const marker = getCenterMarker({
-        map,
-        lat: currentLocation.lat,
-        lng: currentLocation.lng,
-      });
-
-      // 지도가 드래그 될 때마다 중심 좌표에 마커를 그리는 함수
-      map.addListener("dragend", () => {
-        const center = map.getCenter();
-        marker.setPosition(new Tmapv2.LatLng(center._lat, center._lng));
-        getAddressFromCoord({ lat: center._lat, lng: center._lng }).then(
-          (addr) => setAddress && setAddress(addr),
-        );
-      });
+      // 지도 중심 좌표 생성
+      if (pathname.includes("positioning")) {
+        const marker = getCenterMarker({
+          map,
+          lat: currentLocation.lat,
+          lng: currentLocation.lng,
+        });
+        map.addListener("dragend", () => {
+          const center = map.getCenter();
+          marker.setPosition(new Tmapv2.LatLng(center._lat, center._lng));
+          getAddressFromCoord({ lat: center._lat, lng: center._lng }).then(
+            (addr) => setAddress && setAddress(addr),
+          );
+        });
+      }
     }
+
     if (location) {
       map.setCenter(new Tmapv2.LatLng(location.lat, location.lng));
 
@@ -90,9 +100,14 @@ const Map = ({
         lng: location.lng,
       });
     }
-  }, [Tmapv2.LatLng, currentLocation, location, map, setAddress]);
+  }, [Tmapv2.LatLng, currentLocation, location, map, pathname, setAddress]);
 
-  return <div id="map_div" />;
+  return (
+    <>
+      <div id="map_div" />
+      {children}
+    </>
+  );
 };
 
 export default Map;
