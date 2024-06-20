@@ -129,7 +129,12 @@ const Main = () => {
         >
           <div className="absolute z-10 flex flex-col gap-3 px-3 pt-3">
             <SearchBar />
-            <Categories />
+            <Categories
+              onClick={() => {
+                closeBottomSheet();
+                setClickedId(10);
+              }}
+            />
           </div>
           <Map
             map={map}
