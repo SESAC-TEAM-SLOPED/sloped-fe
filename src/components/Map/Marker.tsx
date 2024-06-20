@@ -35,6 +35,12 @@ const Marker = ({ map, lat, lng, icon, clickedId, onClick, id }: Props) => {
   const [marker, setMarker] = useState<any>();
 
   useEffect(() => {
+    return () => {
+      marker && marker.setMap(null);
+    };
+  }, [marker]);
+
+  useEffect(() => {
     const newMarker = new Tmapv2.Marker({
       position: new Tmapv2.LatLng(lat, lng),
       iconHTML:

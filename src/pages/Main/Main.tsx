@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Map from "../../components/Map/Map";
 import Navbar from "../../components/Navbar/Navbar";
 import BottomSheet from "../../components/ui/BottomSheet";
@@ -12,27 +12,30 @@ import Modal from "../../components/ui/Modal";
 import FacilityMarkers from "../../components/FacilityMarkers/FacilityMarkers";
 import RoadMarkers from "../../components/RoadMarkers/RoadMarkers";
 import BookmarkMarkers from "../../components/BookmarkMarkers/BookmarkMarkers";
+import Categories from "../../components/Categories/Categories";
+import { useParams, useSearchParams } from "react-router-dom";
+import axios from "axios";
 
-const facilities: Facility[] = [
+const facilitiesData: Facility[] = [
   {
     id: 1,
     latitude: 37.517799,
     longitude: 126.886949,
-    type: "병원",
+    type: "hospital",
     address: "",
   },
   {
     id: 2,
     latitude: 37.517393,
     longitude: 126.886155,
-    type: "카페",
+    type: "cafe",
     address: "",
   },
   {
     id: 3,
     latitude: 37.51703,
     longitude: 126.88811,
-    type: "관광지",
+    type: "tour",
     address: "",
   },
 ];
@@ -71,6 +74,25 @@ const Main = () => {
   const [openRoadModal, setOpenRoadModal] = useState(false);
   const [clickedId, setClickedId] = useState<number>(0);
   const [map, setMap] = useState<any>();
+  const [searchParams] = useSearchParams();
+  const [facilities, setFacilities] = useState<Facility[]>([]);
+
+  useEffect(() => {
+    const getByCategory = async () => {
+      // 카테고리별로 장소를 받아오는 로직
+      const currentCategory = searchParams.get("category");
+
+      //const data = await axios.get("");
+      //return data;
+
+      const data = facilitiesData.filter(
+        (data) => data.type === currentCategory || currentCategory === "all",
+      );
+      setFacilities(data);
+    };
+
+    getByCategory();
+  }, [searchParams]);
 
   const openBottomSheet = () => {
     setBottomSheetOpen(true);
@@ -93,45 +115,49 @@ const Main = () => {
   };
 
   return (
-    <div
-      onClick={(e) => {
-        if (e.target instanceof HTMLCanvasElement) {
-          closeBottomSheet();
-          setClickedId(10);
-        }
-      }}
-    >
+    <>
       <Container hasHeader={false} hasNav={true}>
-        <Map
-          map={map}
-          setMap={setMap}
-          currentLocation={location}
-          height="calc(100vh - 64px)"
-          setClickedId={(id: number) => setClickedId(id)}
+        <div
+          className="relative"
+          onClick={(e) => {
+            if (e.target instanceof HTMLCanvasElement) {
+              closeBottomSheet();
+              setClickedId(10);
+            }
+          }}
         >
-          <FacilityMarkers
+          <Categories />
+          <Map
             map={map}
-            clickedId={clickedId}
-            facilities={facilities}
-            onClick={onClickMarkerForBottomSheet}
-          />
-          <RoadMarkers
-            map={map}
-            clickedId={clickedId}
-            roads={roads}
-            onClick={onClickMarkerForModal}
-          />
-          <BookmarkMarkers
-            map={map}
-            clickedId={clickedId}
-            bookmarks={bookmarks}
-            onClick={onClickMarkerForBottomSheet}
-          />
-        </Map>
-        <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}>
-          <FacilityInfo id={clickedId} />
-        </BottomSheet>
-        <Navbar />
+            setMap={setMap}
+            currentLocation={location}
+            height="calc(100vh - 64px)"
+            setClickedId={(id: number) => setClickedId(id)}
+          >
+            <FacilityMarkers
+              map={map}
+              clickedId={clickedId}
+              facilities={facilities}
+              onClick={onClickMarkerForBottomSheet}
+            />
+            {/* <RoadMarkers
+              map={map}
+              clickedId={clickedId}
+              roads={roads}
+              onClick={onClickMarkerForModal}
+            />
+            <BookmarkMarkers
+              map={map}
+              clickedId={clickedId}
+              bookmarks={bookmarks}
+              onClick={onClickMarkerForBottomSheet}
+            /> */}
+          </Map>
+          <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}>
+            <FacilityInfo id={clickedId} />
+          </BottomSheet>
+          <Navbar />{" "}
+        </div>
       </Container>
       {openRoadModal && (
         <ModalPortal>
@@ -140,7 +166,7 @@ const Main = () => {
           </Modal>
         </ModalPortal>
       )}
-    </div>
+    </>
   );
 };
 
