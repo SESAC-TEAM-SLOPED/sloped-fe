@@ -26,10 +26,10 @@ const Positioning = () => {
   const next = () => {
     if (pathname.includes("facility")) {
       // 시설 등록인 경우
-      navigate("/post/new/facility", { state: { address } }); // 주소 정보를 state로 전달
+      navigate("/post/new/facility", { state: { location, address } }); // 주소 정보를 state로 전달
     } else {
       // 통행 불편 제보인 경우
-      navigate("/report/road/form", { state: { address } });
+      navigate("/report/road/form", { state: { location, address } });
     }
   };
 
