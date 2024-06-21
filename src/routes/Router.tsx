@@ -12,6 +12,12 @@ import RoadReportForm from "../pages/RoadReport/RoadReportForm";
 import SubmitComplete from "../pages/SubmitComplete/SubmitComplete";
 import ViewFacilityDetails from "../pages/ViewFacilityDetails/ViewFacilityDetails";
 import PostNewFacility from "../pages/PostNewFacility/PostNewFacility";
+import MyPageBase from "../pages/MyPage/MyPageBase";
+import MyFavorite from "../pages/MyPage/MyFavorite";
+import MyProfileEditor from "../pages/MyPage/MyProfileEditor";
+import MyReview from "../pages/MyPage/MyReview";
+import MyReviewEditor from "../pages/MyPage/MyReviewEditor";
+import MyReport from "../pages/MyPage/MyReport";
 
 const Router = () => {
   return (
@@ -31,6 +37,12 @@ const Router = () => {
         <Route path="/submit/completed" element={<SubmitComplete />} />
         <Route path="/facility/details" element={<ViewFacilityDetails />} />
         <Route path="/post/new/facility" element={<PostNewFacility />} />
+        <Route path="/mypage" element={<MyPageBase />} />
+        <Route path="/mypage/favorites" element={<MyFavorite />} />
+        <Route path="/mypage/edit-info" element={<MyProfileEditor />} />
+        <Route path="/mypage/my-reviews" element={<MyReview />} />
+        <Route path="/mypage/edit-review" element={<MyReviewEditor />} />
+        <Route path="/mypage/my-reports" element={<MyReport />} />
       </Routes>
     </BrowserRouter>
   );

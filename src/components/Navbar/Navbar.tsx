@@ -24,7 +24,7 @@ const Navbar = () => {
           <HouseIcon size="md" color="3F51B5" />
           <p className={TEXT_STYLE}>메인</p>
         </Link>
-        <Link to="" className={LINK_STYLE}>
+        <Link to="/mypage" className={LINK_STYLE}>
           <UserIcon size="md" color="3F51B5" />
           <p className={TEXT_STYLE}>마이페이지</p>
         </Link>
