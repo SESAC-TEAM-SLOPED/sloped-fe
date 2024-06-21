@@ -5,7 +5,7 @@ import Container from "../../components/ui/Container";
 import useGeoLocation from "../../hooks/geoLocation";
 import { getAddressFromCoord } from "../../service/map";
 import Button from "../../components/ui/Button";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Positioning = () => {
   const { pathname } = useLocation();
@@ -13,6 +13,7 @@ const Positioning = () => {
   const { location } = useGeoLocation();
   const [address, setAddress] = useState("");
   const [map, setMap] = useState();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (location) {
@@ -21,6 +22,14 @@ const Positioning = () => {
       );
     }
   }, [location]);
+
+  const handleNextClick = () => {
+    if (pathname.includes("facility")) {
+      navigate("/post/new/facility");
+    } else {
+      navigate("/report/road/form");
+    }
+  };
 
   return (
     <Container hasHeader={true} full={true}>
@@ -46,7 +55,7 @@ const Positioning = () => {
           height="70%"
           setAddress={setAddress}
         />
-        <Button text="다음" onClick={() => {}} size="full" />
+        <Button text="다음" onClick={handleNextClick} size="full" />
       </div>
     </Container>
   );
