@@ -30,7 +30,7 @@ const favoriteData = [
 
 const MyFavoriteForm = () => {
   return (
-    <div className="p-4">
+    <div className="py-4">
       {favoriteData.map((item, index) => (
         <div
           key={index}

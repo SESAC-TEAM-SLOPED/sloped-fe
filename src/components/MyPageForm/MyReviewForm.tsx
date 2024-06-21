@@ -55,8 +55,7 @@ const MyReviewForm = () => {
   };
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">내가 남긴 리뷰</h1>
+    <div className="py-4">
       {reviews.map((review) => (
         <div key={review.id} className="bg-white p-4 rounded-lg shadow mb-4">
           <div className="flex justify-between items-center mb-2">

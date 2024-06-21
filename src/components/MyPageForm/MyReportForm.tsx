@@ -12,13 +12,12 @@ const facilityData = [
     status: "대기중",
   },
   {
-    name: "스타벅스 사당로데오점",
-    time: "8개월 전",
+    name: "새싹 센터",
+    time: "11개월 전",
     slope: "있음",
-    entranceBarrier: "없음",
+    entranceBarrier: "있음",
     // elevator: "없음",
-    review:
-      "기존 정보에는 경사로가 없고 엘리베이터가 있다고 써있었는데, 막상 가보니 엘리베이터는 없고 경사로는 있었습니다.",
+    review: "경사로도 있고 입구 턱도 있고",
     status: "승인",
   },
 ];
@@ -38,7 +37,7 @@ const roadData = [
 
 const MyReportForm = () => {
   return (
-    <div className="p-4">
+    <div className="py-4">
       {facilityData.map((facility, index) => (
         <div key={index} className="bg-white p-4 rounded-lg shadow mb-4">
           <div className="flex justify-between items-center mb-2">
