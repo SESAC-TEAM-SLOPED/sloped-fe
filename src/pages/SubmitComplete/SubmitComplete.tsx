@@ -11,7 +11,7 @@ const SubmitComplete = () => {
 
   return (
     <Container hasHeader={true} full={true}>
-      <Header text="통행 불편 제보" closeButton={true} />
+      <Header text="제보 완료" closeButton={true} />
 
       <SubmitOK
         thankYouText="제보 감사합니다"

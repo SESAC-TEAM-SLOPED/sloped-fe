@@ -10,6 +10,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Positioning = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const { location } = useGeoLocation();
   const [address, setAddress] = useState("");
@@ -26,7 +27,7 @@ const Positioning = () => {
   const handleNextClick = () => {
     if (pathname.includes("facility")) {
       // 시설 form 페이지 path 지정 필요
-      navigate("/report/facility/form", { state: { location, address } });
+      navigate("/post/new/facility", { state: { location, address } });
     } else {
       navigate("/report/road/form", { state: { location, address } });
     }
