@@ -24,42 +24,22 @@ const PostNewFacility = () => {
   const [elevator, setElevator] = useState("있음");
   const [textContent, setTextContent] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-
-  // 필수 입력 사항이 모두 채워졌는지 확인하는 함수
-  const checkFormCompletion = () => {
-    if (
-      address.trim() !== "" &&
-      facilityName.trim() !== "" &&
-      selectedCategory.trim() !== "" &&
-      entranceStep.trim() !== "" &&
-      slope.trim() !== "" &&
-      elevator.trim() !== ""
-    ) {
-      setIsButtonDisabled(false);
-    } else {
-      setIsButtonDisabled(true);
-    }
-  };
+  const isButtonDisabled = facilityName.trim() === "";
 
   const handleCategoryChange = (option: string) => {
     setSelectedCategory(option); // 카테고리 선택 상태 업데이트
-    checkFormCompletion();
   };
 
   const handleEntranceStepChange = (option: string) => {
     setEntranceStep(option); // 입구턱유무 상태 업데이트
-    checkFormCompletion();
   };
 
   const handleSlopeChange = (option: string) => {
     setSlope(option); // 경사로유무 상태 업데이트
-    checkFormCompletion();
   };
 
   const handleElevatorChange = (option: string) => {
     setElevator(option); // 엘리베이터유무 선택 상태 업데이트
-    checkFormCompletion();
   };
 
   const submitForm = () => {
