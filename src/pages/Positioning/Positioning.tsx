@@ -8,6 +8,7 @@ import Button from "../../components/ui/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Positioning = () => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const { location } = useGeoLocation();
@@ -55,6 +56,7 @@ const Positioning = () => {
           height="70%"
           setAddress={setAddress}
         />
+        <Button text="다음" onClick={handleNextClick} size="full" />
         <Button text="다음" onClick={handleNextClick} size="full" />
       </div>
     </Container>
