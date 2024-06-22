@@ -269,6 +269,7 @@ const Main = () => {
             <RoadReportCallModal
               isComplaintCallModalOpen={isComplaintCallModalOpen}
               stateChange={handleComplaintCallModalStateChange}
+              openCenterListModal={() => setCenterListModalOpen(true)}
             ></RoadReportCallModal>
           </Modal>
         </ModalPortal>

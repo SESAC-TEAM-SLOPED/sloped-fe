@@ -1,15 +1,14 @@
 import { RiSpeakFill } from "react-icons/ri";
 import { FaTaxi } from "react-icons/fa";
-import { useEffect, useState } from "react";
 
 type Props = {
-  isRoadModalOpen?: boolean;
-  stateChange?: (state: boolean) => void;
+  isRoadModalOpen: boolean;
+  stateChange: (state: boolean) => void;
 };
 
 const RoadTroubleModal = ({ isRoadModalOpen, stateChange }: Props) => {
   const handleClick = () => {
-    stateChange && stateChange(!isRoadModalOpen);
+    stateChange(!isRoadModalOpen);
   };
 
   return (
@@ -26,18 +25,17 @@ const RoadTroubleModal = ({ isRoadModalOpen, stateChange }: Props) => {
       </div>
       <div className="h-[50px] flex items-center">
         <ul className="flex space-x-4">
-          <li onClick={handleClick} className="items-center flex-col mr-1">
-            <p className="ml-2 m-1">
-              <RiSpeakFill size={20} color="#404040" />
-            </p>
-            <p>민원</p>
-          </li>
-          <li className="items-center flex-col">
-            <p className="ml-3 m-1">
-              <FaTaxi size={20} color="#404040" />
-            </p>
-            <p>콜택시</p>
-          </li>
+          <button
+            onClick={handleClick}
+            className="flex items-center justify-center flex-col mr-1"
+          >
+            <RiSpeakFill size={20} color="#404040" />
+            <span>민원</span>
+          </button>
+          <button className="flex items-center justify-center flex-col">
+            <FaTaxi size={20} color="#404040" />
+            <span>콜택시</span>
+          </button>
         </ul>
       </div>
     </div>
