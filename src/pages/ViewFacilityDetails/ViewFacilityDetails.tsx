@@ -143,6 +143,7 @@ const ViewFacilityDetails = () => {
           reviewCount={
             reviewCounts.comfortableCount + reviewCounts.uncomfortableCount
           }
+          facilityName={facility.name}
         />
         {/* 편해요/불편해요 개수 */}
         <Convenience
