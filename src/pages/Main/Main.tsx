@@ -17,6 +17,8 @@ import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
+import RoadTroubleModal from "../RoadTroubleModal/RoadTroubleModal";
+import RoadReportCallModal from "../RoadReportCallModal/RoadReportCallModal";
 
 const facilitiesData: Facility[] = [
   {
@@ -58,6 +60,11 @@ const roadsData: Road[] = [
     latitude: 37.5172,
     longitude: 126.88801,
   },
+  {
+    id: 7,
+    latitude: 37.272033,
+    longitude: 127.124855,
+  },
 ];
 
 const bookmarksData: Facility[] = [
@@ -83,6 +90,10 @@ const Main = () => {
   const [visibleBookmarks, setVisibleBookmarks] = useState(false);
   const [roads, setRoads] = useState<any[]>([]);
   const [visibleRoads, setVisibleRoads] = useState(false);
+  const [isRoadModalOpen, setIsRoadModalOpen] = useState(true);
+  const [isComplaintCallModalOpen, setIsComplaintsCallModalOpen] =
+    useState(true);
+  const [centerListModalOpen, setCenterListModalOpen] = useState(false);
 
   useEffect(() => {
     searchParams.get("id") && setBottomSheetOpen(true);
@@ -118,7 +129,21 @@ const Main = () => {
     };
 
     getByCategory();
-  }, [bookmarks, searchParams, visibleBookmarks]);
+
+    // 민원을 클릭하면, 기존 통행불편 모달 닫기
+    if (!isRoadModalOpen) {
+      roadModalClose();
+    }
+    if (!isComplaintCallModalOpen) {
+      complaintCallModalClose();
+    }
+  }, [
+    bookmarks,
+    searchParams,
+    visibleBookmarks,
+    isRoadModalOpen,
+    isComplaintCallModalOpen,
+  ]);
 
   const openBottomSheet = () => {
     setBottomSheetOpen(true);
@@ -138,6 +163,24 @@ const Main = () => {
     closeBottomSheet();
     setClickedId(id);
     setOpenRoadModal(true);
+  };
+
+  const handleModalStateChange = (state: boolean) => {
+    setIsRoadModalOpen(state); // 모달을 열 때 상태를 변경
+    setIsComplaintsCallModalOpen(true);
+  };
+
+  const roadModalClose = () => {
+    setOpenRoadModal(false);
+  };
+
+  const handleComplaintCallModalStateChange = (state: boolean) => {
+    setIsComplaintsCallModalOpen(false);
+  };
+
+  const complaintCallModalClose = () => {
+    // x 버튼
+    setIsComplaintsCallModalOpen(false);
   };
 
   return (
@@ -208,9 +251,31 @@ const Main = () => {
       </Container>
       {openRoadModal && (
         <ModalPortal>
-          <Modal onClose={() => setOpenRoadModal(false)}>
-            <></>
+          <Modal onClose={() => setOpenRoadModal(false)} height="500px">
+            <RoadTroubleModal
+              isRoadModalOpen={isRoadModalOpen}
+              stateChange={handleModalStateChange}
+            />
           </Modal>
+        </ModalPortal>
+      )}
+      {!isRoadModalOpen && isComplaintCallModalOpen && (
+        <ModalPortal>
+          <Modal
+            onClose={() => setIsComplaintsCallModalOpen(false)}
+            height="230px"
+            width="350px"
+          >
+            <RoadReportCallModal
+              isComplaintCallModalOpen={isComplaintCallModalOpen}
+              stateChange={handleComplaintCallModalStateChange}
+            ></RoadReportCallModal>
+          </Modal>
+        </ModalPortal>
+      )}
+      {!isComplaintCallModalOpen && centerListModalOpen && (
+        <ModalPortal>
+          <Modal onClose={() => setCenterListModalOpen(false)}>test</Modal>
         </ModalPortal>
       )}
     </>

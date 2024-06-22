@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 
-type Props = {
-  onClose: () => void;
-};
-
-const FacilityOrRoadModal = ({ onClose }: Props) => {
+const FacilityOrRoadModal = () => {
   return (
     <div>
       <p className="text-[#404040]">무엇을 제보하시겠어요?</p>

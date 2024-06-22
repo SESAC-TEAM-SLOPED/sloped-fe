@@ -17,6 +17,7 @@ import MyProfileEditor from "../pages/MyPage/MyProfileEditor";
 import MyReview from "../pages/MyPage/MyReview";
 import MyReviewEditor from "../pages/MyPage/MyReviewEditor";
 import MyReport from "../pages/MyPage/MyReport";
+import RoadTroubleModal from "../pages/RoadTroubleModal/RoadTroubleModal";
 
 const Router = () => {
   return (
@@ -26,6 +27,7 @@ const Router = () => {
         <Route path="/review/new" element={<WriteReview />} />
         <Route path="/facility/new/positioning" element={<Positioning />} />
         <Route path="/road/new/positioning" element={<Positioning />} />
+        <Route path="/road/trouble/modal" element={<RoadTroubleModal />} />
         <Route path="/login/id" element={<IdLogin />} />
         <Route path="/joinpage" element={<JoinPage />} />
         <Route path="/find/information" element={<FindInformation />} />
