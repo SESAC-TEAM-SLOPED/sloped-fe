@@ -8,6 +8,7 @@ import Button from "../../components/ui/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Positioning = () => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -23,12 +24,11 @@ const Positioning = () => {
     }
   }, [location]);
 
-  const next = () => {
+  const handleNextClick = () => {
     if (pathname.includes("facility")) {
-      // 시설 등록인 경우
-      navigate("/post/new/facility", { state: { location, address } }); // 주소 정보를 state로 전달
+      // 시설 form 페이지 path 지정 필요
+      navigate("/post/new/facility", { state: { location, address } });
     } else {
-      // 통행 불편 제보인 경우
       navigate("/report/road/form", { state: { location, address } });
     }
   };
@@ -57,7 +57,7 @@ const Positioning = () => {
           height="70%"
           setAddress={setAddress}
         />
-        <Button text="다음" onClick={next} size="full" />
+        <Button text="다음" onClick={handleNextClick} size="full" />
       </div>
     </Container>
   );
