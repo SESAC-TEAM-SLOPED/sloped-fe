@@ -1,5 +1,6 @@
 import { RiSpeakFill } from "react-icons/ri";
 import { FaTaxi } from "react-icons/fa";
+import ImageContentSlide from "../ImageContentSlide/ImageContentSlide";
 
 type Props = {
   isRoadModalOpen: boolean;
@@ -8,23 +9,22 @@ type Props = {
 
 const RoadTroubleModal = ({ isRoadModalOpen, stateChange }: Props) => {
   const handleClick = () => {
+    // isRoadModalOpen : true
     stateChange(!isRoadModalOpen);
   };
+  const handleCallTaxiClick = () => {};
 
   return (
-    <div className="max-w-[300px]">
-      <div>
-        <img
-          src="https://cdn.newshyu.com/news/photo/202008/896043_29025_1207.png"
-          className="w-[300px] h-[230px]"
-        />
+    <div className="max-w-[380px]">
+      <div className="w-[380px] h-[360px]">
+        <ImageContentSlide></ImageContentSlide>
       </div>
-      <div className="h-[100px] pt-6 mb-6">
-        도로가 가파르며, 경사 6도 이상입니다. 도로가 가파르며 경사 6도
-        이상입니다. 도로가 가파르며, 경사 6도 이상입니다.
+      <div className="h-[130px] pt-5 mb-3">
+        횡단보도 앞쪽 볼라드 설치가 무너져있습니다. 또, 공사 현장 및 도로 파손이
+        있어 통행에 위험을 겪고 있습니다. 공사 기간은 2025.06월까지라고 합니다.
       </div>
       <div className="h-[50px] flex items-center">
-        <ul className="flex space-x-4">
+        <p className="flex space-x-4">
           <button
             onClick={handleClick}
             className="flex items-center justify-center flex-col mr-1"
@@ -34,9 +34,9 @@ const RoadTroubleModal = ({ isRoadModalOpen, stateChange }: Props) => {
           </button>
           <button className="flex items-center justify-center flex-col">
             <FaTaxi size={20} color="#404040" />
-            <span>콜택시</span>
+            <span onClick={handleCallTaxiClick}>콜택시</span>
           </button>
-        </ul>
+        </p>
       </div>
     </div>
   );

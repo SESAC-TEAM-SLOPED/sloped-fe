@@ -17,8 +17,10 @@ import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
-import RoadTroubleModal from "../RoadTroubleModal/RoadTroubleModal";
-import RoadReportCallModal from "../RoadReportCallModal/RoadReportCallModal";
+import RoadTroubleModal from "../../components/RoadTroubleModal/RoadTroubleModal";
+import RoadReportCallModal from "../../components/RoadReportCallModal/RoadReportCallModal";
+import RoadCenterListModal from "../../components/RoadCenterListModal/RoadCenterListModal";
+import CallTaxiModal from "../../components/CallTaxiModal/CallTaxiModal";
 
 const facilitiesData: Facility[] = [
   {
@@ -81,7 +83,6 @@ const Main = () => {
   const { location } = useGeoLocation();
 
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
-  const [openRoadModal, setOpenRoadModal] = useState(false);
   const [clickedId, setClickedId] = useState<number>(0);
   const [map, setMap] = useState<any>();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -90,10 +91,12 @@ const Main = () => {
   const [visibleBookmarks, setVisibleBookmarks] = useState(false);
   const [roads, setRoads] = useState<any[]>([]);
   const [visibleRoads, setVisibleRoads] = useState(false);
+  const [openRoadModal, setOpenRoadModal] = useState(false);
   const [isRoadModalOpen, setIsRoadModalOpen] = useState(true);
-  const [isComplaintCallModalOpen, setIsComplaintsCallModalOpen] =
+  const [isComplaintCallModalOpen, setIsComplaintCallModalOpen] =
     useState(true);
   const [centerListModalOpen, setCenterListModalOpen] = useState(false);
+  const [callTaxiModalOpen, setCallTaxiModalOpen] = useState(false);
 
   useEffect(() => {
     searchParams.get("id") && setBottomSheetOpen(true);
@@ -143,6 +146,7 @@ const Main = () => {
     visibleBookmarks,
     isRoadModalOpen,
     isComplaintCallModalOpen,
+    callTaxiModalOpen,
   ]);
 
   const openBottomSheet = () => {
@@ -166,8 +170,9 @@ const Main = () => {
   };
 
   const handleModalStateChange = (state: boolean) => {
-    setIsRoadModalOpen(state); // 모달을 열 때 상태를 변경
-    setIsComplaintsCallModalOpen(true);
+    setIsRoadModalOpen(state);
+    setIsComplaintCallModalOpen(!state);
+    console.log(isRoadModalOpen);
   };
 
   const roadModalClose = () => {
@@ -175,13 +180,20 @@ const Main = () => {
   };
 
   const handleComplaintCallModalStateChange = (state: boolean) => {
-    setIsComplaintsCallModalOpen(false);
+    setIsComplaintCallModalOpen(false);
   };
 
   const complaintCallModalClose = () => {
-    // x 버튼
-    setIsComplaintsCallModalOpen(false);
+    setIsComplaintCallModalOpen(false);
   };
+
+  const handleCallTaxiModalChange = (state: boolean) => {
+    // state2: true
+    setIsRoadModalOpen(!state); //false
+    setCallTaxiModalOpen(state);
+  };
+
+  const roadTroubleModalClose = () => {};
 
   return (
     <>
@@ -251,7 +263,11 @@ const Main = () => {
       </Container>
       {openRoadModal && (
         <ModalPortal>
-          <Modal onClose={() => setOpenRoadModal(false)} height="500px">
+          <Modal
+            onClose={() => setOpenRoadModal(false)}
+            height="620px"
+            width="450px"
+          >
             <RoadTroubleModal
               isRoadModalOpen={isRoadModalOpen}
               stateChange={handleModalStateChange}
@@ -262,8 +278,8 @@ const Main = () => {
       {!isRoadModalOpen && isComplaintCallModalOpen && (
         <ModalPortal>
           <Modal
-            onClose={() => setIsComplaintsCallModalOpen(false)}
-            height="230px"
+            onClose={() => setIsComplaintCallModalOpen(false)}
+            height="250px"
             width="350px"
           >
             <RoadReportCallModal
@@ -276,7 +292,23 @@ const Main = () => {
       )}
       {!isComplaintCallModalOpen && centerListModalOpen && (
         <ModalPortal>
-          <Modal onClose={() => setCenterListModalOpen(false)}>test</Modal>
+          <Modal
+            height="600px"
+            width="420px"
+            onClose={() => setCenterListModalOpen(false)}
+          >
+            <RoadCenterListModal></RoadCenterListModal>
+          </Modal>
+        </ModalPortal>
+      )}
+      {!isComplaintCallModalOpen && !isRoadModalOpen && callTaxiModalOpen && (
+        <ModalPortal>
+          <Modal onClose={() => setCallTaxiModalOpen(false)}>
+            <CallTaxiModal
+              callTaxiModalOpen={callTaxiModalOpen}
+              stateChange={handleCallTaxiModalChange}
+            ></CallTaxiModal>
+          </Modal>
         </ModalPortal>
       )}
     </>

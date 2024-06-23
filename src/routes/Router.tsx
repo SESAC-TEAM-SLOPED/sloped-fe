@@ -17,7 +17,7 @@ import MyProfileEditor from "../pages/MyPage/MyProfileEditor";
 import MyReview from "../pages/MyPage/MyReview";
 import MyReviewEditor from "../pages/MyPage/MyReviewEditor";
 import MyReport from "../pages/MyPage/MyReport";
-import RoadTroubleModal from "../pages/RoadTroubleModal/RoadTroubleModal";
+import RoadTroubleModal from "../components/RoadTroubleModal/RoadTroubleModal";
 
 const Router = () => {
   return (
