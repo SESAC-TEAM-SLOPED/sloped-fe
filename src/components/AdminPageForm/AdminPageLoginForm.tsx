@@ -1,42 +1,40 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Button from "../ui/Button";
 
-const AdminPageLoginForm = () => {
+const AdminPageLoginForm: React.FC = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
   return (
-    <form
-      style={{ minHeight: "89vh" }}
-      className="flex flex-col justify-center items-center min-h-screen space-y-8"
-    >
-      <div>
-        <div className="flex flex-col mb-4 w-[280px]">
-          <label htmlFor="id" className="text-sm text-gray-700 mb-2">
-            아이디
-          </label>
-          <input
-            type="text"
-            id="id"
-            className="border-b h-7 border-[#949494] outline-none text-[#404040] w-full"
-            onChange={(event) => setId(event.target.value)}
-          />
-        </div>
-
-        <div className="flex flex-col mb-8 w-[280px]">
-          <label htmlFor="password" className="text-sm text-gray-700 mb-2">
-            비밀번호
-          </label>
-          <input
-            type="password"
-            id="password"
-            className="h-7 outline-none text-[#404040] w-full"
-            onChange={(event) => setPassword(event.target.value)}
-          />
-        </div>
+    <form className="flex flex-col space-y-6">
+      <h1 className="text-white text-6xl mb-8 text-center font-bold">
+        함께가길
+      </h1>
+      <div className="flex flex-col">
+        <label htmlFor="id" className="text-sm text-gray-300 mb-2">
+          아이디
+        </label>
+        <input
+          type="text"
+          id="id"
+          className="border-b h-10 border-gray-500 outline-none text-gray-900 w-full px-2"
+          onChange={(event) => setId(event.target.value)}
+        />
       </div>
 
-      <div className="flex justify-center mt-20 w-[280px]">
+      <div className="flex flex-col">
+        <label htmlFor="password" className="text-sm text-gray-300 mb-2">
+          비밀번호
+        </label>
+        <input
+          type="password"
+          id="password"
+          className="h-10 outline-none text-gray-900 w-full border-b border-gray-500 px-2"
+          onChange={(event) => setPassword(event.target.value)}
+        />
+      </div>
+
+      <div className="flex flex-col justify-center mt-8">
         <Button text="로그인" onClick={() => {}} />
       </div>
     </form>
