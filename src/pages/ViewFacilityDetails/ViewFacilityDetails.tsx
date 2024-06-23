@@ -97,7 +97,7 @@ const ViewFacilityDetails = () => {
     <Container hasHeader={true}>
       <Header text="시설 정보" closeButton={true} />
       <div className="flex flex-col gap-6">
-        <div className="h-80 w-[580px]">
+        <div className="h-80 w-full max-w-2xl mx-auto">
           <Map
             map={map}
             setMap={setMap}
@@ -143,6 +143,7 @@ const ViewFacilityDetails = () => {
           reviewCount={
             reviewCounts.comfortableCount + reviewCounts.uncomfortableCount
           }
+          facilityName={facility.name}
         />
         {/* 편해요/불편해요 개수 */}
         <Convenience

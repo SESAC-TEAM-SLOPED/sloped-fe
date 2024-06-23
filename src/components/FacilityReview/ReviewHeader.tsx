@@ -3,15 +3,20 @@ import { Link } from "react-router-dom";
 
 type Props = {
   reviewCount: number;
+  facilityName: string;
 };
 
-const ReviewHeader = ({ reviewCount }: Props) => {
+const ReviewHeader = ({ reviewCount, facilityName }: Props) => {
   return (
     <div className="flex justify-between items-center mt-4">
       <p className="text-[#404040] text-xl font-semibold">
         방문자 리뷰 <span className="text-[#8D8D8D]">{reviewCount}</span>
       </p>
-      <Link to="/review/new" className="flex items-center gap-2 cursor-pointer">
+      <Link
+        to="/review/new"
+        state={{ facilityName }}
+        className="flex items-center gap-2 cursor-pointer"
+      >
         <FaPencilAlt color="#3F51B5" />
         <p>리뷰 작성하기</p>
       </Link>
