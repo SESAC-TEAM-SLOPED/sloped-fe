@@ -8,7 +8,6 @@ import Button from "../../components/ui/Button";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Positioning = () => {
-  const navigate = useNavigate();
   const { pathname } = useLocation();
 
   const { location } = useGeoLocation();
