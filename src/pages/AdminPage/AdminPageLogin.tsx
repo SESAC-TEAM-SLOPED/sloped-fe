@@ -1,7 +1,7 @@
 import React from "react";
 import AdminPageLoginForm from "../../components/AdminPageForm/AdminPageLoginForm";
 
-const AdminPage = () => {
+const AdminPageLogin = () => {
   return (
     <div
       className="min-h-screen flex items-center justify-center"
@@ -14,4 +14,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default AdminPageLogin;

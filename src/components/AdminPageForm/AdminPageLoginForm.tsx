@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "../ui/Button";
 
-const AdminPageLoginForm: React.FC = () => {
+const AdminPageLoginForm = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
 
