@@ -44,6 +44,13 @@ const facilitiesData: Facility[] = [
     type: "tour",
     address: "",
   },
+  {
+    id: 4,
+    latitude: 37.51395,
+    longitude: 127.102234,
+    type: "tour",
+    address: "",
+  },
 ];
 
 const roadsData: Road[] = [
@@ -92,9 +99,8 @@ const Main = () => {
   const [roads, setRoads] = useState<any[]>([]);
   const [visibleRoads, setVisibleRoads] = useState(false);
   const [openRoadModal, setOpenRoadModal] = useState(false);
-  const [isRoadModalOpen, setIsRoadModalOpen] = useState(true);
   const [isComplaintCallModalOpen, setIsComplaintCallModalOpen] =
-    useState(true);
+    useState(false);
   const [centerListModalOpen, setCenterListModalOpen] = useState(false);
   const [callTaxiModalOpen, setCallTaxiModalOpen] = useState(false);
 
@@ -132,22 +138,7 @@ const Main = () => {
     };
 
     getByCategory();
-
-    // 민원을 클릭하면, 기존 통행불편 모달 닫기
-    if (!isRoadModalOpen) {
-      roadModalClose();
-    }
-    if (!isComplaintCallModalOpen) {
-      complaintCallModalClose();
-    }
-  }, [
-    bookmarks,
-    searchParams,
-    visibleBookmarks,
-    isRoadModalOpen,
-    isComplaintCallModalOpen,
-    callTaxiModalOpen,
-  ]);
+  }, [bookmarks, searchParams, visibleBookmarks]);
 
   const openBottomSheet = () => {
     setBottomSheetOpen(true);
@@ -169,31 +160,19 @@ const Main = () => {
     setOpenRoadModal(true);
   };
 
-  const handleModalStateChange = (state: boolean) => {
-    setIsRoadModalOpen(state);
-    setIsComplaintCallModalOpen(!state);
-    console.log(isRoadModalOpen);
-  };
-
-  const roadModalClose = () => {
+  const handleModalStateChange = () => {
     setOpenRoadModal(false);
+    setIsComplaintCallModalOpen(true);
   };
 
   const handleComplaintCallModalStateChange = (state: boolean) => {
     setIsComplaintCallModalOpen(false);
   };
 
-  const complaintCallModalClose = () => {
-    setIsComplaintCallModalOpen(false);
+  const handleCallTaxiModalChange = () => {
+    setOpenRoadModal(false);
+    setCallTaxiModalOpen(true);
   };
-
-  const handleCallTaxiModalChange = (state: boolean) => {
-    // state2: true
-    setIsRoadModalOpen(!state); //false
-    setCallTaxiModalOpen(state);
-  };
-
-  const roadTroubleModalClose = () => {};
 
   return (
     <>
@@ -269,13 +248,13 @@ const Main = () => {
             width="450px"
           >
             <RoadTroubleModal
-              isRoadModalOpen={isRoadModalOpen}
+              callTaxiModalHandle={handleCallTaxiModalChange}
               stateChange={handleModalStateChange}
             />
           </Modal>
         </ModalPortal>
       )}
-      {!isRoadModalOpen && isComplaintCallModalOpen && (
+      {isComplaintCallModalOpen && (
         <ModalPortal>
           <Modal
             onClose={() => setIsComplaintCallModalOpen(false)}
@@ -290,7 +269,7 @@ const Main = () => {
           </Modal>
         </ModalPortal>
       )}
-      {!isComplaintCallModalOpen && centerListModalOpen && (
+      {centerListModalOpen && (
         <ModalPortal>
           <Modal
             height="600px"
@@ -301,13 +280,10 @@ const Main = () => {
           </Modal>
         </ModalPortal>
       )}
-      {!isComplaintCallModalOpen && !isRoadModalOpen && callTaxiModalOpen && (
+      {callTaxiModalOpen && (
         <ModalPortal>
-          <Modal onClose={() => setCallTaxiModalOpen(false)}>
-            <CallTaxiModal
-              callTaxiModalOpen={callTaxiModalOpen}
-              stateChange={handleCallTaxiModalChange}
-            ></CallTaxiModal>
+          <Modal width="280px" onClose={() => setCallTaxiModalOpen(false)}>
+            <CallTaxiModal></CallTaxiModal>
           </Modal>
         </ModalPortal>
       )}

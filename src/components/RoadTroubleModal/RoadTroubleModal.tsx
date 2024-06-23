@@ -1,23 +1,17 @@
 import { RiSpeakFill } from "react-icons/ri";
 import { FaTaxi } from "react-icons/fa";
-import ImageContentSlide from "../ImageContentSlide/ImageContentSlide";
+import RoadTroubleImageSlide from "../RoadTroubleImageSlide/RoadTroubleImageSlide";
 
 type Props = {
-  isRoadModalOpen: boolean;
-  stateChange: (state: boolean) => void;
+  stateChange: () => void;
+  callTaxiModalHandle: () => void;
 };
 
-const RoadTroubleModal = ({ isRoadModalOpen, stateChange }: Props) => {
-  const handleClick = () => {
-    // isRoadModalOpen : true
-    stateChange(!isRoadModalOpen);
-  };
-  const handleCallTaxiClick = () => {};
-
+const RoadTroubleModal = ({ stateChange, callTaxiModalHandle }: Props) => {
   return (
     <div className="max-w-[380px]">
       <div className="w-[380px] h-[360px]">
-        <ImageContentSlide></ImageContentSlide>
+        <RoadTroubleImageSlide></RoadTroubleImageSlide>
       </div>
       <div className="h-[130px] pt-5 mb-3">
         횡단보도 앞쪽 볼라드 설치가 무너져있습니다. 또, 공사 현장 및 도로 파손이
@@ -26,7 +20,7 @@ const RoadTroubleModal = ({ isRoadModalOpen, stateChange }: Props) => {
       <div className="h-[50px] flex items-center">
         <p className="flex space-x-4">
           <button
-            onClick={handleClick}
+            onClick={stateChange}
             className="flex items-center justify-center flex-col mr-1"
           >
             <RiSpeakFill size={20} color="#404040" />
@@ -34,7 +28,7 @@ const RoadTroubleModal = ({ isRoadModalOpen, stateChange }: Props) => {
           </button>
           <button className="flex items-center justify-center flex-col">
             <FaTaxi size={20} color="#404040" />
-            <span onClick={handleCallTaxiClick}>콜택시</span>
+            <span onClick={callTaxiModalHandle}>콜택시</span>
           </button>
         </p>
       </div>
