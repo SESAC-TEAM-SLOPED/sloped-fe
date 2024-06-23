@@ -1,9 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // useNavigate 훅을 불러옵니다.
 import Button from "../ui/Button";
 
 const AdminPageLoginForm = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수를 만듭니다.
+
+  const handleLogin = () => {
+    if (id === "test" && password === "123456") {
+      navigate("/admin/base"); // 조건이 맞으면 /admin/base 페이지로 이동합니다.
+    } else {
+      alert("아이디 또는 비밀번호가 올바르지 않습니다.");
+    }
+  };
 
   return (
     <form className="flex flex-col space-y-6">
@@ -35,7 +45,7 @@ const AdminPageLoginForm = () => {
       </div>
 
       <div className="flex flex-col justify-center mt-8">
-        <Button text="로그인" onClick={() => {}} />
+        <Button text="로그인" onClick={handleLogin} />
       </div>
     </form>
   );
