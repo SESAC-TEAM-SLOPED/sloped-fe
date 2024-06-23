@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import styles from "./RoadTroubleImageSlide.module.css";
 
 const images = [
-  // 예시 데이터 - DB에서 데이터 넘길 경우, images 지우고 커스터마이징 하세요
   { source: process.env.PUBLIC_URL + "/img/road_trouble_bollard.png" },
   { source: process.env.PUBLIC_URL + "/img/road_trouble_damage.png" },
   { source: process.env.PUBLIC_URL + "/img/road_trouble_construct.png" },
