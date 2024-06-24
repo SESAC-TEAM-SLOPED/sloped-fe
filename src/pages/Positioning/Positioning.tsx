@@ -14,7 +14,6 @@ const Positioning = () => {
   const { location } = useGeoLocation();
   const [address, setAddress] = useState("");
   const [map, setMap] = useState();
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (location) {
@@ -26,9 +25,10 @@ const Positioning = () => {
 
   const handleNextClick = () => {
     if (pathname.includes("facility")) {
-      navigate("/post/new/facility");
+      // 시설 form 페이지 path 지정 필요
+      navigate("/report/facility/form", { state: { location, address } });
     } else {
-      navigate("/report/road/form");
+      navigate("/report/road/form", { state: { location, address } });
     }
   };
 
@@ -56,7 +56,6 @@ const Positioning = () => {
           height="70%"
           setAddress={setAddress}
         />
-        <Button text="다음" onClick={handleNextClick} size="full" />
         <Button text="다음" onClick={handleNextClick} size="full" />
       </div>
     </Container>
