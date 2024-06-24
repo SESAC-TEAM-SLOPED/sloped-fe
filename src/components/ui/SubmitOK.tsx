@@ -18,8 +18,8 @@ const SubmitOK = ({
 }: Props) => {
   return (
     <div
-      className="flex flex-col items-center justify-center h-full text-center px-10 flex gap-2"
-      style={{ height: "calc(100vh - 180px)" }}
+      className="relative flex flex-col items-center justify-center h-full text-center px-10 flex gap-2"
+      style={{ height: "calc(100vh - 70px)" }}
     >
       <FaCheck size="100" color="#3F51B5" />
       <p className="text-[#404040] font-bold text-xl">{thankYouText}</p>

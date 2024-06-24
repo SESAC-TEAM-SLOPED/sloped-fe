@@ -4,7 +4,7 @@ import Header from "../../components/Header/Header";
 import Textarea from "./../../components/ui/TextArea";
 import UploadButton from "../../components/ui/UploadButton";
 import Button from "../../components/ui/Button";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const RoadReportForm = () => {
   const navigate = useNavigate();
@@ -15,6 +15,16 @@ const RoadReportForm = () => {
 
   const [isPhotoUploaded, setIsPhotoUploaded] = useState(false);
   const isButtonDisabled = !isPhotoUploaded || textContent.trim() === "";
+
+  console.log(address);
+
+  useEffect(() => {
+    console.log(reportLocation);
+    if (!reportLocation || !address) {
+      alert("잘못된 접근입니다.");
+      navigate("/road/new/positioning");
+    }
+  }, [reportLocation, address, navigate]);
 
   const submitForm = () => {
     // 불편 도로 제보 API 연동, 성공시 submit 페이지로 이동
