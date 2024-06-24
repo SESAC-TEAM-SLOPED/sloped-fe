@@ -91,7 +91,7 @@ const MyPageBaseForm = ({ nickname }: MyPageBaseFormProps) => {
 
       {showModal && (
         <ModalPortal>
-          <Modal onClose={() => setShowModal(false)}>
+          <Modal onClose={() => setShowModal(false)} height="350px">
             <div className="p-4">
               <h2 className="text-xl font-bold mb-4">비밀번호 확인</h2>
               <div className="mb-4">
