@@ -20,6 +20,8 @@ import MyReviewEditor from "../pages/MyPage/MyReviewEditor";
 import MyReport from "../pages/MyPage/MyReport";
 import AdminPageLogin from "../pages/AdminPage/AdminPageLogin";
 import AdminPage from "../pages/AdminPage/AdminPage";
+import AdminReport from "../pages/AdminReport/AdminReport";
+import AdminLayout from "../components/AdminLayout/AdminLayout";
 
 const Router = () => {
   return (
@@ -47,6 +49,9 @@ const Router = () => {
         <Route path="/mypage/my-reports" element={<MyReport />} />
         <Route path="/admin" element={<AdminPageLogin />} />
         <Route path="/admin/base" element={<AdminPage />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="/admin/reports/facility" element={<AdminReport />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
