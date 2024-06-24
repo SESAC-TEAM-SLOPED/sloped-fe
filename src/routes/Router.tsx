@@ -18,7 +18,8 @@ import MyProfileEditor from "../pages/MyPage/MyProfileEditor";
 import MyReview from "../pages/MyPage/MyReview";
 import MyReviewEditor from "../pages/MyPage/MyReviewEditor";
 import MyReport from "../pages/MyPage/MyReport";
-import RoadTroubleModal from "../components/RoadTroubleModal/RoadTroubleModal";
+import AdminPageLogin from "../pages/AdminPage/AdminPageLogin";
+import AdminPage from "../pages/AdminPage/AdminPage";
 
 const Router = () => {
   return (
@@ -44,6 +45,8 @@ const Router = () => {
         <Route path="/mypage/my-reviews" element={<MyReview />} />
         <Route path="/mypage/edit-review" element={<MyReviewEditor />} />
         <Route path="/mypage/my-reports" element={<MyReport />} />
+        <Route path="/admin" element={<AdminPageLogin />} />
+        <Route path="/admin/base" element={<AdminPage />} />
       </Routes>
     </BrowserRouter>
   );
