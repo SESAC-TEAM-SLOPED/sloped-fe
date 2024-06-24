@@ -32,7 +32,7 @@ const Navbar = () => {
       {openReportModal && (
         <ModalPortal>
           <Modal onClose={() => setOpenReportModal(false)}>
-            <FacilityOrRoadModal onClose={() => setOpenReportModal(false)} />
+            <FacilityOrRoadModal />
           </Modal>
         </ModalPortal>
       )}

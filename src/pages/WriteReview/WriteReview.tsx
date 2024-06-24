@@ -6,14 +6,17 @@ import Button from "../../components/ui/Button";
 import Container from "../../components/ui/Container";
 import Input from "../../components/ui/Input";
 import UploadButton from "../../components/ui/UploadButton";
+import { useLocation } from "react-router-dom";
 
 const WriteReview = () => {
+  const location = useLocation();
+  const { facilityName } = location.state || {};
   const [clickedButton, setClickedButton] = useState("");
 
   return (
     <Container hasHeader={true} hasNav={true}>
       <Header text="리뷰 작성" closeButton={true} />
-      <h3 className="text-xl mb-8">컴포즈 커피 문래</h3>
+      <h3 className="text-xl mb-8">{facilityName}</h3>
       <form>
         <p>키워드 선택</p>
         <p className="text-sm text-[#757575] mb-4">

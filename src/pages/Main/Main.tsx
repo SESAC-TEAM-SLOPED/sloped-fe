@@ -17,6 +17,10 @@ import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
+import RoadTroubleModal from "../../components/RoadTroubleModal/RoadTroubleModal";
+import RoadReportCallModal from "../../components/RoadReportCallModal/RoadReportCallModal";
+import RoadCenterListModal from "../../components/RoadCenterListModal/RoadCenterListModal";
+import CallTaxiModal from "../../components/CallTaxiModal/CallTaxiModal";
 
 const facilitiesData: Facility[] = [
   {
@@ -40,6 +44,13 @@ const facilitiesData: Facility[] = [
     type: "tour",
     address: "",
   },
+  {
+    id: 4,
+    latitude: 37.51395,
+    longitude: 127.102234,
+    type: "tour",
+    address: "",
+  },
 ];
 
 const roadsData: Road[] = [
@@ -58,6 +69,11 @@ const roadsData: Road[] = [
     latitude: 37.5172,
     longitude: 126.88801,
   },
+  {
+    id: 7,
+    latitude: 37.272033,
+    longitude: 127.124855,
+  },
 ];
 
 const bookmarksData: Facility[] = [
@@ -74,7 +90,6 @@ const Main = () => {
   const { location } = useGeoLocation();
 
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
-  const [openRoadModal, setOpenRoadModal] = useState(false);
   const [clickedId, setClickedId] = useState<number>(0);
   const [map, setMap] = useState<any>();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -83,6 +98,11 @@ const Main = () => {
   const [visibleBookmarks, setVisibleBookmarks] = useState(false);
   const [roads, setRoads] = useState<any[]>([]);
   const [visibleRoads, setVisibleRoads] = useState(false);
+  const [openRoadModal, setOpenRoadModal] = useState(false);
+  const [isComplaintCallModalOpen, setIsComplaintCallModalOpen] =
+    useState(false);
+  const [centerListModalOpen, setCenterListModalOpen] = useState(false);
+  const [callTaxiModalOpen, setCallTaxiModalOpen] = useState(false);
 
   useEffect(() => {
     searchParams.get("id") && setBottomSheetOpen(true);
@@ -138,6 +158,20 @@ const Main = () => {
     closeBottomSheet();
     setClickedId(id);
     setOpenRoadModal(true);
+  };
+
+  const handleModalStateChange = () => {
+    setOpenRoadModal(false);
+    setIsComplaintCallModalOpen(true);
+  };
+
+  const handleComplaintCallModalStateChange = (state: boolean) => {
+    setIsComplaintCallModalOpen(false);
+  };
+
+  const handleCallTaxiModalChange = () => {
+    setOpenRoadModal(false);
+    setCallTaxiModalOpen(true);
   };
 
   return (
@@ -208,8 +242,48 @@ const Main = () => {
       </Container>
       {openRoadModal && (
         <ModalPortal>
-          <Modal onClose={() => setOpenRoadModal(false)}>
-            <></>
+          <Modal
+            onClose={() => setOpenRoadModal(false)}
+            height="620px"
+            width="450px"
+          >
+            <RoadTroubleModal
+              callTaxiModalHandle={handleCallTaxiModalChange}
+              stateChange={handleModalStateChange}
+            />
+          </Modal>
+        </ModalPortal>
+      )}
+      {isComplaintCallModalOpen && (
+        <ModalPortal>
+          <Modal
+            onClose={() => setIsComplaintCallModalOpen(false)}
+            height="250px"
+            width="350px"
+          >
+            <RoadReportCallModal
+              isComplaintCallModalOpen={isComplaintCallModalOpen}
+              stateChange={handleComplaintCallModalStateChange}
+              openCenterListModal={() => setCenterListModalOpen(true)}
+            ></RoadReportCallModal>
+          </Modal>
+        </ModalPortal>
+      )}
+      {centerListModalOpen && (
+        <ModalPortal>
+          <Modal
+            height="600px"
+            width="420px"
+            onClose={() => setCenterListModalOpen(false)}
+          >
+            <RoadCenterListModal></RoadCenterListModal>
+          </Modal>
+        </ModalPortal>
+      )}
+      {callTaxiModalOpen && (
+        <ModalPortal>
+          <Modal width="280px" onClose={() => setCallTaxiModalOpen(false)}>
+            <CallTaxiModal></CallTaxiModal>
           </Modal>
         </ModalPortal>
       )}

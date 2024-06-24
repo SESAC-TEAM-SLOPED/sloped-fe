@@ -49,7 +49,7 @@ const ReviewFilter = ({ reviewData, setFilteredReviews }: Props) => {
       </button> */}
       <button
         onClick={() => handleFilterBy("all")}
-        className={`px-4 py-2 rounded-md ${
+        className={`px-2.5 py-2 rounded-md ${
           filterBy === "all"
             ? "bg-[#3F51B5] text-[#F1F9F1]"
             : "bg-gray-200 text-gray-800"
@@ -60,7 +60,7 @@ const ReviewFilter = ({ reviewData, setFilteredReviews }: Props) => {
       </button>
       <button
         onClick={() => handleFilterBy("comfortable")}
-        className={`px-4 py-2 rounded-md ${
+        className={`px-2.5 py-2 rounded-md ${
           filterBy === "comfortable"
             ? "bg-[#F1F9F1] text-[#4caf50]"
             : "bg-gray-200 text-gray-800"
@@ -71,7 +71,7 @@ const ReviewFilter = ({ reviewData, setFilteredReviews }: Props) => {
       </button>
       <button
         onClick={() => handleFilterBy("uncomfortable")}
-        className={`px-4 py-2 rounded-md ${
+        className={`px-2.5 py-2 rounded-md ${
           filterBy === "uncomfortable"
             ? "bg-[#FFF0EF] text-[#F8837C]"
             : "bg-gray-200 text-gray-800"
