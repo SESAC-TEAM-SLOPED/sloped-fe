@@ -48,9 +48,9 @@ const Router = () => {
         <Route path="/mypage/edit-review" element={<MyReviewEditor />} />
         <Route path="/mypage/my-reports" element={<MyReport />} />
         <Route path="/admin" element={<AdminPageLogin />} />
-        <Route path="/admin/base" element={<AdminPage />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="/admin/reports/facility" element={<AdminReport />} />
+          <Route path="/admin/base" element={<AdminPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
