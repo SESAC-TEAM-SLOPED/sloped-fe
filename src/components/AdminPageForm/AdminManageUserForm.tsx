@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 // 회원 데이터 타입 정의
 interface Member {
-  id: number;
+  id: string;
   nickname: string;
   email: string;
   loginType: string;
@@ -11,112 +11,22 @@ interface Member {
   createdAt: string;
 }
 
-// 임시 데이터
-const tempMembers: Member[] = [
-  {
-    id: 1,
-    nickname: "User1",
-    email: "user1@example.com",
-    loginType: "Email",
-    role: "Admin",
-    isBlocked: false,
-    createdAt: "2023-01-01T12:00:00Z",
-  },
-  {
-    id: 2,
-    nickname: "User2",
-    email: "user2@example.com",
-    loginType: "Email",
-    role: "User",
-    isBlocked: false,
-    createdAt: "2023-01-02T12:00:00Z",
-  },
-  {
-    id: 3,
-    nickname: "User3",
-    email: "user3@example.com",
-    loginType: "Email",
-    role: "User",
-    isBlocked: true,
-    createdAt: "2023-01-03T12:00:00Z",
-  },
-  {
-    id: 4,
-    nickname: "User4",
-    email: "user4@example.com",
-    loginType: "Email",
-    role: "User",
-    isBlocked: false,
-    createdAt: "2023-01-04T12:00:00Z",
-  },
-  {
-    id: 5,
-    nickname: "User5",
-    email: "user5@example.com",
-    loginType: "Email",
-    role: "User",
-    isBlocked: false,
-    createdAt: "2023-01-05T12:00:00Z",
-  },
-  {
-    id: 6,
-    nickname: "User6",
-    email: "user6@example.com",
-    loginType: "Email",
-    role: "User",
-    isBlocked: false,
-    createdAt: "2023-01-06T12:00:00Z",
-  },
-  {
-    id: 7,
-    nickname: "User7",
-    email: "user7@example.com",
-    loginType: "Email",
-    role: "User",
-    isBlocked: true,
-    createdAt: "2023-01-07T12:00:00Z",
-  },
-  {
-    id: 8,
-    nickname: "User8",
-    email: "user8@example.com",
-    loginType: "Email",
-    role: "User",
-    isBlocked: false,
-    createdAt: "2023-01-08T12:00:00Z",
-  },
-  {
-    id: 9,
-    nickname: "User9",
-    email: "user9@example.com",
-    loginType: "Email",
-    role: "User",
-    isBlocked: false,
-    createdAt: "2023-01-09T12:00:00Z",
-  },
-  {
-    id: 10,
-    nickname: "User10",
-    email: "user10@example.com",
-    loginType: "Email",
-    role: "User",
-    isBlocked: false,
-    createdAt: "2023-01-10T12:00:00Z",
-  },
-];
+interface AdminManageUserFormProps {
+  data: Member[];
+}
 
-const AdminManageUserForm = () => {
+const AdminManageUserForm: React.FC<AdminManageUserFormProps> = ({ data }) => {
   const [page, setPage] = useState(1);
-  const [members, setMembers] = useState<Member[]>([]); // 타입 지정
+  const [members, setMembers] = useState<Member[]>([]);
 
   const itemsPerPage = 10;
-  const totalPages = Math.ceil(tempMembers.length / itemsPerPage);
+  const totalPages = Math.ceil(data.length / itemsPerPage);
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    setMembers(tempMembers.slice(startIndex, endIndex));
-  }, [page]);
+    setMembers(data.slice(startIndex, endIndex));
+  }, [page, data]);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -127,7 +37,7 @@ const AdminManageUserForm = () => {
   return (
     <div className="p-4">
       <table className="min-w-full bg-white">
-        <thead>
+        <thead className="bg-[#3F51B5] text-white">
           <tr>
             <th className="py-2">No.</th>
             <th className="py-2">아이디</th>
