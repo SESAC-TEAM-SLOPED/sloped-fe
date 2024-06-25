@@ -10,7 +10,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 const Positioning = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
-
   const { location } = useGeoLocation();
   const [address, setAddress] = useState("");
   const [map, setMap] = useState();
