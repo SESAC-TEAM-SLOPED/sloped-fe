@@ -51,6 +51,7 @@ const Router = () => {
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="/admin/base" element={<AdminPage />} />
           <Route path="/admin/reports/facility" element={<AdminReport />} />
+          <Route path="/admin/reports/road" element={<AdminReport />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -6,7 +6,8 @@ const facilityData = [
     id: 1,
     name: "청년취업사관학교",
     type: "기타",
-    description: "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요",
+    description:
+      "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요ddskjdksjdksjdksjksjdksjdksjdksjdk",
     informerEmail: "123456@naver.com",
     status: "PENDING",
     createdAt: "2022-22-22",
@@ -54,13 +55,104 @@ const facilityData = [
   },
 ];
 
-const roadData: any[] = [];
+const roadData = [
+  {
+    id: 1,
+    address: "서울시 구로구 구로동로11길 11-11",
+    description:
+      "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요ddskjdksjdksjdksjksjdksjdksjdksjdk",
+    informerEmail: "123456@naver.com",
+    status: "PENDING",
+    createdAt: "2022-22-22",
+    updatedAt: "3033-33-33",
+  },
+  {
+    id: 1,
+    address: "서울시 구로구 구로동로11길 11-11",
+    description:
+      "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요ddskjdksjdksjdksjksjdksjdksjdksjdk",
+    informerEmail: "123456@naver.com",
+    status: "PENDING",
+    createdAt: "2022-22-22",
+    updatedAt: "3033-33-33",
+  },
+  {
+    id: 1,
+    address: "서울시 구로구 구로동로11길 11-11",
+    description:
+      "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요ddskjdksjdksjdksjksjdksjdksjdksjdk",
+    informerEmail: "123456@naver.com",
+    status: "PENDING",
+    createdAt: "2022-22-22",
+    updatedAt: "3033-33-33",
+  },
+  {
+    id: 1,
+    address: "서울시 구로구 구로동로11길 11-11",
+    description:
+      "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요ddskjdksjdksjdksjksjdksjdksjdksjdk",
+    informerEmail: "123456@naver.com",
+    status: "PENDING",
+    createdAt: "2022-22-22",
+    updatedAt: "3033-33-33",
+  },
+  {
+    id: 1,
+    address: "서울시 구로구 구로동로11길 11-11",
+    description:
+      "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요ddskjdksjdksjdksjksjdksjdksjdksjdk",
+    informerEmail: "123456@naver.com",
+    status: "PENDING",
+    createdAt: "2022-22-22",
+    updatedAt: "3033-33-33",
+  },
+  {
+    id: 1,
+    address: "서울시 구로구 구로동로11길 11-11",
+    description:
+      "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요ddskjdksjdksjdksjksjdksjdksjdksjdk",
+    informerEmail: "123456@naver.com",
+    status: "PENDING",
+    createdAt: "2022-22-22",
+    updatedAt: "3033-33-33",
+  },
+  {
+    id: 1,
+    address: "서울시 구로구 구로동로11길 11-11",
+    description:
+      "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요ddskjdksjdksjdksjksjdksjdksjdksjdk",
+    informerEmail: "123456@naver.com",
+    status: "PENDING",
+    createdAt: "2022-22-22",
+    updatedAt: "3033-33-33",
+  },
+  {
+    id: 1,
+    address: "서울시 구로구 구로동로11길 11-11",
+    description:
+      "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요ddskjdksjdksjdksjksjdksjdksjdksjdk",
+    informerEmail: "123456@naver.com",
+    status: "PENDING",
+    createdAt: "2022-22-22",
+    updatedAt: "3033-33-33",
+  },
+  {
+    id: 1,
+    address: "서울시 구로구 구로동로11길 11-11",
+    description:
+      "계단은 있지만 옆에 전용 경사로가 있어서 이용하기 편해요ddskjdksjdksjdksjksjdksjdksjdksjdk",
+    informerEmail: "123456@naver.com",
+    status: "PENDING",
+    createdAt: "2022-22-22",
+    updatedAt: "3033-33-33",
+  },
+];
 
 const AdminReport = () => {
   const { pathname } = useLocation();
 
   return (
-    <div>
+    <div className="p-8">
       <AdminReportsTable
         data={pathname.includes("facility") ? facilityData : roadData}
       />
