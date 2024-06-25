@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // useNavigate 훅을 불러옵니다.
 import Button from "../ui/Button";
 
-const AdminPageLoginForm = () => {
+const AdminLoginForm = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate(); // useNavigate 훅을 사용하여 navigate 함수를 만듭니다.
@@ -51,4 +51,4 @@ const AdminPageLoginForm = () => {
   );
 };
 
-export default AdminPageLoginForm;
+export default AdminLoginForm;

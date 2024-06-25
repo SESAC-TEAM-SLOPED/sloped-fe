@@ -105,7 +105,7 @@ const tempMembers: Member[] = [
   },
 ];
 
-const AdminPageManageUserForm = () => {
+const AdminManageUserForm = () => {
   const [page, setPage] = useState(1);
   const [members, setMembers] = useState<Member[]>([]); // 타입 지정
 
@@ -179,4 +179,4 @@ const AdminPageManageUserForm = () => {
   );
 };
 
-export default AdminPageManageUserForm;
+export default AdminManageUserForm;
