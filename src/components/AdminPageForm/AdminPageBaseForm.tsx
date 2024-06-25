@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Header from "../../components/Header/Header";
 import Container from "../../components/ui/Container";
-import AdminSidebar from "../ui/AdminSidebar";
 // import MemberManagementForm from "./MemberManagementForm";
 // import FacilityManagementForm from "./FacilityManagementForm";
 
@@ -32,13 +31,6 @@ const AdminPageBaseForm = ({
         </div>
       </header>
       <div className="flex flex-1">
-        <AdminSidebar
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          userId={userId}
-          pendingFacilityReports={pendingFacilityReports}
-          pendingRoadReports={pendingRoadReports}
-        />
         <main className="flex-1 p-4">
           {/* {activeTab === "members" && <MemberManagementForm />}
           {activeTab === "facilities" && <FacilityManagementForm />} */}
