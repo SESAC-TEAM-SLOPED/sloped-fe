@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BsBuilding,
   BsChevronDown,
@@ -8,14 +8,20 @@ import {
   BsPerson,
   BsStar,
 } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const AdminSidebar = () => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const userId = "운영자1";
-  const [activeTab, setActiveTab] = useState("");
+  const { pathname } = useLocation();
   const pendingFacilityReports = 1;
   const pendingRoadReports = 1;
+
+  useEffect(() => {
+    if (pathname === "/admin/reports/facility") {
+      setIsSubMenuOpen(true);
+    }
+  }, [pathname]);
 
   return (
     <aside className="w-80 min-h-screen bg-gray-800 text-white">
@@ -33,40 +39,35 @@ const AdminSidebar = () => {
         <p className="text-sm text-[#8D8D8D] px-10 pt-5">사이트 관리</p>
         <Link
           to="/admin/members"
-          className={`block px-10 py-5 w-full text-left ${activeTab === "members" ? "bg-[#1A6CFF]" : ""}`}
-          onClick={() => setActiveTab("members")}
+          className={`block px-10 py-5 w-full text-left ${pathname === "members" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsPerson className="inline-block mr-2" />
           회원 관리
         </Link>
         <Link
           to="/admin/facility"
-          className={`block px-10 py-5 w-full text-left ${activeTab === "facilities" ? "bg-[#1A6CFF]" : ""}`}
-          onClick={() => setActiveTab("facilities")}
+          className={`block px-10 py-5 w-full text-left ${pathname === "facilities" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsBuilding className="inline-block mr-2" />
           시설 관리
         </Link>
         <Link
           to="/admin/roads"
-          className={`block px-10 py-5 w-full text-left ${activeTab === "roads" ? "bg-[#1A6CFF]" : ""}`}
-          onClick={() => setActiveTab("roads")}
+          className={`block px-10 py-5 w-full text-left ${pathname === "roads" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsExclamationTriangle className="inline-block mr-2" />
           위험 도로 관리
         </Link>
         <Link
           to="/admin/review"
-          className={`block px-10 py-5 w-full text-left ${activeTab === "reviews" ? "bg-[#1A6CFF]" : ""}`}
-          onClick={() => setActiveTab("reviews")}
+          className={`block px-10 py-5 w-full text-left ${pathname === "reviews" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsStar className="inline-block mr-2" />
           리뷰 관리
         </Link>
         <button
-          className={`flex items-center px-10 py-5 w-full text-left ${activeTab === "pendingReports" ? "bg-[#1A6CFF]" : ""}`}
+          className={`flex items-center px-10 py-5 w-full text-left ${pathname === "pendingReports" ? "bg-[#1A6CFF]" : ""}`}
           onClick={() => {
-            setActiveTab("pendingReports");
             setIsSubMenuOpen(!isSubMenuOpen);
           }}
         >
@@ -85,8 +86,7 @@ const AdminSidebar = () => {
           <div className="">
             <Link
               to="/admin/reports/facility"
-              className={`flex items-center px-16 py-5 w-full text-left ${activeTab === "pendingFacilities" ? "bg-[#1A6CFF]" : ""}`}
-              onClick={() => setActiveTab("pendingFacilities")}
+              className={`flex items-center px-16 py-5 w-full text-left ${pathname === "/admin/reports/facility" ? "bg-[#1A6CFF]" : ""}`}
             >
               시설
               <span className="ml-2 text-xs bg-[#757575] px-2 py-1 rounded-full">
@@ -95,8 +95,7 @@ const AdminSidebar = () => {
             </Link>
             <Link
               to="/admin/reports/road"
-              className={`flex items-center px-16 py-5 w-full text-left ${activeTab === "pendingRoads" ? "bg-[#1A6CFF]" : ""}`}
-              onClick={() => setActiveTab("pendingRoads")}
+              className={`flex items-center px-16 py-5 w-full text-left ${pathname === "pendingRoads" ? "bg-[#1A6CFF]" : ""}`}
             >
               도로
               <span className="ml-2 text-xs bg-[#757575] px-2 py-1 rounded-full">
