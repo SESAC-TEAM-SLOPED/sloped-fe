@@ -39,7 +39,7 @@ const AdminSidebar = () => {
         <p className="text-sm text-[#8D8D8D] px-10 pt-5">사이트 관리</p>
         <Link
           to="/admin/members"
-          className={`block px-10 py-5 w-full text-left ${pathname === "/admin/members" ? "bg-[#1A6CFF]" : ""}`}
+          className={`block px-10 py-5 w-full text-left ${pathname === "/admin/user" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsPerson className="inline-block mr-2" />
           회원 관리
