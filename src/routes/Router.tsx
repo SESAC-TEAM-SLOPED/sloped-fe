@@ -23,7 +23,7 @@ import AdminUser from "../pages/AdminPage/AdminUser";
 import AdminReport from "../pages/AdminReport/AdminReport";
 import AdminLayout from "../components/AdminLayout/AdminLayout";
 import AdminFacility from "../pages/AdminPage/AdminFacility";
-
+import AdminTrafficDisruption from "../pages/AdminPage/AdminTrafficDisruption";
 const Router = () => {
   return (
     <BrowserRouter>
@@ -53,6 +53,7 @@ const Router = () => {
           <Route path="/admin/reports/facility" element={<AdminReport />} />
           <Route path="/admin/user" element={<AdminUser />} />
           <Route path="/admin/facility" element={<AdminFacility />} />
+          <Route path="/admin/traffic" element={<AdminTrafficDisruption />} />
         </Route>
       </Routes>
     </BrowserRouter>
