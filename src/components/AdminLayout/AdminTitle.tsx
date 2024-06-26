@@ -7,9 +7,9 @@ const AdminTitle = () => {
 
   const getHeaderTitle = () => {
     switch (location.pathname) {
-      case "members":
+      case "/admin/members":
         return "회원 관리";
-      case "facilities":
+      case "/admin/facility":
         return "시설 관리";
       case "roads":
         return "위험 도로 관리";

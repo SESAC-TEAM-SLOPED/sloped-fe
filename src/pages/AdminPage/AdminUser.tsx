@@ -1,5 +1,5 @@
 import React from "react";
-import AdminManageUserForm from "../../components/AdminPageForm/AdminManageUserForm";
+import AdminUserForm from "../../components/AdminPageForm/AdminUserForm";
 
 // 임시 데이터
 const tempMembers = [
@@ -95,12 +95,12 @@ const tempMembers = [
   },
 ];
 
-const AdminManageUser = () => {
+const AdminUser = () => {
   return (
     <div>
-      <AdminManageUserForm data={tempMembers} />
+      <AdminUserForm data={tempMembers} />
     </div>
   );
 };
 
-export default AdminManageUser;
+export default AdminUser;

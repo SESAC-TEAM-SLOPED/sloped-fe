@@ -46,7 +46,7 @@ const AdminSidebar = () => {
         </Link>
         <Link
           to="/admin/facility"
-          className={`block px-10 py-5 w-full text-left ${pathname === "facilities" ? "bg-[#1A6CFF]" : ""}`}
+          className={`block px-10 py-5 w-full text-left ${pathname === "/admin/facility" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsBuilding className="inline-block mr-2" />
           시설 관리

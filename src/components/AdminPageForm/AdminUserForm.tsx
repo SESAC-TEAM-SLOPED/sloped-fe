@@ -11,11 +11,11 @@ interface Member {
   createdAt: string;
 }
 
-interface AdminManageUserFormProps {
+interface AdminUserFormProps {
   data: Member[];
 }
 
-const AdminManageUserForm: React.FC<AdminManageUserFormProps> = ({ data }) => {
+const AdminUserForm = ({ data }: AdminUserFormProps) => {
   const [page, setPage] = useState(1);
   const [members, setMembers] = useState<Member[]>([]);
 
@@ -89,4 +89,4 @@ const AdminManageUserForm: React.FC<AdminManageUserFormProps> = ({ data }) => {
   );
 };
 
-export default AdminManageUserForm;
+export default AdminUserForm;
