@@ -1,23 +1,23 @@
 import React, { useState, useEffect } from "react";
 
 // 회원 데이터 타입 정의
-interface Traffic {
+interface Road {
   id: string;
   address: string; //주소
-  trafficContext: string; // 통행 불편 장애 내용
+  roadContext: string; // 통행 불편 장애 내용
   reporterId: string; //제보자 아이디(이메일)
   imageUrl: string; //이미지 URL
   createdAt: string; //생성 일시
   modifiedAt: string; //수정 일시
 }
 
-interface AdminTrafficFormProps {
-  data: Traffic[];
+interface AdminRoadReportProps {
+  data: Road[];
 }
 
-const AdminTrafficDisruptionForm = ({ data }: AdminTrafficFormProps) => {
+const AdminRoadReportForm = ({ data }: AdminRoadReportProps) => {
   const [page, setPage] = useState(1);
-  const [Traffics, setTraffics] = useState<Traffic[]>([]);
+  const [roads, setRoads] = useState<Road[]>([]);
 
   const itemsPerPage = 10;
   const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -25,7 +25,7 @@ const AdminTrafficDisruptionForm = ({ data }: AdminTrafficFormProps) => {
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    setTraffics(data.slice(startIndex, endIndex));
+    setRoads(data.slice(startIndex, endIndex));
   }, [page, data]);
 
   const handlePageChange = (newPage: number) => {
@@ -48,18 +48,18 @@ const AdminTrafficDisruptionForm = ({ data }: AdminTrafficFormProps) => {
           </tr>
         </thead>
         <tbody>
-          {Traffics.map((Traffic, index) => (
-            <tr key={Traffic.id} className="text-center">
+          {roads.map((Road, index) => (
+            <tr key={Road.id} className="text-center">
               <td className="py-2">{(page - 1) * itemsPerPage + index + 1}</td>
-              <td className="py-2">{Traffic.address}</td>
-              <td className="py-2">{Traffic.trafficContext}</td>
-              <td className="py-2">{Traffic.reporterId}</td>
-              <td className="py-2">{Traffic.imageUrl}</td>
+              <td className="py-2">{Road.address}</td>
+              <td className="py-2">{Road.roadContext}</td>
+              <td className="py-2">{Road.reporterId}</td>
+              <td className="py-2">{Road.imageUrl}</td>
               <td className="py-2">
                 <div>
-                  {new Date(Traffic.createdAt).toLocaleString()}
+                  {new Date(Road.createdAt).toLocaleString()}
                   <br />
-                  {new Date(Traffic.modifiedAt).toLocaleString()}
+                  {new Date(Road.modifiedAt).toLocaleString()}
                 </div>
               </td>
             </tr>
@@ -89,4 +89,4 @@ const AdminTrafficDisruptionForm = ({ data }: AdminTrafficFormProps) => {
   );
 };
 
-export default AdminTrafficDisruptionForm;
+export default AdminRoadReportForm;
