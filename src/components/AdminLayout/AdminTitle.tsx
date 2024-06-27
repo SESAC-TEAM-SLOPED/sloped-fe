@@ -11,9 +11,9 @@ const AdminTitle = () => {
         return "회원 관리";
       case "/admin/facility":
         return "시설 관리";
-      case "/admin/traffic":
+      case "/admin/road":
         return "통행 불편 제보 관리";
-      case "reviews":
+      case "/admin/review":
         return "리뷰 관리";
       case "pendingReports":
         return "승인 대기 제보";

@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from "react";
 
 // 회원 데이터 타입 정의
-interface Facility {
+interface Review {
   id: string;
+  isConvenient: boolean; //편해요 - 1, 불편해요 - 0
   name: string; //시설명
-  facilityType: string; //시설 구분
-  address: string; //주소
-  phoneNumber: string; //전화번호
-  accessibilityFeatures: string; //입구턱, 경사로, 엘리베이터 유무
-  openingHours: string; //영업 시간
+  reviewType: string; //시설 구분
+  reviewContext: string; // 리뷰 내용
+  reporterId: string; //제보자 아이디(이메일)
   createdAt: string; //생성 일시
   modifiedAt: string; //수정 일시
 }
 
-interface AdminFacilityFormProps {
-  data: Facility[];
+interface AdminReviewFormProps {
+  data: Review[];
 }
 
-const AdminFacilityForm = ({ data }: AdminFacilityFormProps) => {
+const AdminReviewForm = ({ data }: AdminReviewFormProps) => {
   const [page, setPage] = useState(1);
-  const [facilitys, setFacilitys] = useState<Facility[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
   const itemsPerPage = 10;
   const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -27,7 +26,7 @@ const AdminFacilityForm = ({ data }: AdminFacilityFormProps) => {
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    setFacilitys(data.slice(startIndex, endIndex));
+    setReviews(data.slice(startIndex, endIndex));
   }, [page, data]);
 
   const handlePageChange = (newPage: number) => {
@@ -42,30 +41,38 @@ const AdminFacilityForm = ({ data }: AdminFacilityFormProps) => {
         <thead className="bg-[#3F51B5] text-white">
           <tr>
             <th className="py-2">No.</th>
+            <th className="py-2">키워드</th>
             <th className="py-2">시설명</th>
-            <th className="py-2">시설구분</th>
-            <th className="py-2">주소</th>
+            <th className="py-2">리뷰 내용</th>
             <th className="py-2">전화번호</th>
-            <th className="py-2">입구턱, 경사로, 엘리베이터 유무</th>
-            <th className="py-2">영업 시간</th>
+            <th className="py-2">리뷰 작성자</th>
             <th className="py-2">생성/수정 일시</th>
           </tr>
         </thead>
         <tbody>
-          {facilitys.map((Facility, index) => (
-            <tr key={Facility.id} className="text-center">
+          {reviews.map((Review, index) => (
+            <tr key={Review.id} className="text-center">
               <td className="py-2">{(page - 1) * itemsPerPage + index + 1}</td>
-              <td className="py-2">{Facility.name}</td>
-              <td className="py-2">{Facility.facilityType}</td>
-              <td className="py-2">{Facility.address}</td>
-              <td className="py-2">{Facility.phoneNumber}</td>
-              <td className="py-2">{Facility.accessibilityFeatures}</td>
-              <td className="py-2">{Facility.openingHours}</td>
+              <td className="py-2">
+                <span
+                  className={`px-4 py-2 rounded-full ${
+                    Review.isConvenient
+                      ? "bg-[#F1F9F1] text-[#4caf50]"
+                      : "bg-[#FFF0EF] text-[#F8837C]"
+                  }`}
+                >
+                  {Review.isConvenient ? "편해요" : "불편해요"}
+                </span>
+              </td>
+              <td className="py-2">{Review.name}</td>
+              <td className="py-2">{Review.reviewType}</td>
+              <td className="py-2">{Review.reviewContext}</td>
+              <td className="py-2">{Review.reporterId}</td>
               <td className="py-2">
                 <div>
-                  {new Date(Facility.createdAt).toLocaleString()}
+                  {new Date(Review.createdAt).toLocaleString()}
                   <br />
-                  {new Date(Facility.modifiedAt).toLocaleString()}
+                  {new Date(Review.modifiedAt).toLocaleString()}
                 </div>
               </td>
             </tr>
@@ -95,4 +102,4 @@ const AdminFacilityForm = ({ data }: AdminFacilityFormProps) => {
   );
 };
 
-export default AdminFacilityForm;
+export default AdminReviewForm;

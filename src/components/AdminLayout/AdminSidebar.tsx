@@ -53,14 +53,14 @@ const AdminSidebar = () => {
         </Link>
         <Link
           to="/admin/roads"
-          className={`block px-10 py-5 w-full text-left ${pathname === "roads" ? "bg-[#1A6CFF]" : ""}`}
+          className={`block px-10 py-5 w-full text-left ${pathname === "/admin/road" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsExclamationTriangle className="inline-block mr-2" />
           위험 도로 관리
         </Link>
         <Link
           to="/admin/review"
-          className={`block px-10 py-5 w-full text-left ${pathname === "reviews" ? "bg-[#1A6CFF]" : ""}`}
+          className={`block px-10 py-5 w-full text-left ${pathname === "/admin/review" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsStar className="inline-block mr-2" />
           리뷰 관리
