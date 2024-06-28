@@ -6,6 +6,13 @@ const AdminTitle = () => {
   console.log(location);
 
   const getHeaderTitle = () => {
+    if (
+      location.pathname.startsWith("/admin/facility/") &&
+      location.pathname.split("/").length === 4
+    ) {
+      return "시설 상세 정보";
+    } // 상세 정보 페이지는 if문으로 분기 처리
+
     switch (location.pathname) {
       case "/admin/user":
         return "회원 관리";

@@ -23,6 +23,7 @@ import AdminUser from "../pages/AdminPage/AdminUser";
 import AdminReport from "../pages/AdminReport/AdminReport";
 import AdminLayout from "../components/AdminLayout/AdminLayout";
 import AdminFacility from "../pages/AdminPage/AdminFacility";
+import AdminFacilityDetail from "../pages/AdminPage/AdminFacilityDetail";
 import AdminRoadReport from "../pages/AdminPage/AdminRoadReport";
 import AdminReview from "../pages/AdminPage/AdminReview";
 
@@ -55,6 +56,7 @@ const Router = () => {
           <Route path="/admin/reports/facility" element={<AdminReport />} />
           <Route path="/admin/user" element={<AdminUser />} />
           <Route path="/admin/facility" element={<AdminFacility />} />
+          <Route path="/admin/facility/:id" element={<AdminFacilityDetail />} />
           <Route path="/admin/road" element={<AdminRoadReport />} />
           <Route path="/admin/review" element={<AdminReview />} />
         </Route>

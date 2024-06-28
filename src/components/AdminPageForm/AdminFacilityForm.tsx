@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-// 회원 데이터 타입 정의
+// Facility data type definition
 interface Facility {
   id: string;
-  name: string; //시설명
-  facilityType: string; //시설 구분
-  address: string; //주소
-  phoneNumber: string; //전화번호
-  accessibilityFeatures: string; //입구턱, 경사로, 엘리베이터 유무
-  openingHours: string; //영업 시간
-  createdAt: string; //생성 일시
-  modifiedAt: string; //수정 일시
+  name: string; // 시설명
+  facilityType: string; // 시설 구분
+  address: string; // 주소
+  phoneNumber: string; // 전화번호
+  accessibilityFeatures: string; // 입구턱, 경사로, 엘리베이터 유무
+  openingHours: string; // 영업 시간
+  createdAt: string; // 생성 일시
+  modifiedAt: string; // 수정 일시
 }
 
 interface AdminFacilityFormProps {
@@ -52,20 +53,27 @@ const AdminFacilityForm = ({ data }: AdminFacilityFormProps) => {
           </tr>
         </thead>
         <tbody>
-          {facilitys.map((Facility, index) => (
-            <tr key={Facility.id} className="text-center">
+          {facilitys.map((facility, index) => (
+            <tr key={facility.id} className="text-center">
               <td className="py-2">{(page - 1) * itemsPerPage + index + 1}</td>
-              <td className="py-2">{Facility.name}</td>
-              <td className="py-2">{Facility.facilityType}</td>
-              <td className="py-2">{Facility.address}</td>
-              <td className="py-2">{Facility.phoneNumber}</td>
-              <td className="py-2">{Facility.accessibilityFeatures}</td>
-              <td className="py-2">{Facility.openingHours}</td>
+              <td className="py-2">
+                <Link
+                  to={`/admin/facility/${facility.id}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {facility.name}
+                </Link>
+              </td>
+              <td className="py-2">{facility.facilityType}</td>
+              <td className="py-2">{facility.address}</td>
+              <td className="py-2">{facility.phoneNumber}</td>
+              <td className="py-2">{facility.accessibilityFeatures}</td>
+              <td className="py-2">{facility.openingHours}</td>
               <td className="py-2">
                 <div>
-                  {new Date(Facility.createdAt).toLocaleString()}
+                  {new Date(facility.createdAt).toLocaleString()}
                   <br />
-                  {new Date(Facility.modifiedAt).toLocaleString()}
+                  {new Date(facility.modifiedAt).toLocaleString()}
                 </div>
               </td>
             </tr>

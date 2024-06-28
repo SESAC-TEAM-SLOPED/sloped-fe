@@ -38,7 +38,7 @@ const AdminSidebar = () => {
       <nav>
         <p className="text-sm text-[#8D8D8D] px-10 pt-5">사이트 관리</p>
         <Link
-          to="/admin/members"
+          to="/admin/user"
           className={`block px-10 py-5 w-full text-left ${pathname === "/admin/user" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsPerson className="inline-block mr-2" />
@@ -52,7 +52,7 @@ const AdminSidebar = () => {
           시설 관리
         </Link>
         <Link
-          to="/admin/roads"
+          to="/admin/road"
           className={`block px-10 py-5 w-full text-left ${pathname === "/admin/road" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsExclamationTriangle className="inline-block mr-2" />
