@@ -12,6 +12,7 @@ interface Facility {
   openingHours: string; // 영업 시간
   createdAt: string; // 생성 일시
   modifiedAt: string; // 수정 일시
+  description?: string; // 설명
 }
 
 interface AdminFacilityFormProps {
