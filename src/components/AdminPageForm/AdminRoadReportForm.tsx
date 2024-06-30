@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // 회원 데이터 타입 정의
 interface Road {
@@ -48,18 +49,25 @@ const AdminRoadReportForm = ({ data }: AdminRoadReportProps) => {
           </tr>
         </thead>
         <tbody>
-          {roads.map((Road, index) => (
-            <tr key={Road.id} className="text-center">
+          {roads.map((road, index) => (
+            <tr key={road.id} className="text-center">
               <td className="py-2">{(page - 1) * itemsPerPage + index + 1}</td>
-              <td className="py-2">{Road.address}</td>
-              <td className="py-2">{Road.roadContext}</td>
-              <td className="py-2">{Road.reporterId}</td>
-              <td className="py-2">{Road.imageUrl}</td>
+              <td className="py-2">
+                <Link
+                  to={`/admin/road/${road.id}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {road.address}
+                </Link>
+              </td>
+              <td className="py-2">{road.roadContext}</td>
+              <td className="py-2">{road.reporterId}</td>
+              <td className="py-2">{road.imageUrl}</td>
               <td className="py-2">
                 <div>
-                  {new Date(Road.createdAt).toLocaleString()}
+                  {new Date(road.createdAt).toLocaleString()}
                   <br />
-                  {new Date(Road.modifiedAt).toLocaleString()}
+                  {new Date(road.modifiedAt).toLocaleString()}
                 </div>
               </td>
             </tr>

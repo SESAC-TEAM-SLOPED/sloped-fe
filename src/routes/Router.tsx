@@ -25,7 +25,9 @@ import AdminLayout from "../components/AdminLayout/AdminLayout";
 import AdminFacility from "../pages/AdminPage/AdminFacility";
 import AdminFacilityDetail from "../pages/AdminPage/AdminFacilityDetail";
 import AdminRoadReport from "../pages/AdminPage/AdminRoadReport";
+import AdminRoadReportDetail from "../pages/AdminPage/AdminRoadReportDetail";
 import AdminReview from "../pages/AdminPage/AdminReview";
+import AdminReviewDetail from "../pages/AdminPage/AdminReviewDetail";
 
 const Router = () => {
   return (
@@ -58,7 +60,9 @@ const Router = () => {
           <Route path="/admin/facility" element={<AdminFacility />} />
           <Route path="/admin/facility/:id" element={<AdminFacilityDetail />} />
           <Route path="/admin/road" element={<AdminRoadReport />} />
+          <Route path="/admin/road/:id" element={<AdminRoadReportDetail />} />
           <Route path="/admin/review" element={<AdminReview />} />
+          <Route path="/admin/review/:id" element={<AdminReviewDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

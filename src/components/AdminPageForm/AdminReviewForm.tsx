@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 // 회원 데이터 타입 정의
 interface Review {
@@ -50,29 +51,36 @@ const AdminReviewForm = ({ data }: AdminReviewFormProps) => {
           </tr>
         </thead>
         <tbody>
-          {reviews.map((Review, index) => (
-            <tr key={Review.id} className="text-center">
+          {reviews.map((review, index) => (
+            <tr key={review.id} className="text-center">
               <td className="py-2">{(page - 1) * itemsPerPage + index + 1}</td>
               <td className="py-2">
                 <span
                   className={`px-4 py-2 rounded-full ${
-                    Review.isConvenient
+                    review.isConvenient
                       ? "bg-[#F1F9F1] text-[#4caf50]"
                       : "bg-[#FFF0EF] text-[#F8837C]"
                   }`}
                 >
-                  {Review.isConvenient ? "편해요" : "불편해요"}
+                  {review.isConvenient ? "편해요" : "불편해요"}
                 </span>
               </td>
-              <td className="py-2">{Review.name}</td>
-              <td className="py-2">{Review.reviewType}</td>
-              <td className="py-2">{Review.reviewContext}</td>
-              <td className="py-2">{Review.reporterId}</td>
+              <td className="py-2">
+                <Link
+                  to={`/admin/review/${review.id}`}
+                  className="text-blue-600 hover:underline"
+                >
+                  {review.name}
+                </Link>
+              </td>
+              <td className="py-2">{review.reviewType}</td>
+              <td className="py-2">{review.reviewContext}</td>
+              <td className="py-2">{review.reporterId}</td>
               <td className="py-2">
                 <div>
-                  {new Date(Review.createdAt).toLocaleString()}
+                  {new Date(review.createdAt).toLocaleString()}
                   <br />
-                  {new Date(Review.modifiedAt).toLocaleString()}
+                  {new Date(review.modifiedAt).toLocaleString()}
                 </div>
               </td>
             </tr>

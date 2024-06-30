@@ -13,6 +13,20 @@ const AdminTitle = () => {
       return "시설 상세 정보";
     } // 상세 정보 페이지는 if문으로 분기 처리
 
+    if (
+      location.pathname.startsWith("/admin/review/") &&
+      location.pathname.split("/").length === 4
+    ) {
+      return "리뷰 상세 정보";
+    }
+
+    if (
+      location.pathname.startsWith("/admin/road/") &&
+      location.pathname.split("/").length === 4
+    ) {
+      return "통행 불편 상세 정보";
+    }
+
     switch (location.pathname) {
       case "/admin/user":
         return "회원 관리";
