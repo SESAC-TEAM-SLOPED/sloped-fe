@@ -6,7 +6,6 @@ interface Review {
   id: string;
   isConvenient: boolean; //편해요 - true, 불편해요 - false
   name: string; //시설명
-  reviewType: string; //시설 구분
   reviewContext: string; // 리뷰 내용
   reporterId: string; //제보자 아이디(이메일)
   createdAt: string; //생성 일시
@@ -103,24 +102,6 @@ const AdminReviewDetailForm = ({ data }: { data: Review[] }) => {
             )}
           </div>
           <div className="bg-gray-200 p-4 rounded mb-4">
-            <div className="mb-4">
-              <label className="block font-semibold mb-1">시설 구분</label>
-              <div className="flex">
-                {["식당", "관광지", "카페", "기타"].map((category) => (
-                  <label key={category} className="mr-4">
-                    <input
-                      type="radio"
-                      name="reviewType"
-                      value={category}
-                      checked={formData.reviewType === category}
-                      onChange={handleChange}
-                      disabled={!isEditing}
-                    />
-                    {category}
-                  </label>
-                ))}
-              </div>
-            </div>
             <div className="mb-4">
               <label className="block font-semibold mb-1">편의 여부</label>
               <div className="flex">

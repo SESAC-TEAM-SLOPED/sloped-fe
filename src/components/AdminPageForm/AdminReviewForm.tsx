@@ -6,7 +6,6 @@ interface Review {
   id: string;
   isConvenient: boolean; //편해요 - 1, 불편해요 - 0
   name: string; //시설명
-  reviewType: string; //시설 구분
   reviewContext: string; // 리뷰 내용
   reporterId: string; //제보자 아이디(이메일)
   createdAt: string; //생성 일시
@@ -73,7 +72,6 @@ const AdminReviewForm = ({ data }: AdminReviewFormProps) => {
                   {review.name}
                 </Link>
               </td>
-              <td className="py-2">{review.reviewType}</td>
               <td className="py-2">{review.reviewContext}</td>
               <td className="py-2">{review.reporterId}</td>
               <td className="py-2">

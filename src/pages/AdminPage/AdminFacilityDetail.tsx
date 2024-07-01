@@ -6,7 +6,7 @@ const tempFacility = [
     //임시데이터
     id: "id1",
     name: "청년사관학교 영등포",
-    facilityType: "기타",
+    facilityType: "공공장소",
     address: "서울시 영등포구 문래동",
     phoneNumber: "02-123-1234",
     accessibilityFeatures: "O, O, X",

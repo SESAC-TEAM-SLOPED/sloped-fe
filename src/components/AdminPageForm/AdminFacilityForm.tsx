@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 interface Facility {
   id: string;
   name: string; // 시설명
-  facilityType: string; // 시설 구분
+  facilityType: string; // 시설 구분 (식당, 카페, 공공장소, 기타)
   address: string; // 주소
   phoneNumber: string; // 전화번호
   accessibilityFeatures: string; // 입구턱, 경사로, 엘리베이터 유무

@@ -7,7 +7,6 @@ const tempReview = [
     id: "id1",
     isConvenient: true,
     name: "청년사관학교 영등포",
-    reviewType: "기타",
     reviewContext: "시설이 매우 청결하고 접근성이 좋습니다.",
     reporterId: "user1@example.com",
     createdAt: "2024-06-06T12:45:21Z",

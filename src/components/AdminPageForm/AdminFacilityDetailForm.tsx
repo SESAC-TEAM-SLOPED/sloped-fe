@@ -130,7 +130,7 @@ const AdminFacilityDetailForm = ({ data }: { data: Facility[] }) => {
             <div className="mb-4">
               <label className="block font-semibold mb-1">카테고리</label>
               <div className="flex">
-                {["식당", "관광지", "카페", "기타"].map((category) => (
+                {["식당", "카페", "공공장소", "기타"].map((category) => (
                   <label key={category} className="mr-4">
                     <input
                       type="radio"
