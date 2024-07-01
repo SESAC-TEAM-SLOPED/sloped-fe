@@ -44,7 +44,6 @@ const AdminReviewForm = ({ data }: AdminReviewFormProps) => {
             <th className="py-2">키워드</th>
             <th className="py-2">시설명</th>
             <th className="py-2">리뷰 내용</th>
-            <th className="py-2">전화번호</th>
             <th className="py-2">리뷰 작성자</th>
             <th className="py-2">생성/수정 일시</th>
           </tr>
