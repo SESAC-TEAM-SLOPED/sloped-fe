@@ -6,14 +6,35 @@ const AdminTitle = () => {
   console.log(location);
 
   const getHeaderTitle = () => {
+    if (
+      location.pathname.startsWith("/admin/facility/") &&
+      location.pathname.split("/").length === 4
+    ) {
+      return "시설 상세 정보";
+    } // 상세 정보 페이지는 if문으로 분기 처리
+
+    if (
+      location.pathname.startsWith("/admin/review/") &&
+      location.pathname.split("/").length === 4
+    ) {
+      return "리뷰 상세 정보";
+    }
+
+    if (
+      location.pathname.startsWith("/admin/road/") &&
+      location.pathname.split("/").length === 4
+    ) {
+      return "통행 불편 상세 정보";
+    }
+
     switch (location.pathname) {
-      case "members":
+      case "/admin/user":
         return "회원 관리";
-      case "facilities":
+      case "/admin/facility":
         return "시설 관리";
-      case "roads":
-        return "위험 도로 관리";
-      case "reviews":
+      case "/admin/road":
+        return "통행 불편 제보 관리";
+      case "/admin/review":
         return "리뷰 관리";
       case "pendingReports":
         return "승인 대기 제보";

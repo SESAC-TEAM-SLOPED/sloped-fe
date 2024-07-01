@@ -38,29 +38,29 @@ const AdminSidebar = () => {
       <nav>
         <p className="text-sm text-[#8D8D8D] px-10 pt-5">사이트 관리</p>
         <Link
-          to="/admin/members"
-          className={`block px-10 py-5 w-full text-left ${pathname === "members" ? "bg-[#1A6CFF]" : ""}`}
+          to="/admin/user"
+          className={`block px-10 py-5 w-full text-left ${pathname === "/admin/user" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsPerson className="inline-block mr-2" />
           회원 관리
         </Link>
         <Link
           to="/admin/facility"
-          className={`block px-10 py-5 w-full text-left ${pathname === "facilities" ? "bg-[#1A6CFF]" : ""}`}
+          className={`block px-10 py-5 w-full text-left ${pathname === "/admin/facility" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsBuilding className="inline-block mr-2" />
           시설 관리
         </Link>
         <Link
-          to="/admin/roads"
-          className={`block px-10 py-5 w-full text-left ${pathname === "roads" ? "bg-[#1A6CFF]" : ""}`}
+          to="/admin/road"
+          className={`block px-10 py-5 w-full text-left ${pathname === "/admin/road" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsExclamationTriangle className="inline-block mr-2" />
           위험 도로 관리
         </Link>
         <Link
           to="/admin/review"
-          className={`block px-10 py-5 w-full text-left ${pathname === "reviews" ? "bg-[#1A6CFF]" : ""}`}
+          className={`block px-10 py-5 w-full text-left ${pathname === "/admin/review" ? "bg-[#1A6CFF]" : ""}`}
         >
           <BsStar className="inline-block mr-2" />
           리뷰 관리

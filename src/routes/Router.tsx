@@ -18,10 +18,16 @@ import MyProfileEditor from "../pages/MyPage/MyProfileEditor";
 import MyReview from "../pages/MyPage/MyReview";
 import MyReviewEditor from "../pages/MyPage/MyReviewEditor";
 import MyReport from "../pages/MyPage/MyReport";
-import AdminPageLogin from "../pages/AdminPage/AdminPageLogin";
-import AdminPage from "../pages/AdminPage/AdminPage";
+import AdminLogin from "../pages/AdminPage/AdminLogin";
+import AdminMember from "../pages/AdminPage/AdminMember";
 import AdminReport from "../pages/AdminReport/AdminReport";
 import AdminLayout from "../components/AdminLayout/AdminLayout";
+import AdminFacility from "../pages/AdminPage/AdminFacility";
+import AdminFacilityDetail from "../pages/AdminPage/AdminFacilityDetail";
+import AdminRoadReport from "../pages/AdminPage/AdminRoadReport";
+import AdminRoadReportDetail from "../pages/AdminPage/AdminRoadReportDetail";
+import AdminReview from "../pages/AdminPage/AdminReview";
+import AdminReviewDetail from "../pages/AdminPage/AdminReviewDetail";
 
 const Router = () => {
   return (
@@ -47,10 +53,16 @@ const Router = () => {
         <Route path="/mypage/my-reviews" element={<MyReview />} />
         <Route path="/mypage/edit-review" element={<MyReviewEditor />} />
         <Route path="/mypage/my-reports" element={<MyReport />} />
-        <Route path="/admin" element={<AdminPageLogin />} />
-        <Route path="/admin/base" element={<AdminPage />} />
+        <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="/admin/reports/facility" element={<AdminReport />} />
+          <Route path="/admin/user" element={<AdminMember />} />
+          <Route path="/admin/facility" element={<AdminFacility />} />
+          <Route path="/admin/facility/:id" element={<AdminFacilityDetail />} />
+          <Route path="/admin/road" element={<AdminRoadReport />} />
+          <Route path="/admin/road/:id" element={<AdminRoadReportDetail />} />
+          <Route path="/admin/review" element={<AdminReview />} />
+          <Route path="/admin/review/:id" element={<AdminReviewDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

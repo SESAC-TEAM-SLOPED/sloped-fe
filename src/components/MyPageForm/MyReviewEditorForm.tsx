@@ -20,7 +20,7 @@ const MyReviewEditorForm = () => {
   };
 
   const handleComfortLevel = (level: string) => {
-    setComfortLevel(level);
+    setComfortLevel(level); // 향후 boolean으로 변경?
   };
 
   const handlePhotoUpload = (e: ChangeEvent<HTMLInputElement>) => {
