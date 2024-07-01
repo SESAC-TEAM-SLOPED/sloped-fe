@@ -11,11 +11,11 @@ interface Member {
   createdAt: string;
 }
 
-interface AdminUserFormProps {
+interface AdminMemberFormProps {
   data: Member[];
 }
 
-const AdminUserForm = ({ data }: AdminUserFormProps) => {
+const AdminMemberForm = ({ data }: AdminMemberFormProps) => {
   const [page, setPage] = useState(1);
   const [members, setMembers] = useState<Member[]>([]);
 
@@ -170,4 +170,4 @@ const AdminUserForm = ({ data }: AdminUserFormProps) => {
   );
 };
 
-export default AdminUserForm;
+export default AdminMemberForm;

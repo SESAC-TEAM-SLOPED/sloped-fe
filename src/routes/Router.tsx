@@ -19,7 +19,7 @@ import MyReview from "../pages/MyPage/MyReview";
 import MyReviewEditor from "../pages/MyPage/MyReviewEditor";
 import MyReport from "../pages/MyPage/MyReport";
 import AdminLogin from "../pages/AdminPage/AdminLogin";
-import AdminUser from "../pages/AdminPage/AdminUser";
+import AdminMember from "../pages/AdminPage/AdminMember";
 import AdminReport from "../pages/AdminReport/AdminReport";
 import AdminLayout from "../components/AdminLayout/AdminLayout";
 import AdminFacility from "../pages/AdminPage/AdminFacility";
@@ -56,7 +56,7 @@ const Router = () => {
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="/admin/reports/facility" element={<AdminReport />} />
-          <Route path="/admin/user" element={<AdminUser />} />
+          <Route path="/admin/user" element={<AdminMember />} />
           <Route path="/admin/facility" element={<AdminFacility />} />
           <Route path="/admin/facility/:id" element={<AdminFacilityDetail />} />
           <Route path="/admin/road" element={<AdminRoadReport />} />
