@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaRegEye, FaRegEyeSlash, FaCheckCircle } from "react-icons/fa";
 
@@ -11,12 +11,25 @@ const RegisterIdForm = () => {
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [userType, setUserType] = useState("general");
-  const [timer, setTimer] = useState(0); // 타이머 상태
+  const [timer, setTimer] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
 
   const api = axios.create({
     baseURL: "http://localhost:8080",
   });
+
+  useEffect(() => {
+    if (timer > 0) {
+      const intervalId = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+      return () => clearInterval(intervalId);
+    } else {
+      setIsButtonDisabled(false);
+    }
+  }, [timer]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -32,10 +45,13 @@ const RegisterIdForm = () => {
       const response = await api.post("/api/auth/sendCode", {
         email: fullEmail,
       });
-      alert(response.data);
+      setMessage("이메일이 전송되었습니다!"); // 성공 메시지 설정
+      setMessageType("success");
+      setIsButtonDisabled(true); // 버튼 비활성화 설정
       handleRequestCode(); // 타이머 및 버튼 비활성화 함수 호출
     } catch (error) {
-      alert("Failed to send verification code");
+      setMessage("이메일 전송에 실패했습니다!"); // 실패 메시지 설정
+      setMessageType("error");
     }
   };
 
@@ -46,7 +62,6 @@ const RegisterIdForm = () => {
 
   const handleRequestCode = () => {
     setTimer(300); // 5분(300초) 타이머 시작
-    setIsButtonDisabled(false);
   };
 
   const formatTime = (seconds: number) => {
@@ -160,14 +175,25 @@ const RegisterIdForm = () => {
           </div>
         )}
         <button
-          className={`h-[40px] bg-signiture text-white rounded-lg ${
-            timer > 0 ? "w-[50%]" : "w-full"
-          }`}
+          className={`h-[40px] rounded-lg ${
+            isButtonDisabled
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-signiture text-white"
+          } ${timer > 0 ? "w-[50%]" : "w-full"}`}
           onClick={handleSendVerificationCode}
+          disabled={isButtonDisabled} // 버튼 비활성화
         >
           인증번호 받기
         </button>
       </div>
+
+      {message && (
+        <div
+          className={`text-sm mt-2 ${messageType === "success" ? "text-green-500" : "text-red-500"}`}
+        >
+          {message}
+        </div>
+      )}
 
       <div className="w-[300px] mb-4 flex items-center">
         <input
