@@ -1,35 +1,14 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { FaRegEye, FaRegEyeSlash, FaCheckCircle } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
 
 const RegisterIdForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [userType, setUserType] = useState("general");
   const [email, setEmail] = useState("");
   const [domain, setDomain] = useState("naver.com");
   const [customDomain, setCustomDomain] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
-  const [isVerified, setIsVerified] = useState(false);
-  const [userType, setUserType] = useState("general");
-  const [timer, setTimer] = useState(0);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("");
-
-  const api = axios.create({
-    baseURL: "http://localhost:8080",
-  });
-
-  useEffect(() => {
-    if (timer > 0) {
-      const intervalId = setInterval(() => {
-        setTimer((prevTimer) => prevTimer - 1);
-      }, 1000);
-      return () => clearInterval(intervalId);
-    } else {
-      setIsButtonDisabled(false);
-    }
-  }, [timer]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -37,37 +16,6 @@ const RegisterIdForm = () => {
 
   const toggleConfirmPasswordVisibility = () => {
     setShowConfirmPassword(!showConfirmPassword);
-  };
-
-  const handleSendVerificationCode = async () => {
-    const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
-    try {
-      const response = await api.post("/api/auth/sendCode", {
-        email: fullEmail,
-      });
-      setMessage("이메일이 전송되었습니다!"); // 성공 메시지 설정
-      setMessageType("success");
-      setIsButtonDisabled(true); // 버튼 비활성화 설정
-      handleRequestCode(); // 타이머 및 버튼 비활성화 함수 호출
-    } catch (error) {
-      setMessage("이메일 전송에 실패했습니다!"); // 실패 메시지 설정
-      setMessageType("error");
-    }
-  };
-
-  const handleVerify = () => {
-    // 여기에 인증번호 검증 로직을 추가하세요.
-    // 검증 실패 시 setError("인증번호가 오지 않나요?");
-  };
-
-  const handleRequestCode = () => {
-    setTimer(300); // 5분(300초) 타이머 시작
-  };
-
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${minutes}:${secs < 10 ? `0${secs}` : secs}`;
   };
 
   return (
@@ -168,50 +116,11 @@ const RegisterIdForm = () => {
         </div>
       </div>
 
-      <div className="w-[300px] flex justify-between items-center mb-4">
-        {timer > 0 && (
-          <div className="text-center text-black-500 text-2xl">
-            {formatTime(timer)}
-          </div>
-        )}
-        <button
-          className={`h-[40px] rounded-lg ${
-            isButtonDisabled
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-signiture text-white"
-          } ${timer > 0 ? "w-[50%]" : "w-full"}`}
-          onClick={handleSendVerificationCode}
-          disabled={isButtonDisabled} // 버튼 비활성화
-        >
-          인증번호 받기
-        </button>
-      </div>
-
-      {message && (
-        <div
-          className={`text-sm mt-2 ${messageType === "success" ? "text-green-500" : "text-red-500"}`}
-        >
-          {message}
-        </div>
-      )}
-
-      <div className="w-[300px] mb-4 flex items-center">
-        <input
-          type="text"
-          id="verificationCode"
-          className="w-full border-b border-gray-400 py-2 outline-none"
-          placeholder="인증번호 6자리 숫자 입력"
-          value={verificationCode}
-          onChange={(e) => setVerificationCode(e.target.value)}
-        />
-        <button
-          className="w-[50px] h-[40px] bg-signiture text-white rounded-lg ml-2"
-          onClick={handleVerify}
-        >
-          확인
-        </button>
-        {isVerified && <FaCheckCircle className="text-green-500 ml-2" />}
-      </div>
+      <VerificationCodeInput
+        email={email}
+        domain={domain}
+        customDomain={customDomain}
+      />
 
       <div className="w-[300px] mb-4">
         <label htmlFor="nickname" className="text-sm text-gray-700 mb-2">
