@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { FaRegEye, FaRegEyeSlash, FaCheckCircle } from "react-icons/fa";
 
 const RegisterIdForm = () => {
@@ -10,6 +11,12 @@ const RegisterIdForm = () => {
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [userType, setUserType] = useState("general");
+  const [timer, setTimer] = useState(0); // 타이머 상태
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const api = axios.create({
+    baseURL: "http://localhost:8080",
+  });
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -19,9 +26,33 @@ const RegisterIdForm = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
+  const handleSendVerificationCode = async () => {
+    const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
+    try {
+      const response = await api.post("/api/auth/sendCode", {
+        email: fullEmail,
+      });
+      alert(response.data);
+      handleRequestCode(); // 타이머 및 버튼 비활성화 함수 호출
+    } catch (error) {
+      alert("Failed to send verification code");
+    }
+  };
+
   const handleVerify = () => {
     // 여기에 인증번호 검증 로직을 추가하세요.
     // 검증 실패 시 setError("인증번호가 오지 않나요?");
+  };
+
+  const handleRequestCode = () => {
+    setTimer(300); // 5분(300초) 타이머 시작
+    setIsButtonDisabled(false);
+  };
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs < 10 ? `0${secs}` : secs}`;
   };
 
   return (
@@ -120,6 +151,22 @@ const RegisterIdForm = () => {
             </select>
           )}
         </div>
+      </div>
+
+      <div className="w-[300px] flex justify-between items-center mb-4">
+        {timer > 0 && (
+          <div className="text-center text-black-500 text-2xl">
+            {formatTime(timer)}
+          </div>
+        )}
+        <button
+          className={`h-[40px] bg-signiture text-white rounded-lg ${
+            timer > 0 ? "w-[50%]" : "w-full"
+          }`}
+          onClick={handleSendVerificationCode}
+        >
+          인증번호 받기
+        </button>
       </div>
 
       <div className="w-[300px] mb-4 flex items-center">
