@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import api from "../../api";
 
 const FindPasswordPassForm = () => {
   const [id, setId] = useState("");
@@ -7,14 +8,27 @@ const FindPasswordPassForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
 
-  const handleChangePassword = () => {
+  const handleChangePassword = async () => {
     if (newPassword !== confirmPassword) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
     }
-    // 여기에 비밀번호 변경 로직을 추가하세요.
-    // 비밀번호 변경 성공 시 setSuccess(true);
-    setSuccess(true); // 예시용
+    setError("");
+
+    try {
+      const response = await api.put("/api/users/request-reset", {
+        id,
+        newPassword,
+      });
+
+      if (response.status === 200) {
+        setSuccess(true);
+      } else {
+        setError("비밀번호 변경에 실패했습니다. 다시 시도해 주세요.");
+      }
+    } catch (error) {
+      setError("서버에 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
   };
 
   return (
