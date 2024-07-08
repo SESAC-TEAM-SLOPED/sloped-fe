@@ -31,6 +31,7 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
     handleSendVerificationCode,
     handleVerify,
     formatTime,
+    error,
   } = useVerificationCode(email, domain, customDomain, pageType, id);
 
   const [localError, setLocalError] = useState("");
@@ -80,6 +81,10 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
         >
           {message}
         </div>
+      )}
+
+      {error && ( // 오류 메시지 표시
+        <div className="text-sm mt-2 text-red-500">{error}</div>
       )}
 
       {localError && (

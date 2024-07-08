@@ -1,8 +1,10 @@
 import React from "react";
 
-const FindIdPassForm = () => {
-  const userId = "example"; // 예시 아이디, 실제로는 서버에서 받아온 값을 사용하세요.
+type Props = {
+  userId: string;
+};
 
+const FindIdPassForm = ({ userId }: Props) => {
   return (
     <div
       style={{ minHeight: "80vh" }}

@@ -1,12 +1,14 @@
 import React, { useState, useCallback } from "react";
-import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput"; // 경로를 실제 프로젝트 구조에 맞게 조정하세요.
+import api from "../../api";
+import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
 
 // 통과 페이지 호출용
 type Props = {
   setActiveTab: (tab: string) => void;
+  setUserId: (id: string) => void;
 };
 
-const FindIdForm = ({ setActiveTab }: Props) => {
+const FindIdForm = ({ setActiveTab, setUserId }: Props) => {
   const [email, setEmail] = useState("");
   const [domain, setDomain] = useState("naver.com");
   const [customDomain, setCustomDomain] = useState("");
@@ -25,8 +27,18 @@ const FindIdForm = ({ setActiveTab }: Props) => {
     [email],
   );
 
-  const handleContinue = () => {
-    setActiveTab("id-pass"); // 통과페이지로
+  const handleContinue = async () => {
+    const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
+    try {
+      const response = await api.post("/api/users/find-id", {
+        email: fullEmail,
+      });
+      const userId = response.data; // 서버에서 받은 아이디
+      setUserId(userId); // userId 상태 업데이트
+      setActiveTab("id-pass"); // 페이지 이동
+    } catch (error) {
+      setError("아이디를 찾는 데 실패했습니다. 다시 시도해 주세요.");
+    }
   };
 
   return (

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api";
 
 const useVerificationCode = (
   email: string,
@@ -7,7 +7,6 @@ const useVerificationCode = (
   customDomain: string,
   pageType: "register" | "findId" | "findPassword",
   id?: string,
-  baseURL = "http://localhost:8080",
 ) => {
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
@@ -15,10 +14,7 @@ const useVerificationCode = (
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-
-  const api = axios.create({
-    baseURL,
-  });
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (timer > 0) {
@@ -57,8 +53,8 @@ const useVerificationCode = (
       setMessageType("success");
       setIsButtonDisabled(true);
       handleRequestCode();
-    } catch (error) {
-      setMessage("이메일 전송에 실패했습니다!");
+    } catch (error: any) {
+      setError(error.response?.data || "이메일 전송에 실패했습니다!");
       setMessageType("error");
     }
   };
@@ -82,8 +78,8 @@ const useVerificationCode = (
         setIsVerified(false);
         return false;
       }
-    } catch (error) {
-      setMessage("인증에 실패했습니다.");
+    } catch (error: any) {
+      setError(error.response?.data || "인증에 실패했습니다.");
       setMessageType("error");
       setIsVerified(false);
       return false;
@@ -112,6 +108,7 @@ const useVerificationCode = (
     handleSendVerificationCode,
     handleVerify,
     formatTime,
+    error,
   };
 };
 
