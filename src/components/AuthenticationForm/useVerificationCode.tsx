@@ -5,6 +5,8 @@ const useVerificationCode = (
   email: string,
   domain: string,
   customDomain: string,
+  pageType: "register" | "findId" | "findPassword",
+  id?: string,
   baseURL = "http://localhost:8080",
 ) => {
   const [verificationCode, setVerificationCode] = useState("");
@@ -32,22 +34,60 @@ const useVerificationCode = (
   const handleSendVerificationCode = async () => {
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
     try {
-      await api.post("/api/auth/sendCode", {
+      let endpoint;
+      switch (pageType) {
+        case "register":
+          endpoint = "/api/auth/sendCode/register";
+          break;
+        case "findId":
+          endpoint = "/api/auth/sendCode/findMember";
+          break;
+        case "findPassword":
+          endpoint = "/api/auth/sendCode/findMember";
+          break;
+        default:
+          throw new Error("Invalid page type");
+      }
+
+      await api.post(endpoint, {
         email: fullEmail,
+        id: pageType !== "findId" ? id : undefined,
       });
-      setMessage("이메일이 전송되었습니다!"); // 성공 메시지 설정
+      setMessage("이메일이 전송되었습니다!");
       setMessageType("success");
-      setIsButtonDisabled(true); // 버튼 비활성화 설정
-      handleRequestCode(); // 타이머 및 버튼 비활성화 함수 호출
+      setIsButtonDisabled(true);
+      handleRequestCode();
     } catch (error) {
-      setMessage("이메일 전송에 실패했습니다!"); // 실패 메시지 설정
+      setMessage("이메일 전송에 실패했습니다!");
       setMessageType("error");
     }
   };
 
-  const handleVerify = () => {
-    // 여기에 인증번호 검증 로직을 추가하세요.
-    // 검증 실패 시 setError("인증번호가 오지 않나요?");
+  const handleVerify = async () => {
+    const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
+    try {
+      const response = await api.post("/api/auth/verifyCode", {
+        id,
+        email: fullEmail,
+        code: verificationCode,
+      });
+      if (response.status === 200) {
+        setMessage("인증이 성공했습니다!");
+        setMessageType("success");
+        setIsVerified(true);
+        return true;
+      } else {
+        setMessage("인증에 실패했습니다. 코드가 올바르지 않습니다.");
+        setMessageType("error");
+        setIsVerified(false);
+        return false;
+      }
+    } catch (error) {
+      setMessage("인증에 실패했습니다.");
+      setMessageType("error");
+      setIsVerified(false);
+      return false;
+    }
   };
 
   const handleRequestCode = () => {

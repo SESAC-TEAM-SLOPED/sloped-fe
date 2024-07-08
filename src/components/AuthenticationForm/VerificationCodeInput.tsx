@@ -1,20 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import useVerificationCode from "./useVerificationCode";
 
-const VerificationCodeInput = ({
-  email,
-  domain,
-  customDomain,
-}: {
+interface VerificationCodeInputProps {
   email: string;
   domain: string;
   customDomain: string;
+  onVerify: (isVerified: boolean) => void;
+  id?: string;
+  pageType: "register" | "findId" | "findPassword";
+}
+
+const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
+  email,
+  domain,
+  customDomain,
+  onVerify,
+  id,
+  pageType,
 }) => {
   const {
     verificationCode,
     setVerificationCode,
     isVerified,
+    setIsVerified,
     timer,
     isButtonDisabled,
     message,
@@ -22,7 +31,25 @@ const VerificationCodeInput = ({
     handleSendVerificationCode,
     handleVerify,
     formatTime,
-  } = useVerificationCode(email, domain, customDomain);
+  } = useVerificationCode(email, domain, customDomain, pageType, id);
+
+  const [localError, setLocalError] = useState("");
+
+  const handleSendCodeClick = () => {
+    if (pageType === "findPassword" && !id) {
+      setLocalError("아이디를 입력해야 인증번호를 받을 수 있습니다.");
+    } else {
+      setLocalError("");
+      handleSendVerificationCode();
+    }
+  };
+
+  const handleVerifyClick = async () => {
+    const verified = await handleVerify();
+    setIsVerified(verified);
+    onVerify(verified);
+    setLocalError(verified ? "" : "인증에 실패했습니다. 다시 시도해 주세요.");
+  };
 
   return (
     <div className="w-[300px]">
@@ -38,7 +65,7 @@ const VerificationCodeInput = ({
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-signiture text-white"
           } ${timer > 0 ? "w-[50%]" : "w-full"}`}
-          onClick={handleSendVerificationCode}
+          onClick={handleSendCodeClick}
           disabled={isButtonDisabled}
         >
           인증번호 받기
@@ -55,6 +82,10 @@ const VerificationCodeInput = ({
         </div>
       )}
 
+      {localError && (
+        <div className="text-sm mt-2 text-red-500">{localError}</div>
+      )}
+
       <div className="flex items-center mb-4">
         <input
           type="text"
@@ -65,8 +96,13 @@ const VerificationCodeInput = ({
           onChange={(e) => setVerificationCode(e.target.value)}
         />
         <button
-          className="w-[50px] h-[40px] bg-signiture text-white rounded-lg ml-2"
-          onClick={handleVerify}
+          className={`w-[50px] h-[40px] ml-2 ${
+            isVerified
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-signiture text-white"
+          } rounded-lg`}
+          onClick={handleVerifyClick}
+          disabled={isVerified}
         >
           확인
         </button>
