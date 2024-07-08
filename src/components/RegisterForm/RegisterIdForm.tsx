@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput"; // 경로를 실제 프로젝트 구조에 맞게 조정하세요.
+import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
+import api from "../../api";
+import { useNavigate } from "react-router-dom";
 
 const RegisterIdForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,7 +13,13 @@ const RegisterIdForm = () => {
   const [customDomain, setCustomDomain] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState("");
-  const [id, setId] = useState(""); // 아이디 상태 추가
+  const [id, setId] = useState("");
+  const [isIdChecked, setIsIdChecked] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [nickname, setNickname] = useState("");
+  const isDisability = userType === "disabled" ? 0 : 1;
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -33,8 +41,49 @@ const RegisterIdForm = () => {
     [email],
   );
 
-  const handleContinue = () => {
-    // Add logic to handle form submission or navigation
+  const handleContinue = async () => {
+    if (password !== confirmPassword) {
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    if (!isIdChecked) {
+      setError("아이디 중복 확인을 해주세요.");
+      return;
+    }
+
+    const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
+    try {
+      const response = await api.post("/api/users/register", {
+        id,
+        password,
+        email: fullEmail,
+        nickname,
+        isDisability,
+      });
+
+      if (response.status === 200) {
+        navigate("/joinpage"); // 메인 페이지로 이동하게 수정 예정
+      }
+    } catch (error) {
+      setError("회원가입에 실패했습니다. 다시 시도해 주세요.");
+    }
+  };
+
+  const handleDuplicateCheck = async () => {
+    try {
+      const response = await api.post("/api/users/duplicate-check/id", { id });
+      if (response.status === 200) {
+        alert("사용 가능한 아이디 입니다.");
+        setIsIdChecked(true);
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 409) {
+        alert("아이디가 중복됩니다. 다른 아이디를 사용해주세요.");
+      } else {
+        alert("아이디 중복 확인 중 오류가 발생했습니다.");
+      }
+    }
   };
 
   return (
@@ -53,9 +102,20 @@ const RegisterIdForm = () => {
             className="flex-grow outline-none"
             placeholder="아이디 입력"
             value={id}
-            onChange={(e) => setId(e.target.value)} // 아이디 상태 업데이트
+            onChange={(e) => setId(e.target.value)}
+            disabled={isIdChecked}
           />
-          <button className="ml-2 text-signiture">중복확인</button>
+          <button
+            className={`w-[70px] h-[40px] ml-2 ${
+              isIdChecked
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-signiture text-white"
+            } rounded-lg`}
+            onClick={handleDuplicateCheck}
+            disabled={isIdChecked} // 중복 확인 완료 시 비활성화
+          >
+            중복 확인
+          </button>
         </div>
       </div>
 
@@ -69,6 +129,8 @@ const RegisterIdForm = () => {
             id="password"
             className="flex-grow outline-none"
             placeholder="비밀번호 입력"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <button
             type="button"
@@ -90,6 +152,8 @@ const RegisterIdForm = () => {
             id="confirmPassword"
             className="flex-grow outline-none"
             placeholder="비밀번호 확인 입력"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)} // 비밀번호 확인 상태 업데이트
           />
           <button
             type="button"
@@ -163,6 +227,8 @@ const RegisterIdForm = () => {
             id="nickname"
             className="w-full outline-none"
             placeholder="닉네임 입력"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)} // 닉네임 상태 업데이트
           />
         </div>
       </div>
