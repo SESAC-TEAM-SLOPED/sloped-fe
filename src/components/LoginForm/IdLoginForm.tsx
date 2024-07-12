@@ -1,14 +1,39 @@
 import { useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import Button from "../ui/Button";
+import api from "../../api";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const IdLoginForm = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await api.post("/login", { id, password });
+      // const response = await api.post("/api/users/login", { id, password });
+      const token = response.data.token;
+      localStorage.setItem("token", token); // JWT 토큰을 로컬 스토리지에 저장
+
+      const storedToken = localStorage.getItem("token");
+      if (storedToken) {
+        console.log("Stored JWT Token:", storedToken);
+      } else {
+        console.log("No token found");
+      }
+      console.log("Login successful", response.data);
+
+      navigate("/"); // 로그인 성공 시 이동하는 페이지
+    } catch (error) {
+      // 로그인 실패 시 처리 로직 추가
+      console.error("Login failed", error);
+    }
   };
 
   return (
@@ -55,7 +80,7 @@ const IdLoginForm = () => {
       </div>
 
       <div className="flex justify-center mt-20 w-[280px]">
-        <Button text="로그인" onClick={() => {}} />
+        <Button text="로그인" onClick={handleLogin} />
       </div>
     </form>
   );

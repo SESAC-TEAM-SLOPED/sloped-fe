@@ -35,7 +35,7 @@ const JoinPageForm = () => {
       </Link>
 
       <Link
-        to="/login/id"
+        to="/login/local"
         className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-email rounded-lg text-lg "
       >
         <div className="flex items-center ml-5">

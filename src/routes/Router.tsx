@@ -37,7 +37,7 @@ const Router = () => {
         <Route path="/review/new" element={<WriteReview />} />
         <Route path="/facility/new/positioning" element={<Positioning />} />
         <Route path="/road/new/positioning" element={<Positioning />} />
-        <Route path="/login/id" element={<IdLogin />} />
+        <Route path="/login/local" element={<IdLogin />} />
         <Route path="/joinpage" element={<JoinPage />} />
         <Route path="/find/information" element={<FindInformation />} />
         <Route path="/register/id" element={<RegisterId />} />
