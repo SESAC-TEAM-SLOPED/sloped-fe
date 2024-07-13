@@ -16,7 +16,7 @@ const IdLoginForm = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await api.post("/login", { id, password });
+      const response = await api.post("/api/auth/login", { id, password });
       // const response = await api.post("/api/users/login", { id, password });
       const token = response.data.token;
       localStorage.setItem("token", token); // JWT 토큰을 로컬 스토리지에 저장

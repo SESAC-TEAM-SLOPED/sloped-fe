@@ -1,9 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { RiKakaoTalkFill } from "react-icons/ri";
+import { FaGoogle, FaUser } from "react-icons/fa";
 import { SiNaver } from "react-icons/si";
 import { MdEmail } from "react-icons/md";
-import { FaUser } from "react-icons/fa";
 
 const JoinPageForm = () => {
   return (
@@ -11,18 +10,18 @@ const JoinPageForm = () => {
       <h1 className="text-4xl font-bold mb-6">함께가길</h1>
 
       <Link
-        to="/login/kakao"
-        className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-kakao rounded-lg text-lg"
+        to="/login/google"
+        className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-white rounded-lg text-lg border border-gray-300"
       >
         <div className="flex items-center ml-5">
-          <RiKakaoTalkFill size={22} />
+          <FaGoogle size={22} />
         </div>
         <div className="flex-grow flex items-center justify-center">
-          <span>카카오 계정으로 로그인</span>
+          <span>구글 로그인</span>
         </div>
       </Link>
 
-      <Link
+      {/* <Link
         to="/login/naver"
         className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-naver rounded-lg text-lg "
       >
@@ -32,7 +31,7 @@ const JoinPageForm = () => {
         <div className="flex-grow flex items-center justify-center">
           <span>네이버 계정으로 로그인</span>
         </div>
-      </Link>
+      </Link> */}
 
       <Link
         to="/login/local"
@@ -55,8 +54,11 @@ const JoinPageForm = () => {
         </div>
       </button>
 
-      <Link to="/register/id" className="text-lg text-lg mt-4">
-        회원가입
+      <Link
+        to="/register/id"
+        className="flex items-center justify-center w-[200px] h-[40px] bg-white rounded-lg text-lg border border-gray-300"
+      >
+        <span>회원가입</span>
       </Link>
     </div>
   );
