@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaGoogle, FaUser } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { FaUser } from "react-icons/fa";
 import { SiNaver } from "react-icons/si";
 import { MdEmail } from "react-icons/md";
 
@@ -14,7 +15,7 @@ const JoinPageForm = () => {
         className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-white rounded-lg text-lg border border-gray-300"
       >
         <div className="flex items-center ml-5">
-          <FaGoogle size={22} />
+          <FcGoogle size={22} />
         </div>
         <div className="flex-grow flex items-center justify-center">
           <span>구글 로그인</span>
