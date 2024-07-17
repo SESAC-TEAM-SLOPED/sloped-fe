@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaUser } from "react-icons/fa";
-import { SiNaver } from "react-icons/si";
+import { RiKakaoTalkFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 
 const JoinPageForm = () => {
@@ -22,17 +22,17 @@ const JoinPageForm = () => {
         </div>
       </Link>
 
-      {/* <Link
-        to="/login/naver"
-        className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-naver rounded-lg text-lg "
+      <Link
+        to="/login/kakao"
+        className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-kakao rounded-lg text-lg "
       >
         <div className="flex items-center ml-5">
-          <SiNaver className="text-white" size={22} />
+          <RiKakaoTalkFill className="text-brown" size={22} />
         </div>
         <div className="flex-grow flex items-center justify-center">
-          <span>네이버 계정으로 로그인</span>
+          <span>카카오 계정으로 로그인</span>
         </div>
-      </Link> */}
+      </Link>
 
       <Link
         to="/login/local"
