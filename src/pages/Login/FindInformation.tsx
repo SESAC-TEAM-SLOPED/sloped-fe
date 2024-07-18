@@ -9,7 +9,7 @@ import TabChanger from "../../components/LoginForm/TabChanger";
 
 const FindInformation = () => {
   const [activeTab, setActiveTab] = useState("id");
-  const [userId, setUserId] = useState(""); // userId 상태 추가
+  const [memberId, setMemberId] = useState("");
 
   return (
     <div style={{ height: "90vh" }} className="wrap-min-screen">
@@ -17,12 +17,12 @@ const FindInformation = () => {
         <Header text="아이디/비밀번호 찾기" />
         <TabChanger activeTab={activeTab} setActiveTab={setActiveTab} />
         {activeTab === "id" && (
-          <FindIdForm setActiveTab={setActiveTab} setUserId={setUserId} />
+          <FindIdForm setActiveTab={setActiveTab} setMemberId={setMemberId} />
         )}
         {activeTab === "password" && (
           <FindPasswordForm setActiveTab={setActiveTab} />
         )}
-        {activeTab === "id-pass" && <FindIdPassForm userId={userId} />}
+        {activeTab === "id-pass" && <FindIdPassForm memberId={memberId} />}
         {activeTab === "password-pass" && <FindPasswordPassForm />}
       </Container>
     </div>

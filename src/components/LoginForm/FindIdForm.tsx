@@ -5,10 +5,10 @@ import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
 // 통과 페이지 호출용
 type Props = {
   setActiveTab: (tab: string) => void;
-  setUserId: (id: string) => void;
+  setMemberId: (id: string) => void;
 };
 
-const FindIdForm = ({ setActiveTab, setUserId }: Props) => {
+const FindIdForm = ({ setActiveTab, setMemberId }: Props) => {
   const [email, setEmail] = useState("");
   const [domain, setDomain] = useState("naver.com");
   const [customDomain, setCustomDomain] = useState("");
@@ -33,8 +33,8 @@ const FindIdForm = ({ setActiveTab, setUserId }: Props) => {
       const response = await api.post("/api/users/find-id", {
         email: fullEmail,
       });
-      const userId = response.data; // 서버에서 받은 아이디
-      setUserId(userId); // userId 상태 업데이트
+      const memberId = response.data; // 서버에서 받은 아이디
+      setMemberId(memberId); // memberId 상태 업데이트
       setActiveTab("id-pass"); // 페이지 이동
     } catch (error) {
       setError("아이디를 찾는 데 실패했습니다. 다시 시도해 주세요.");

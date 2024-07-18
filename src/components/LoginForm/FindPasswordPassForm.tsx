@@ -17,7 +17,7 @@ const FindPasswordPassForm = () => {
 
     try {
       const response = await api.put("/api/users/request-reset", {
-        id,
+        memberId: id,
         newPassword,
       });
 
