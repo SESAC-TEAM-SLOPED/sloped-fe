@@ -91,6 +91,7 @@ const FindIdForm = ({ setActiveTab, setUserId }: Props) => {
         email={email}
         domain={domain}
         customDomain={customDomain}
+        pageType="recovery"
         onVerify={handleVerificationResult}
       />
 

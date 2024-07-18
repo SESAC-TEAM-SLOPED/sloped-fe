@@ -5,6 +5,7 @@ const useVerificationCode = (
   email: string,
   domain: string,
   customDomain: string,
+  pageType: "register" | "recovery",
 ) => {
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
@@ -27,8 +28,12 @@ const useVerificationCode = (
 
   const handleSendVerificationCode = async () => {
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
+    const endpoint =
+      pageType === "recovery"
+        ? "/api/auth/send-code/recovery-code"
+        : "/api/auth/send-code/verification-code";
+
     try {
-      const endpoint = "/api/auth/send-code/verification-code"; // single endpoint
       await api.post(endpoint, { email: fullEmail });
       setMessage("이메일이 전송되었습니다!");
       setMessageType("success");

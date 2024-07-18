@@ -208,6 +208,7 @@ const RegisterIdForm = () => {
         email={email}
         domain={domain}
         customDomain={customDomain}
+        pageType="register"
         onVerify={handleVerificationResult}
       />
 

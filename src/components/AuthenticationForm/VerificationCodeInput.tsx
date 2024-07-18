@@ -6,6 +6,7 @@ interface VerificationCodeInputProps {
   email: string;
   domain: string;
   customDomain: string;
+  pageType: "register" | "recovery";
   onVerify: (isVerified: boolean) => void;
 }
 
@@ -13,6 +14,7 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
   email,
   domain,
   customDomain,
+  pageType,
   onVerify,
 }) => {
   const {
@@ -28,7 +30,7 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
     handleVerify,
     formatTime,
     error,
-  } = useVerificationCode(email, domain, customDomain);
+  } = useVerificationCode(email, domain, customDomain, pageType);
 
   const [localError, setLocalError] = useState("");
 
