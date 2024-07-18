@@ -18,7 +18,7 @@ const RegisterIdForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
-  const isDisability = userType === "disabled" ? 0 : 1;
+  const isDisabled = userType === "disabled";
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -59,10 +59,10 @@ const RegisterIdForm = () => {
         password,
         email: fullEmail,
         nickname,
-        isDisability,
+        isDisabled,
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         navigate("/joinpage"); // 메인 페이지로 이동하게 수정 예정
       }
     } catch (error) {
