@@ -73,7 +73,7 @@ const RegisterIdForm = () => {
   const handleDuplicateCheck = async () => {
     try {
       const response = await api.post("/api/users/duplicate-check/id", { id });
-      if (response.status === 200) {
+      if (response.status === 204) {
         alert("사용 가능한 아이디 입니다.");
         setIsIdChecked(true);
       }
@@ -208,9 +208,7 @@ const RegisterIdForm = () => {
         email={email}
         domain={domain}
         customDomain={customDomain}
-        pageType="register"
         onVerify={handleVerificationResult}
-        id={id}
       />
 
       {!isVerified && error && (

@@ -92,8 +92,6 @@ const FindPasswordForm = ({ setActiveTab }: Props) => {
         domain={domain}
         customDomain={customDomain}
         onVerify={handleVerificationResult}
-        pageType="findPassword"
-        id={id}
       />
 
       {!isVerified && error && (

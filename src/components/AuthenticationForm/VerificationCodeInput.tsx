@@ -7,8 +7,6 @@ interface VerificationCodeInputProps {
   domain: string;
   customDomain: string;
   onVerify: (isVerified: boolean) => void;
-  id?: string;
-  pageType: "register" | "findId" | "findPassword";
 }
 
 const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
@@ -16,8 +14,6 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
   domain,
   customDomain,
   onVerify,
-  id,
-  pageType,
 }) => {
   const {
     verificationCode,
@@ -32,17 +28,13 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
     handleVerify,
     formatTime,
     error,
-  } = useVerificationCode(email, domain, customDomain, pageType, id);
+  } = useVerificationCode(email, domain, customDomain);
 
   const [localError, setLocalError] = useState("");
 
   const handleSendCodeClick = () => {
-    if (pageType === "findPassword" && !id) {
-      setLocalError("아이디를 입력해야 인증번호를 받을 수 있습니다.");
-    } else {
-      setLocalError("");
-      handleSendVerificationCode();
-    }
+    setLocalError("");
+    handleSendVerificationCode();
   };
 
   const handleVerifyClick = async () => {

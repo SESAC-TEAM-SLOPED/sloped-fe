@@ -56,7 +56,7 @@ const JoinPageForm = () => {
       </button>
 
       <Link
-        to="/register/id"
+        to="/login/register/id"
         className="flex items-center justify-center w-[200px] h-[40px] bg-white rounded-lg text-lg border border-gray-300"
       >
         <span>회원가입</span>

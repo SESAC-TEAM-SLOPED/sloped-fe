@@ -91,7 +91,6 @@ const FindIdForm = ({ setActiveTab, setUserId }: Props) => {
         email={email}
         domain={domain}
         customDomain={customDomain}
-        pageType="findId"
         onVerify={handleVerificationResult}
       />
 

@@ -39,9 +39,9 @@ const Router = () => {
         <Route path="/road/new/positioning" element={<Positioning />} />
         <Route path="/login/local" element={<IdLogin />} />
         <Route path="/joinpage" element={<JoinPage />} />
-        <Route path="/find/information" element={<FindInformation />} />
-        <Route path="/register/id" element={<RegisterId />} />
-        <Route path="/register/social" element={<RegisterSocial />} />
+        <Route path="/login/find-information" element={<FindInformation />} />
+        <Route path="/login/register/id" element={<RegisterId />} />
+        <Route path="/login/register/social" element={<RegisterSocial />} />
         <Route path="/report/road/new" element={<Positioning />} />
         <Route path="/report/road/form" element={<RoadReportForm />} />
         <Route path="/submit/completed" element={<SubmitComplete />} />

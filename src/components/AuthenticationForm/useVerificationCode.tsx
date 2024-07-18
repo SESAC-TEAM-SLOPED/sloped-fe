@@ -5,8 +5,6 @@ const useVerificationCode = (
   email: string,
   domain: string,
   customDomain: string,
-  pageType: "register" | "findId" | "findPassword",
-  id?: string,
 ) => {
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
@@ -30,25 +28,8 @@ const useVerificationCode = (
   const handleSendVerificationCode = async () => {
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
     try {
-      let endpoint;
-      switch (pageType) {
-        case "register":
-          endpoint = "/api/auth/sendCode/register";
-          break;
-        case "findId":
-          endpoint = "/api/auth/sendCode/findMember";
-          break;
-        case "findPassword":
-          endpoint = "/api/auth/sendCode/findMember";
-          break;
-        default:
-          throw new Error("Invalid page type");
-      }
-
-      await api.post(endpoint, {
-        email: fullEmail,
-        id: pageType !== "findId" ? id : undefined,
-      });
+      const endpoint = "/api/auth/send-code/verification-code"; // single endpoint
+      await api.post(endpoint, { email: fullEmail });
       setMessage("이메일이 전송되었습니다!");
       setMessageType("success");
       setIsButtonDisabled(true);
@@ -62,8 +43,7 @@ const useVerificationCode = (
   const handleVerify = async () => {
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
     try {
-      const response = await api.post("/api/auth/verifyCode", {
-        id,
+      const response = await api.post("/api/auth/verify-code", {
         email: fullEmail,
         code: verificationCode,
       });

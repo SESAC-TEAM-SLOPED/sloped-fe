@@ -73,7 +73,7 @@ const IdLoginForm = () => {
           </button>
         </div>
         <div className="flex justify-end mt-2">
-          <a href="/find/information" className="text-sm text-gray-500">
+          <a href="/login/find-information" className="text-sm text-gray-500">
             아이디/비밀번호 찾기
           </a>
         </div>
