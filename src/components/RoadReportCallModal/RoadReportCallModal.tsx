@@ -1,17 +1,17 @@
 type Props = {
-  isComplaintCallModalOpen: boolean;
-  stateChange: (state: boolean) => void;
-  openCenterListModal: () => void;
+  complaintCallState: boolean;
+  stateChangeFunc: (state: boolean) => void;
+  centerListSetState: () => void;
 };
 
 const RoadReportCallModal = ({
-  isComplaintCallModalOpen,
-  stateChange,
-  openCenterListModal,
+  complaintCallState,
+  stateChangeFunc,
+  centerListSetState,
 }: Props) => {
   const handleCenterList = () => {
-    stateChange(!isComplaintCallModalOpen);
-    openCenterListModal();
+    stateChangeFunc(!complaintCallState);
+    centerListSetState();
   };
 
   return (
