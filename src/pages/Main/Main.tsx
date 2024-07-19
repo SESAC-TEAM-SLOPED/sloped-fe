@@ -98,11 +98,16 @@ const Main = () => {
   const [visibleBookmarks, setVisibleBookmarks] = useState(false);
   const [roads, setRoads] = useState<any[]>([]);
   const [visibleRoads, setVisibleRoads] = useState(false);
-  const [openRoadModal, setOpenRoadModal] = useState(false);
-  const [isComplaintCallModalOpen, setIsComplaintCallModalOpen] =
-    useState(false);
-  const [centerListModalOpen, setCenterListModalOpen] = useState(false);
-  const [callTaxiModalOpen, setCallTaxiModalOpen] = useState(false);
+  /*
+   1. isRoadOpen - 첫 번째 도로 모달
+   2. isComplaintCallOpen - 두 번째 '민원' 클릭 시 모달
+   3. isCenterListOpen - 민원> '기관목록' 클릭 시 모달
+   4. iscallTaxiOpen - 두 번째 '콜택시' 클릭 시 모달
+  */
+  const [isRoadOpen, setIsRoadOpen] = useState(false);
+  const [isComplaintCallOpen, setIsComplaintCallOpen] = useState(false);
+  const [isCenterListOpen, setIsCenterListOpen] = useState(false);
+  const [iscallTaxiOpen, setIscallTaxiOpen] = useState(false);
 
   useEffect(() => {
     searchParams.get("id") && setBottomSheetOpen(true);
@@ -116,7 +121,19 @@ const Main = () => {
 
   useEffect(() => {
     // 불편 지역을 받아오는 로직
-    visibleRoads && setRoads(roadsData);
+    const fetchRoadsData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/api/roads/get-points",
+        );
+        setRoads(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching roads data:", error);
+      }
+    };
+
+    visibleRoads && fetchRoadsData();
   }, [visibleRoads]);
 
   useEffect(() => {
@@ -157,21 +174,24 @@ const Main = () => {
   const onClickMarkerForModal = (id: number) => {
     closeBottomSheet();
     setClickedId(id);
-    setOpenRoadModal(true);
+    setIsRoadOpen(true);
   };
 
-  const handleModalStateChange = () => {
-    setOpenRoadModal(false);
-    setIsComplaintCallModalOpen(true);
+  // 도로 모달 > '민원' 클릭 시
+  const handleRoadModalState = () => {
+    setIsRoadOpen(false);
+    setIsComplaintCallOpen(true);
   };
 
-  const handleComplaintCallModalStateChange = (state: boolean) => {
-    setIsComplaintCallModalOpen(false);
+  // 기존 두 번째 민원 모달 닫기
+  const handleComplaintCallModalState = () => {
+    setIsComplaintCallOpen(false);
   };
 
-  const handleCallTaxiModalChange = () => {
-    setOpenRoadModal(false);
-    setCallTaxiModalOpen(true);
+  // 기존 도로 모달 닫고 택시 모달 open
+  const handleCallTaxiModalState = () => {
+    setIsRoadOpen(false);
+    setIscallTaxiOpen(true);
   };
 
   return (
@@ -240,49 +260,53 @@ const Main = () => {
           <Navbar />
         </div>
       </Container>
-      {openRoadModal && (
+      {/* 1. 통행 불편 모달 open */}
+      {isRoadOpen && (
         <ModalPortal>
           <Modal
-            onClose={() => setOpenRoadModal(false)}
+            onClose={() => setIsRoadOpen(false)}
             height="620px"
             width="450px"
           >
             <RoadTroubleModal
-              callTaxiModalHandle={handleCallTaxiModalChange}
-              stateChange={handleModalStateChange}
+              callTaxiModalFunc={handleCallTaxiModalState}
+              stateChangeFunc={handleRoadModalState}
             />
           </Modal>
         </ModalPortal>
       )}
-      {isComplaintCallModalOpen && (
+      {/* 2. 민원 모달 open */}
+      {isComplaintCallOpen && (
         <ModalPortal>
           <Modal
-            onClose={() => setIsComplaintCallModalOpen(false)}
+            onClose={() => setIsComplaintCallOpen(false)}
             height="250px"
             width="350px"
           >
             <RoadReportCallModal
-              isComplaintCallModalOpen={isComplaintCallModalOpen}
-              stateChange={handleComplaintCallModalStateChange}
-              openCenterListModal={() => setCenterListModalOpen(true)}
+              complaintCallState={isComplaintCallOpen}
+              stateChangeFunc={handleComplaintCallModalState}
+              centerListSetState={() => setIsCenterListOpen(true)}
             ></RoadReportCallModal>
           </Modal>
         </ModalPortal>
       )}
-      {centerListModalOpen && (
+      {/* 3. 기관목록 모달 open */}
+      {isCenterListOpen && (
         <ModalPortal>
           <Modal
             height="600px"
             width="420px"
-            onClose={() => setCenterListModalOpen(false)}
+            onClose={() => setIsCenterListOpen(false)}
           >
             <RoadCenterListModal></RoadCenterListModal>
           </Modal>
         </ModalPortal>
       )}
-      {callTaxiModalOpen && (
+      {/* 4. 콜택시 모달 open */}
+      {iscallTaxiOpen && (
         <ModalPortal>
-          <Modal width="280px" onClose={() => setCallTaxiModalOpen(false)}>
+          <Modal width="280px" onClose={() => setIscallTaxiOpen(false)}>
             <CallTaxiModal></CallTaxiModal>
           </Modal>
         </ModalPortal>

@@ -1,13 +1,13 @@
-import { RiSpeakFill } from "react-icons/ri";
 import { FaTaxi } from "react-icons/fa";
+import { RiSpeakFill } from "react-icons/ri";
 import RoadTroubleImageSlide from "../RoadTroubleImageSlide/RoadTroubleImageSlide";
 
 type Props = {
-  stateChange: () => void;
-  callTaxiModalHandle: () => void;
+  callTaxiModalFunc: () => void;
+  stateChangeFunc: () => void;
 };
 
-const RoadTroubleModal = ({ stateChange, callTaxiModalHandle }: Props) => {
+const RoadTroubleModal = ({ callTaxiModalFunc, stateChangeFunc }: Props) => {
   return (
     <div className="max-w-[380px]">
       <div className="w-[380px] h-[360px]">
@@ -20,19 +20,23 @@ const RoadTroubleModal = ({ stateChange, callTaxiModalHandle }: Props) => {
       <div className="h-[50px] flex items-center">
         <p className="flex space-x-4">
           <button
-            onClick={stateChange}
+            onClick={stateChangeFunc}
             className="flex items-center justify-center flex-col mr-1"
           >
             <RiSpeakFill size={20} color="#404040" />
             <span>민원</span>
           </button>
-          <button className="flex items-center justify-center flex-col">
+          <button
+            onClick={callTaxiModalFunc}
+            className="flex items-center justify-center flex-col"
+          >
             <FaTaxi size={20} color="#404040" />
-            <span onClick={callTaxiModalHandle}>콜택시</span>
+            <span>콜택시</span>
           </button>
         </p>
       </div>
     </div>
   );
 };
+
 export default RoadTroubleModal;
