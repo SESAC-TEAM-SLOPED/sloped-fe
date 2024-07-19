@@ -13,7 +13,7 @@ import FacilityMarkers from "../../components/FacilityMarkers/FacilityMarkers";
 import RoadMarkers from "../../components/RoadMarkers/RoadMarkers";
 import BookmarkMarkers from "../../components/BookmarkMarkers/BookmarkMarkers";
 import Categories from "../../components/Categories/Categories";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
@@ -21,6 +21,9 @@ import RoadTroubleModal from "../../components/RoadTroubleModal/RoadTroubleModal
 import RoadReportCallModal from "../../components/RoadReportCallModal/RoadReportCallModal";
 import RoadCenterListModal from "../../components/RoadCenterListModal/RoadCenterListModal";
 import CallTaxiModal from "../../components/CallTaxiModal/CallTaxiModal";
+import { RoadReportDetail } from "../../types/roadReportDetail";
+import { RoadReportCenter } from "../../types/roadReportCenter";
+import { RoadReportCallTaxi } from "../../types/RoadReportCallTaxi";
 
 const facilitiesData: Facility[] = [
   {
@@ -53,29 +56,6 @@ const facilitiesData: Facility[] = [
   },
 ];
 
-const roadsData: Road[] = [
-  {
-    id: 4,
-    latitude: 37.51739,
-    longitude: 126.886949,
-  },
-  {
-    id: 5,
-    latitude: 37.51739,
-    longitude: 126.88613,
-  },
-  {
-    id: 6,
-    latitude: 37.5172,
-    longitude: 126.88801,
-  },
-  {
-    id: 7,
-    latitude: 37.272033,
-    longitude: 127.124855,
-  },
-];
-
 const bookmarksData: Facility[] = [
   {
     id: 1,
@@ -98,6 +78,13 @@ const Main = () => {
   const [visibleBookmarks, setVisibleBookmarks] = useState(false);
   const [roads, setRoads] = useState<any[]>([]);
   const [visibleRoads, setVisibleRoads] = useState(false);
+  const [roadReport, setRoadReport] = useState<RoadReportDetail>(Object);
+  const [requestRoad, setRequestRoad] = useState<Road>(Object);
+  const [roadReportCenter, setRoadReportCenter] =
+    useState<RoadReportCenter>(Object);
+  const [complaintCenterList, setComplaintCenterList] = useState<any[]>([]);
+  const [callTaxi, setCallTaxi] = useState<RoadReportCallTaxi>(Object);
+
   /*
    1. isRoadOpen - 첫 번째 도로 모달
    2. isComplaintCallOpen - 두 번째 '민원' 클릭 시 모달
@@ -123,13 +110,12 @@ const Main = () => {
     // 불편 지역을 받아오는 로직
     const fetchRoadsData = async () => {
       try {
-        const response = await axios.get(
+        const response = await axios.get<Road[]>(
           "http://localhost:8080/api/roads/get-points",
         );
         setRoads(response.data);
-        console.log(response.data);
       } catch (error) {
-        console.error("Error fetching roads data:", error);
+        console.error("데이터를 불러오는 데 오류가 발생했습니다.:", error);
       }
     };
 
@@ -171,27 +157,88 @@ const Main = () => {
     openBottomSheet();
   };
 
-  const onClickMarkerForModal = (id: number) => {
+  const onClickMarkerForModal = async (id: number) => {
     closeBottomSheet();
     setClickedId(id);
-    setIsRoadOpen(true);
+    try {
+      const roadResponse = await axios.get<Road>(
+        `http://localhost:8080/api/roads/${id}`,
+      );
+      const roadData = roadResponse.data;
+      setRequestRoad(roadData);
+
+      const response = await axios.get(
+        `http://localhost:8080/api/roadReport/info/${id}`,
+      );
+      setRoadReport(response.data);
+      setIsRoadOpen(true);
+    } catch (error) {
+      console.error(
+        "로드 상세 정보를 불러오는 데 오류가 발생했습니다. :",
+        error,
+      );
+    }
   };
 
   // 도로 모달 > '민원' 클릭 시
-  const handleRoadModalState = () => {
+  const handleRoadModalState = async () => {
     setIsRoadOpen(false);
     setIsComplaintCallOpen(true);
+    if (requestRoad) {
+      try {
+        const response = await axios.post<RoadReportCenter>(
+          "http://localhost:8080/api/roadReport/connect-center",
+          requestRoad,
+        );
+        setRoadReportCenter(response.data);
+      } catch (error) {
+        console.error(
+          "Error sending road data or fetching report centers:",
+          error,
+        );
+      }
+    }
   };
 
   // 기존 두 번째 민원 모달 닫기
   const handleComplaintCallModalState = () => {
     setIsComplaintCallOpen(false);
   };
-
+  // 두번째 모달 - 기관 목록 클릭 시 기관목록 모달
+  const handleCenterListModalState = async () => {
+    setIsComplaintCallOpen(false);
+    try {
+      const response = await axios.get<RoadReportCenter[]>(
+        "http://localhost:8080/api/roadReport/get-centerList",
+      );
+      setComplaintCenterList(response.data);
+      setIsCenterListOpen(true);
+    } catch (error) {
+      console.error(
+        "Error sending road data or fetching report centers:",
+        error,
+      );
+    }
+  };
   // 기존 도로 모달 닫고 택시 모달 open
-  const handleCallTaxiModalState = () => {
+  const handleCallTaxiModalState = async () => {
     setIsRoadOpen(false);
     setIscallTaxiOpen(true);
+    if (requestRoad) {
+      try {
+        const response = await axios.post<RoadReportCallTaxi>(
+          "http://localhost:8080/api/roadReport/connect-callTaxi",
+          requestRoad,
+        );
+        setCallTaxi(response.data);
+        console.log(callTaxi);
+      } catch (error) {
+        console.error(
+          "Error sending road data or fetching report centers:",
+          error,
+        );
+      }
+    }
   };
 
   return (
@@ -269,6 +316,7 @@ const Main = () => {
             width="450px"
           >
             <RoadTroubleModal
+              roadReport={roadReport}
               callTaxiModalFunc={handleCallTaxiModalState}
               stateChangeFunc={handleRoadModalState}
             />
@@ -284,9 +332,10 @@ const Main = () => {
             width="350px"
           >
             <RoadReportCallModal
+              complaintCenter={roadReportCenter}
               complaintCallState={isComplaintCallOpen}
               stateChangeFunc={handleComplaintCallModalState}
-              centerListSetState={() => setIsCenterListOpen(true)}
+              centerListSetState={handleCenterListModalState}
             ></RoadReportCallModal>
           </Modal>
         </ModalPortal>
@@ -299,15 +348,23 @@ const Main = () => {
             width="420px"
             onClose={() => setIsCenterListOpen(false)}
           >
-            <RoadCenterListModal></RoadCenterListModal>
+            <RoadCenterListModal
+              centerList={complaintCenterList}
+              centerListState={isCenterListOpen}
+              stateChangeFunc={handleCenterListModalState}
+            ></RoadCenterListModal>
           </Modal>
         </ModalPortal>
       )}
       {/* 4. 콜택시 모달 open */}
       {iscallTaxiOpen && (
         <ModalPortal>
-          <Modal width="280px" onClose={() => setIscallTaxiOpen(false)}>
-            <CallTaxiModal></CallTaxiModal>
+          <Modal
+            width="380px"
+            height="220px"
+            onClose={() => setIscallTaxiOpen(false)}
+          >
+            <CallTaxiModal callTaxi={callTaxi}></CallTaxiModal>
           </Modal>
         </ModalPortal>
       )}
