@@ -4,6 +4,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaUser } from "react-icons/fa";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
+import KakaoLoginButton from "../LoginButton/KakaoLoginButton";
 
 const JoinPageForm = () => {
   return (
@@ -22,17 +23,7 @@ const JoinPageForm = () => {
         </div>
       </Link>
 
-      <Link
-        to="/login/kakao"
-        className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-kakao rounded-lg text-lg "
-      >
-        <div className="flex items-center ml-5">
-          <RiKakaoTalkFill className="text-brown" size={22} />
-        </div>
-        <div className="flex-grow flex items-center justify-center">
-          <span>카카오 계정으로 로그인</span>
-        </div>
-      </Link>
+      <KakaoLoginButton />
 
       <Link
         to="/login/local"
