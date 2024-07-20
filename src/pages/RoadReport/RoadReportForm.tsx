@@ -43,7 +43,7 @@ const RoadReportForm = () => {
       formData.append("address", address);
       formData.append("content", content);
 
-      const response = await axios.post("/api/roadReport/register", formData, {
+      const response = await axios.post("/api/roadReport/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
