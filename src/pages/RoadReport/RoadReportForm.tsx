@@ -5,36 +5,102 @@ import Textarea from "./../../components/ui/TextArea";
 import UploadButton from "../../components/ui/UploadButton";
 import Button from "../../components/ui/Button";
 import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 const RoadReportForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { location: reportLocation, address } = location.state || {};
-  const [textContent, setTextContent] = useState("");
+  const [content, setContent] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
   const [isPhotoUploaded, setIsPhotoUploaded] = useState(false);
-  const isButtonDisabled = !isPhotoUploaded || textContent.trim() === "";
-
-  console.log(address);
+  const isButtonDisabled = content.trim() === "";
+  //!isPhotoUploaded || textContent.trim() === "";
 
   useEffect(() => {
-    console.log(reportLocation);
+    //console.log(reportLocation);
     if (!reportLocation || !address) {
       alert("잘못된 접근입니다.");
       navigate("/road/new/positioning");
     }
   }, [reportLocation, address, navigate]);
 
-  const submitForm = () => {
-    // 불편 도로 제보 API 연동, 성공시 submit 페이지로 이동
-    console.log(reportLocation);
-    console.log(`주소: ${address}`);
-    console.log(uploadedFiles);
-    console.log(`내용: ${textContent}`);
+  const submitForm = async () => {
+    //console.log(reportLocation);
+    //console.log(`주소: ${address}`);
+    //console.log(uploadedFiles);
+    //console.log(`내용: ${content}`);
 
-    navigate("/submit/completed");
+    try {
+      const formData = new FormData();
+      uploadedFiles.forEach((file) => {
+        formData.append("files", file);
+        console.log(file);
+      });
+      formData.append("latitude", reportLocation.lat.toString());
+      formData.append("longitude", reportLocation.lng.toString());
+      formData.append("address", address);
+      formData.append("content", content);
+
+      const response = await axios.post("/api/roadReport/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      navigate("/submit/completed");
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response) {
+          console.error("Error response:", error.response.data);
+          alert(error.response.data.message || "Something went wrong");
+        }
+      } else if (error instanceof Error) {
+        console.error("Error submitting form:", error.message);
+        alert("폼 제출에 실패했습니다. 다시 시도해주세요.");
+      } else {
+        console.error("Unknown error", error);
+        alert("알 수 없는 오류가 발생했습니다. 다시 시도해주세요.");
+      }
+    }
   };
+
+  // const submitForm = async () => {
+  //   console.log(reportLocation);
+  //   console.log(`주소: ${address}`);
+  //   console.log(uploadedFiles);
+  //   console.log(`내용: ${content}`);
+
+  //   try {
+  //     const formData = new FormData();
+  //     // uploadedFiles.forEach((file) => {
+  //     //   formData.append("photos", file);
+  //     //   console.log(file);
+  //     // });
+  //     //formData.append("location", JSON.stringify(reportLocation));
+  //     formData.append("latitude", reportLocation.lat);
+  //     formData.append("longitude", reportLocation.lng);
+  //     formData.append("address", address);
+  //     formData.append("content", content);
+
+  //     const response = await fetch("/api/roadReport/register", {
+  //       method: "POST",
+  //       body: formData,
+  //     });
+
+  //     if (!response.ok) {
+  //       const errorData = await response.json();
+  //       console.error("Error response:", errorData);
+  //       throw new Error(errorData.message || "Something went wrong");
+  //     }
+
+  //     navigate("/submit/completed");
+  //   } catch (error) {
+  //     console.error("Error submitting form :", error);
+  //     alert("폼 제출에 실패했습니다. 다시 시도해주세요.");
+  //   }
+  // };
 
   return (
     <Container hasHeader={true} full={true}>
@@ -69,7 +135,7 @@ const RoadReportForm = () => {
           <Textarea
             placeholder="예시. (어떤 장소)에 (어떤 불편함)이 있어요. (어떤 날짜)에는 불편함이 해소될 것 같아요."
             height="200px"
-            onTextChange={setTextContent}
+            onTextChange={setContent}
           />
         </div>
         <p className="text-[#757575] text-sm">
