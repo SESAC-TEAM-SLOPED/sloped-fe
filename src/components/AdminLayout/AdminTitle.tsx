@@ -1,12 +1,21 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Button from "../ui/Button";
 
 const AdminTitle = () => {
-  const location = useLocation();
-  console.log(location);
+  const { pathname } = useLocation();
+  const { id } = useParams();
 
   const getHeaderTitle = () => {
-    switch (location.pathname) {
+    if (id) {
+      if (pathname.includes("facility")) {
+        return "승인 대기 시설";
+      }
+      if (pathname.includes("road")) {
+        return "승인 대기 도로";
+      }
+    }
+
+    switch (pathname) {
       case "members":
         return "회원 관리";
       case "facilities":
@@ -19,7 +28,7 @@ const AdminTitle = () => {
         return "승인 대기 제보";
       case "/admin/reports/facility":
         return "승인 대기 시설";
-      case "pendingRoads":
+      case "/admin/reports/road":
         return "승인 대기 도로";
       default:
         return "운영자 페이지";

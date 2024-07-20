@@ -18,7 +18,10 @@ const AdminSidebar = () => {
   const pendingRoadReports = 1;
 
   useEffect(() => {
-    if (pathname === "/admin/reports/facility") {
+    if (
+      pathname.includes("/admin/reports/facility") ||
+      pathname.includes("/admin/reports/road")
+    ) {
       setIsSubMenuOpen(true);
     }
   }, [pathname]);
@@ -86,7 +89,7 @@ const AdminSidebar = () => {
           <div className="">
             <Link
               to="/admin/reports/facility"
-              className={`flex items-center px-16 py-5 w-full text-left ${pathname === "/admin/reports/facility" ? "bg-[#1A6CFF]" : ""}`}
+              className={`flex items-center px-16 py-5 w-full text-left ${pathname.includes("/admin/reports/facility") ? "bg-[#1A6CFF]" : ""}`}
             >
               시설
               <span className="ml-2 text-xs bg-[#757575] px-2 py-1 rounded-full">
@@ -95,7 +98,7 @@ const AdminSidebar = () => {
             </Link>
             <Link
               to="/admin/reports/road"
-              className={`flex items-center px-16 py-5 w-full text-left ${pathname === "pendingRoads" ? "bg-[#1A6CFF]" : ""}`}
+              className={`flex items-center px-16 py-5 w-full text-left ${pathname.includes("/admin/reports/road") ? "bg-[#1A6CFF]" : ""}`}
             >
               도로
               <span className="ml-2 text-xs bg-[#757575] px-2 py-1 rounded-full">

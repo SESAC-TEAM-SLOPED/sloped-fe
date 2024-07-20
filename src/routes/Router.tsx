@@ -22,6 +22,7 @@ import AdminPageLogin from "../pages/AdminPage/AdminPageLogin";
 import AdminPage from "../pages/AdminPage/AdminPage";
 import AdminReport from "../pages/AdminReport/AdminReport";
 import AdminLayout from "../components/AdminLayout/AdminLayout";
+import AdminReportDetail from "../pages/AdminReportDetail/AdminReportDetail";
 
 const Router = () => {
   return (
@@ -52,6 +53,14 @@ const Router = () => {
           <Route path="/admin/base" element={<AdminPage />} />
           <Route path="/admin/reports/facility" element={<AdminReport />} />
           <Route path="/admin/reports/road" element={<AdminReport />} />
+          <Route
+            path="/admin/reports/facility/:id"
+            element={<AdminReportDetail />}
+          />
+          <Route
+            path="/admin/reports/road/:id"
+            element={<AdminReportDetail />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>

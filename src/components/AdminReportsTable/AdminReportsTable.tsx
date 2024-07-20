@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Props = {
   data: any[];
@@ -6,6 +6,7 @@ type Props = {
 
 const AdminReportsTable = ({ data }: Props) => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   if (pathname.includes("facility")) {
     return (
@@ -22,7 +23,11 @@ const AdminReportsTable = ({ data }: Props) => {
         </thead>
         <tbody>
           {data.map((report) => (
-            <tr key={report.id} className="hover:bg-[#F5F5F5] h-14">
+            <tr
+              key={report.id}
+              className="hover:bg-[#F5F5F5] h-14 cursor-pointer"
+              onClick={() => navigate(`/admin/reports/facility/${report.id}`)}
+            >
               <td className="border-y px-8 text-center">{report.name}</td>
               <td className="border-y px-6 text-center">{report.type}</td>
               <td className="border-y px-8 truncate">{report.description}</td>
@@ -52,7 +57,11 @@ const AdminReportsTable = ({ data }: Props) => {
         </thead>
         <tbody>
           {data.map((report) => (
-            <tr key={report.id} className="hover:bg-[#F5F5F5] h-14">
+            <tr
+              key={report.id}
+              className="hover:bg-[#F5F5F5] h-14 cursor-pointer"
+              onClick={() => navigate(`/admin/reports/road/${report.id}`)}
+            >
               <td className="border-y px-8 text-center">{report.address}</td>
               <td className="border-y px-8 truncate">{report.description}</td>
               <td className="border-y px-8 text-center">
