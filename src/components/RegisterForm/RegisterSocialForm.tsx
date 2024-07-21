@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 
-const RegisterSocialForm = () => {
-  const [isVerified, setIsVerified] = useState(false);
+// Props의 타입을 정의합니다.
+interface RegisterSocialFormProps {
+  email: string;
+  oauthType: string;
+}
+
+const RegisterSocialForm = ({ email, oauthType }: RegisterSocialFormProps) => {
   const [userType, setUserType] = useState("general");
 
   return (

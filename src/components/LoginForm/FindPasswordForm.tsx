@@ -3,10 +3,11 @@ import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
 
 type Props = {
   setActiveTab: (tab: string) => void;
+  id: string;
 };
 
-const FindPasswordForm = ({ setActiveTab }: Props) => {
-  const [id, setId] = useState("");
+const FindPasswordForm = ({ setActiveTab, id }: Props) => {
+  const [currentId, setCurrentId] = useState(id);
   const [email, setEmail] = useState("");
   const [domain, setDomain] = useState("naver.com");
   const [customDomain, setCustomDomain] = useState("");
@@ -43,8 +44,7 @@ const FindPasswordForm = ({ setActiveTab }: Props) => {
           className="w-full border-b border-gray-400 py-2 outline-none"
           placeholder="아이디 입력"
           value={id}
-          onChange={(event) => setId(event.target.value)}
-          disabled={isVerified} // 아이디 수정 불가
+          readOnly // 아이디 수정 불가
         />
       </div>
 
