@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../api";
 
 // Props의 타입을 정의합니다.
 interface RegisterSocialFormProps {
@@ -7,7 +9,28 @@ interface RegisterSocialFormProps {
 }
 
 const RegisterSocialForm = ({ email, oauthType }: RegisterSocialFormProps) => {
+  const [nickname, setNickname] = useState("");
   const [userType, setUserType] = useState("general");
+  const isDisabled = userType === "disabled";
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+
+  const handleRegister = async () => {
+    try {
+      const response = await api.post("/api/users/register/social", {
+        nickname,
+        email,
+        oauthType,
+        isDisabled,
+      });
+
+      if (response.status === 201) {
+        navigate("/joinpage"); // 회원 가입 완료 후 이동할 페이지
+      }
+    } catch (error) {
+      setError("회원가입에 실패했습니다. 다시 시도해 주세요.");
+    }
+  };
 
   return (
     <div
@@ -15,15 +38,17 @@ const RegisterSocialForm = ({ email, oauthType }: RegisterSocialFormProps) => {
       className="flex flex-col items-center justify-center min-h-screen space-y-4 bg-white"
     >
       <div style={{ marginBottom: "2rem" }} className="w-[300px] mb-4">
-        <label htmlFor="id" className="text-sm text-gray-700 mb-2">
+        <label htmlFor="nickname" className="text-sm text-gray-700 mb-2">
           닉네임
         </label>
         <div className="flex items-center border-b border-gray-400 py-2">
           <input
             type="text"
-            id="id"
+            id="nickname"
             className="flex-grow outline-none"
-            placeholder="아이디 입력"
+            placeholder="닉네임 입력"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)}
           />
         </div>
       </div>
@@ -55,7 +80,12 @@ const RegisterSocialForm = ({ email, oauthType }: RegisterSocialFormProps) => {
         </div>
       </div>
 
-      <button className="w-[300px] h-[40px] bg-signiture text-white rounded-lg">
+      {error && <div className="text-red-500 mb-4">{error}</div>}
+
+      <button
+        className="w-[300px] h-[40px] bg-signiture text-white rounded-lg"
+        onClick={handleRegister}
+      >
         회원가입
       </button>
     </div>

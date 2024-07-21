@@ -41,14 +41,18 @@ const RegisterIdForm = () => {
     [email],
   );
 
+  const handleBlurPasswordFields = () => {
+    if (password && confirmPassword && password !== confirmPassword) {
+      setError("비밀번호가 일치하지 않습니다.");
+    } else {
+      setError("");
+    }
+  };
+
   const handleContinue = async () => {
     if (password !== confirmPassword) {
+      // 비밀번호가 일치하지 않으면 회원가입을 진행하지 않음
       setError("비밀번호가 일치하지 않습니다.");
-      return;
-    }
-
-    if (!isIdChecked) {
-      setError("아이디 중복 확인을 해주세요.");
       return;
     }
 
@@ -91,6 +95,10 @@ const RegisterIdForm = () => {
       style={{ minHeight: "90vh" }}
       className="flex flex-col items-center justify-center min-h-screen space-y-4 bg-white"
     >
+      {!isVerified && error && (
+        <div className="w-[300px] mb-4 text-red-500">{error}</div>
+      )}
+
       <div className="w-[300px] mb-4">
         <label htmlFor="id" className="text-sm text-gray-700 mb-2">
           아이디
@@ -131,6 +139,7 @@ const RegisterIdForm = () => {
             placeholder="비밀번호 입력"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            onBlur={handleBlurPasswordFields}
           />
           <button
             type="button"
@@ -153,7 +162,8 @@ const RegisterIdForm = () => {
             className="flex-grow outline-none"
             placeholder="비밀번호 확인 입력"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)} // 비밀번호 확인 상태 업데이트
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            onBlur={handleBlurPasswordFields}
           />
           <button
             type="button"
@@ -211,10 +221,6 @@ const RegisterIdForm = () => {
         pageType="register"
         onVerify={handleVerificationResult}
       />
-
-      {!isVerified && error && (
-        <div className="w-[300px] mb-4 text-red-500">{error}</div>
-      )}
 
       <div className="w-[300px] mb-4">
         <label htmlFor="nickname" className="text-sm text-gray-700 mb-2">
