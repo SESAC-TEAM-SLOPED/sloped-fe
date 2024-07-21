@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       colors: {
         google: "#4285F4",
+        naver: "#07C050",
         kakao: "#FEE500",
         email: "#2196F3",
         login: "#D2D2D2",

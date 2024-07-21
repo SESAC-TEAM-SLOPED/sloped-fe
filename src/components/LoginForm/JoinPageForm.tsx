@@ -5,23 +5,17 @@ import { FaUser } from "react-icons/fa";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import KakaoLoginButton from "../LoginButton/KakaoLoginButton";
+import NaverLoginButton from "../LoginButton/NaverLoginButton";
+import GoogleLoginButton from "../LoginButton/GoogleLoginButton";
 
 const JoinPageForm = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-4 bg-white">
       <h1 className="text-4xl font-bold mb-6">함께가길</h1>
 
-      <Link
-        to="/login/google"
-        className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-white rounded-lg text-lg border border-gray-300"
-      >
-        <div className="flex items-center ml-5">
-          <FcGoogle size={22} />
-        </div>
-        <div className="flex-grow flex items-center justify-center">
-          <span>구글 로그인</span>
-        </div>
-      </Link>
+      <GoogleLoginButton />
+
+      <NaverLoginButton />
 
       <KakaoLoginButton />
 
