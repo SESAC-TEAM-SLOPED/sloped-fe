@@ -5,7 +5,7 @@ import api from "../../api";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const IdLoginForm = () => {
-  const [id, setId] = useState("");
+  const [memberId, setmemberId] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -16,7 +16,10 @@ const IdLoginForm = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await api.post("/api/auth/login", { id, password });
+      const response = await api.post("/api/auth/login", {
+        memberId,
+        password,
+      });
       // const response = await api.post("/api/users/login", { id, password });
       const token = response.data.token;
       localStorage.setItem("token", token); // JWT 토큰을 로컬 스토리지에 저장
@@ -49,7 +52,7 @@ const IdLoginForm = () => {
           type="text"
           id="id"
           className="border-b h-7 border-[#949494] outline-none text-[#404040] w-full"
-          onChange={(event) => setId(event.target.value)}
+          onChange={(event) => setmemberId(event.target.value)}
         />
       </div>
 
