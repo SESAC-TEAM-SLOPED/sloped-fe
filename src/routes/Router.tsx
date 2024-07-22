@@ -28,6 +28,7 @@ import AdminRoadReport from "../pages/AdminPage/AdminRoadReport";
 import AdminRoadReportDetail from "../pages/AdminPage/AdminRoadReportDetail";
 import AdminReview from "../pages/AdminPage/AdminReview";
 import AdminReviewDetail from "../pages/AdminPage/AdminReviewDetail";
+import GetJwt from "../pages/Login/GetJwt";
 
 const Router = () => {
   return (
@@ -64,6 +65,7 @@ const Router = () => {
           <Route path="/admin/review" element={<AdminReview />} />
           <Route path="/admin/review/:id" element={<AdminReviewDetail />} />
         </Route>
+        <Route path="/get-jwt" element={<GetJwt />} />
       </Routes>
     </BrowserRouter>
   );
