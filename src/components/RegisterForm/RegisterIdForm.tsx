@@ -56,10 +56,12 @@ const RegisterIdForm = () => {
       return;
     }
 
+    console.log();
+
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
     try {
       const response = await api.post("/api/users/register", {
-        id,
+        memberId: id,
         password,
         email: fullEmail,
         nickname,
