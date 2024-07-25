@@ -22,6 +22,8 @@ const FindInformation = () => {
           <FindIdForm setActiveTab={setActiveTab} setMemberId={setMemberId} />
         )}
 
+        {activeTab === "id-pass" && <FindIdPassForm memberId={memberId} />}
+
         {activeTab === "password" && !isIdVerified && (
           <IdCheckBeforePasswordForm
             setActiveTab={setActiveTab}
@@ -34,8 +36,9 @@ const FindInformation = () => {
           <FindPasswordForm setActiveTab={setActiveTab} id={memberId} />
         )}
 
-        {activeTab === "id-pass" && <FindIdPassForm memberId={memberId} />}
-        {activeTab === "password-pass" && <FindPasswordPassForm />}
+        {activeTab === "password-pass" && (
+          <FindPasswordPassForm id={memberId} />
+        )}
       </Container>
     </div>
   );

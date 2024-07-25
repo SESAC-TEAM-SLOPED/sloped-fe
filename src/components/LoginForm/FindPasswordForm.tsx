@@ -7,7 +7,6 @@ type Props = {
 };
 
 const FindPasswordForm = ({ setActiveTab, id }: Props) => {
-  const [currentId, setCurrentId] = useState(id);
   const [email, setEmail] = useState("");
   const [domain, setDomain] = useState("naver.com");
   const [customDomain, setCustomDomain] = useState("");

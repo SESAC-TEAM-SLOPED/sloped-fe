@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import Button from "../ui/Button";
-import api from "../../api";
+import api from "../../service/api";
 import { useNavigate } from "react-router-dom";
 
 const IdLoginForm = () => {

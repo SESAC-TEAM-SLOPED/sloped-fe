@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import api from "../../api";
+import api from "../../service/api";
 
 type Props = {
   setIsIdVerified: (verified: boolean) => void;
@@ -17,13 +17,15 @@ const IdCheckBeforePasswordForm = ({
 
   const handleDuplicateCheck = async () => {
     try {
-      const response = await api.post("/api/users/duplicate-check/id", { id });
-      if (response.status === 409) {
-        // 아이디가 중복됨=
+      const response = await api.post("/api/users/duplicate-check/find-id", {
+        id,
+      });
+      if (response.status === 200) {
+        // 아이디가 존재
         setIsIdVerified(true);
         setMemberId(id); // 확인한 아이디 저장
-      } else if (response.status === 204) {
-        // 아이디가 중복되지 않음=
+        setActiveTab("password"); // 다음 단계로 이동
+      } else {
         setError("없는 아이디입니다. 확인해주세요.");
       }
     } catch (error: any) {

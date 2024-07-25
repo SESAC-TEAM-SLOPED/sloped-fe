@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../api";
+import api from "../../service/api";
 
 // Props의 타입을 정의합니다.
 interface RegisterSocialFormProps {

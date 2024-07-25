@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
-import api from "../../api";
+import api from "../../service/api";
 import { useNavigate } from "react-router-dom";
 
 const RegisterIdForm = () => {

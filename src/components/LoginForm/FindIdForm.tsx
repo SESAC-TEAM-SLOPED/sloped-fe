@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import api from "../../api";
+import api from "../../service/api";
 import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
 
 // 통과 페이지 호출용
