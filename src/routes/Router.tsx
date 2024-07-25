@@ -28,7 +28,7 @@ import AdminRoadReport from "../pages/AdminPage/AdminRoadReport";
 import AdminRoadReportDetail from "../pages/AdminPage/AdminRoadReportDetail";
 import AdminReview from "../pages/AdminPage/AdminReview";
 import AdminReviewDetail from "../pages/AdminPage/AdminReviewDetail";
-import GetJwt from "../pages/Login/GetJwt";
+import GetJwt from "../components/AuthenticationForm/GetJwt";
 
 const Router = () => {
   return (

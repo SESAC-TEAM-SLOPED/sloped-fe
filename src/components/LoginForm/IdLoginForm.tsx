@@ -2,7 +2,7 @@ import { useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import Button from "../ui/Button";
 import api from "../../api";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const IdLoginForm = () => {
   const [memberId, setmemberId] = useState("");
@@ -16,23 +16,21 @@ const IdLoginForm = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await api.post("/api/auth/login", {
-        memberId,
-        password,
-      });
-      // const response = await api.post("/api/users/login", { id, password });
-      const token = response.data.token;
-      localStorage.setItem("token", token); // JWT 토큰을 로컬 스토리지에 저장
+      const response = await api.post(
+        "/api/auth/login",
+        {
+          memberId,
+          password,
+        },
+        { withCredentials: true },
+      );
 
-      const storedToken = localStorage.getItem("token");
-      if (storedToken) {
-        console.log("Stored JWT Token:", storedToken);
+      // 응답 상태 코드 확인
+      if (response.status === 200) {
+        navigate("/get-jwt");
       } else {
-        console.log("No token found");
+        console.error("Login failed with status:", response.status);
       }
-      console.log("Login successful", response.data);
-
-      navigate("/"); // 로그인 성공 시 이동하는 페이지
     } catch (error) {
       // 로그인 실패 시 처리 로직 추가
       console.error("Login failed", error);
