@@ -20,7 +20,7 @@ axiosInstance.interceptors.request.use(
         console.log("Access Token expired, requesting new access token");
         // 새로운 Access Token 요청
         const response = await axios.post(
-          "/api/auth/refresh-access-token",
+          "/api/auth/refresh-token",
           { expiredAccessToken: accessToken },
           {
             headers: {
