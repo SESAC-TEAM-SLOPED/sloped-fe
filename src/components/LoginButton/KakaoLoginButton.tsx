@@ -3,7 +3,7 @@ import { RiKakaoTalkFill } from "react-icons/ri";
 
 const KakaoLoginButton = () => {
   const handleKakaoLogin = () => {
-    window.location.href = "http://localhost:8080/api/auth/login/kakao";
+    window.location.href = "http://localhost:8080/oauth2/authorization/kakao";
   };
 
   return (

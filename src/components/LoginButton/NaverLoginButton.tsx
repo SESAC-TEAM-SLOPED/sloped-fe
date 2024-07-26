@@ -3,7 +3,7 @@ import { SiNaver } from "react-icons/si";
 
 const NaverLoginButton = () => {
   const handleNaverLogin = () => {
-    window.location.href = "http://localhost:8080/api/auth/login/naver";
+    window.location.href = "http://localhost:8080/oauth2/authorization/naver";
   };
 
   return (
