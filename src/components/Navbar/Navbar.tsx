@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const handleMypageClick = async () => {
     try {
-      const response = await axiosInstance.get("/api/auth/mypage");
+      const response = await axiosInstance.get("/mypage-request");
       if (response.status === 200) {
         // API 응답이 성공적이면 페이지 이동
         console.log(response.data); // 필요한 동작 수행

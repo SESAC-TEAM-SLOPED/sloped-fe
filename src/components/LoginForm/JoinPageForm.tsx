@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaUser } from "react-icons/fa";
 import { RiKakaoTalkFill } from "react-icons/ri";
@@ -9,6 +9,12 @@ import NaverLoginButton from "../LoginButton/NaverLoginButton";
 import GoogleLoginButton from "../LoginButton/GoogleLoginButton";
 
 const JoinPageForm = () => {
+  const navigate = useNavigate();
+
+  const handleGuestClick = () => {
+    navigate("/");
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-4 bg-white">
       <h1 className="text-4xl font-bold mb-6">함께가길</h1>
@@ -31,7 +37,10 @@ const JoinPageForm = () => {
         </div>
       </Link>
 
-      <button className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-gray-200 rounded-lg text-lg ">
+      <button
+        onClick={handleGuestClick}
+        className="flex items-center justify-start w-[250px] h-[60px] py-2 bg-gray-200 rounded-lg text-lg "
+      >
         <div className="flex items-center ml-5">
           <FaUser size={22} />
         </div>
