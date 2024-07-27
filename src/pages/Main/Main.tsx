@@ -312,7 +312,7 @@ const Main = () => {
         <ModalPortal>
           <Modal
             onClose={() => setIsRoadOpen(false)}
-            height="620px"
+            height="700px"
             width="450px"
           >
             <RoadTroubleModal

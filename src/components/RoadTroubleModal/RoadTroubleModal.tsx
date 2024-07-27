@@ -2,6 +2,9 @@ import { FaTaxi } from "react-icons/fa";
 import { RiSpeakFill } from "react-icons/ri";
 import RoadTroubleImageSlide from "../RoadTroubleImageSlide/RoadTroubleImageSlide";
 import { RoadReportDetail } from "../../types/roadReportDetail";
+import InformationIcon from "../icons/InformationIcon";
+import { useState } from "react";
+import RoadImageCaptioning from "../RoadImageCaptioning/RoadImageCaptioning";
 
 type Props = {
   callTaxiModalFunc: () => void;
@@ -14,6 +17,8 @@ const RoadTroubleModal = ({
   callTaxiModalFunc,
   stateChangeFunc,
 }: Props) => {
+  const [openImageCaptioning, setOpenImageCaptioning] = useState(false);
+
   return (
     <>
       {roadReport && (
@@ -22,6 +27,18 @@ const RoadTroubleModal = ({
             <RoadTroubleImageSlide
               roadReportImage={roadReport.reportImageList}
             />
+          </div>
+          <div className="flex justify-end text-sm mt-4 relative">
+            <button
+              className="flex items-center gap-1"
+              onClick={() => setOpenImageCaptioning(true)}
+            >
+              <InformationIcon color="3F51B5" />
+              <span>AI 이미지 설명</span>
+            </button>
+            {openImageCaptioning && (
+              <RoadImageCaptioning image={roadReport.reportImageList[0].url} />
+            )}
           </div>
           <div className="h-[130px] pt-5 mb-3">{roadReport.content}</div>
           <div className="h-[50px] flex items-center">
