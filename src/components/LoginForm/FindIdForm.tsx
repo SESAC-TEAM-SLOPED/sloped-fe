@@ -33,7 +33,7 @@ const FindIdForm = ({ setActiveTab, setMemberId }: Props) => {
       const response = await api.post("/api/users/find-id", {
         email: fullEmail,
       });
-      const memberId = response.data; // 서버에서 받은 아이디
+      const memberId = response.data.memberId; // 서버에서 받은 아이디
       setMemberId(memberId); // memberId 상태 업데이트
       setActiveTab("id-pass"); // 페이지 이동
     } catch (error) {

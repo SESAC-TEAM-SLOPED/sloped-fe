@@ -3,6 +3,7 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import Button from "../ui/Button";
 import api from "../../service/api";
 import { useNavigate } from "react-router-dom";
+import { handleTokenStorageAndNavigation } from "../../service/tokenUtils";
 
 const IdLoginForm = () => {
   const [memberId, setmemberId] = useState("");
@@ -27,12 +28,14 @@ const IdLoginForm = () => {
 
       // 응답 상태 코드 확인
       if (response.status === 200) {
-        navigate("/get-jwt");
+        const accessToken = response.data.accessToken;
+        const refreshToken = response.data.refreshToken;
+
+        handleTokenStorageAndNavigation(navigate, accessToken, refreshToken);
       } else {
         console.error("Login failed with status:", response.status);
       }
     } catch (error) {
-      // 로그인 실패 시 처리 로직 추가
       console.error("Login failed", error);
     }
   };

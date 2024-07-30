@@ -18,7 +18,7 @@ const IdCheckBeforePasswordForm = ({
   const handleDuplicateCheck = async () => {
     try {
       const response = await api.post("/api/users/duplicate-check/find-id", {
-        id,
+        memberId: id,
       });
       if (response.status === 200) {
         // 아이디가 존재
