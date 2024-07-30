@@ -28,31 +28,34 @@ import AdminRoadReport from "../pages/AdminPage/AdminRoadReport";
 import AdminRoadReportDetail from "../pages/AdminPage/AdminRoadReportDetail";
 import AdminReview from "../pages/AdminPage/AdminReview";
 import AdminReviewDetail from "../pages/AdminPage/AdminReviewDetail";
+import CheckAuth from "./CheckAuth";
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/review/new" element={<WriteReview />} />
-        <Route path="/facility/new/positioning" element={<Positioning />} />
-        <Route path="/road/new/positioning" element={<Positioning />} />
-        <Route path="/login/id" element={<IdLogin />} />
-        <Route path="/joinpage" element={<JoinPage />} />
-        <Route path="/find/information" element={<FindInformation />} />
-        <Route path="/register/id" element={<RegisterId />} />
-        <Route path="/register/social" element={<RegisterSocial />} />
-        <Route path="/report/road/new" element={<Positioning />} />
-        <Route path="/report/road/form" element={<RoadReportForm />} />
-        <Route path="/submit/completed" element={<SubmitComplete />} />
-        <Route path="/facility/details" element={<ViewFacilityDetails />} />
-        <Route path="/post/new/facility" element={<PostNewFacility />} />
-        <Route path="/mypage" element={<MyPageBase />} />
-        <Route path="/mypage/favorites" element={<MyFavorite />} />
-        <Route path="/mypage/edit-info" element={<MyProfileEditor />} />
-        <Route path="/mypage/my-reviews" element={<MyReview />} />
-        <Route path="/mypage/edit-review" element={<MyReviewEditor />} />
-        <Route path="/mypage/my-reports" element={<MyReport />} />
+        {/* token 유무 체크 */}
+        <Route path="/" element={<CheckAuth />}>
+          <Route path="login/id" element={<IdLogin />} />
+          <Route path="joinpage" element={<JoinPage />} />
+          <Route path="review/new" element={<WriteReview />} />
+          <Route path="facility/new/positioning" element={<Positioning />} />
+          <Route path="road/new/positioning" element={<Positioning />} />
+          <Route path="/register/id" element={<RegisterId />} />
+          <Route path="/register/social" element={<RegisterSocial />} />
+          <Route path="/find/information" element={<FindInformation />} />
+          <Route path="/report/road/new" element={<Positioning />} />
+          <Route path="/report/road/form" element={<RoadReportForm />} />
+          <Route path="/submit/completed" element={<SubmitComplete />} />
+          <Route path="/report/facility/new" element={<PostNewFacility />} />
+          <Route path="/mypage" element={<MyPageBase />} />
+          <Route path="/mypage/favorites" element={<MyFavorite />} />
+          <Route path="/mypage/edit-info" element={<MyProfileEditor />} />
+          <Route path="/mypage/my-reviews" element={<MyReview />} />
+          <Route path="/mypage/edit-review" element={<MyReviewEditor />} />
+          <Route path="/mypage/my-reports" element={<MyReport />} />
+        </Route>
+        {/* token 유무 체크 x 관리자 페이지는 수정 예정 */}
         <Route path="/admin" element={<AdminLogin />} />
         <Route path="/admin" element={<AdminLayout />}>
           <Route path="/admin/reports/facility" element={<AdminReport />} />
@@ -64,6 +67,8 @@ const Router = () => {
           <Route path="/admin/review" element={<AdminReview />} />
           <Route path="/admin/review/:id" element={<AdminReviewDetail />} />
         </Route>
+        <Route path="/" element={<Main />} />
+        <Route path="/facility/details" element={<ViewFacilityDetails />} />
       </Routes>
     </BrowserRouter>
   );
