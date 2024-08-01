@@ -7,13 +7,10 @@ const CheckAuth = () => {
 
   if (
     !token &&
-    pathname !== "/joinpage" &&
-    !token &&
-    pathname !== "/login/id" &&
-    !token &&
-    !pathname.includes("register") &&
-    !token &&
-    pathname !== "/find/information"
+    ((!token && pathname !== "/joinpage") ||
+      (!token && pathname === "/login/id") ||
+      (!token && pathname.includes("register")) ||
+      (!token && pathname === "/find/information"))
   ) {
     return <Navigate to="/joinpage" />;
   } else if (
