@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaUserEdit,
@@ -10,18 +10,25 @@ import {
 } from "react-icons/fa";
 import ModalPortal from "../ui/ModalPortal";
 import Modal from "../ui/Modal";
+import { decodeTokenNickname } from "../../service/tokenUtils";
+import { handleLogout } from "../../service/authUtils";
 
-type MyPageBaseFormProps = {
-  nickname: string;
-};
-
-const MyPageBaseForm = ({ nickname }: MyPageBaseFormProps) => {
+const MyPageBaseForm = () => {
+  const [nickname, setNickname] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      const decodedNickname = decodeTokenNickname(token);
+      setNickname(decodedNickname); // 닉네임 설정
+    }
+  }, []);
 
   const handleVerifyPassword = () => {
     if (password === "123456" && password === confirmPassword) {
@@ -73,13 +80,15 @@ const MyPageBaseForm = ({ nickname }: MyPageBaseFormProps) => {
           <FaBookmark className="text-2xl mr-4" />
           <p>즐겨찾기</p>
         </Link>
-        <Link
-          to="/logout"
+
+        <button
+          onClick={() => handleLogout(navigate)}
           className="bg-white p-4 rounded-lg shadow flex items-center w-full px-6 py-3 my-2"
         >
           <FaSignOutAlt className="text-2xl mr-4" />
           <p>로그아웃</p>
-        </Link>
+        </button>
+
         <button
           onClick={() => setShowDeleteModal(true)}
           className="bg-white p-4 rounded-lg shadow flex items-center w-full px-6 py-3 my-2"

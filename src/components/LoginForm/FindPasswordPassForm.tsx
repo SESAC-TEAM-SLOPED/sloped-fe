@@ -1,20 +1,40 @@
 import React, { useState } from "react";
+import api from "../../service/api";
+import { useNavigate } from "react-router-dom";
 
-const FindPasswordPassForm = () => {
-  const [id, setId] = useState("");
+type Props = {
+  id: string;
+};
+
+const FindPasswordPassForm = ({ id }: Props) => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
-  const handleChangePassword = () => {
+  const handleChangePassword = async () => {
     if (newPassword !== confirmPassword) {
       setError("비밀번호가 일치하지 않습니다.");
       return;
     }
-    // 여기에 비밀번호 변경 로직을 추가하세요.
-    // 비밀번호 변경 성공 시 setSuccess(true);
-    setSuccess(true); // 예시용
+    setError("");
+
+    try {
+      const response = await api.put("/api/users/request-reset", {
+        memberId: id,
+        password: newPassword,
+      });
+
+      if (response.status === 200) {
+        setSuccess(true);
+        navigate("/joinpage");
+      } else {
+        setError("비밀번호 변경에 실패했습니다. 다시 시도해 주세요.");
+      }
+    } catch (error) {
+      setError("서버에 오류가 발생했습니다. 다시 시도해 주세요.");
+    }
   };
 
   return (
@@ -34,7 +54,7 @@ const FindPasswordPassForm = () => {
           className="w-full border-b border-gray-400 py-2 outline-none"
           placeholder="아이디 입력"
           value={id}
-          onChange={(event) => setId(event.target.value)}
+          readOnly
         />
       </div>
 

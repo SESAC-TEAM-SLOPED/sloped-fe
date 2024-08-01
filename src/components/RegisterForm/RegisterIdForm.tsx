@@ -1,15 +1,25 @@
-import React, { useState } from "react";
-import { FaRegEye, FaRegEyeSlash, FaCheckCircle } from "react-icons/fa";
+import React, { useState, useCallback } from "react";
+import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
+import api from "../../service/api";
+import { useNavigate } from "react-router-dom";
 
 const RegisterIdForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [userType, setUserType] = useState("general");
   const [email, setEmail] = useState("");
   const [domain, setDomain] = useState("naver.com");
   const [customDomain, setCustomDomain] = useState("");
-  const [verificationCode, setVerificationCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
-  const [userType, setUserType] = useState("general");
+  const [error, setError] = useState("");
+  const [id, setId] = useState("");
+  const [isIdChecked, setIsIdChecked] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [nickname, setNickname] = useState("");
+  const isDisabled = userType === "disabled";
+  const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -19,9 +29,67 @@ const RegisterIdForm = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleVerify = () => {
-    // 여기에 인증번호 검증 로직을 추가하세요.
-    // 검증 실패 시 setError("인증번호가 오지 않나요?");
+  const handleVerificationResult = useCallback(
+    (isVerified: boolean) => {
+      setIsVerified(isVerified);
+      if (!isVerified && email) {
+        setError("인증에 실패했습니다. 다시 시도해 주세요.");
+      } else {
+        setError("");
+      }
+    },
+    [email],
+  );
+
+  const handleBlurPasswordFields = () => {
+    if (password && confirmPassword && password !== confirmPassword) {
+      setError("비밀번호가 일치하지 않습니다.");
+    } else {
+      setError("");
+    }
+  };
+
+  const handleContinue = async () => {
+    if (password !== confirmPassword) {
+      // 비밀번호가 일치하지 않으면 회원가입을 진행하지 않음
+      setError("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
+    console.log();
+
+    const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
+    try {
+      const response = await api.post("/api/users/register", {
+        memberId: id,
+        password,
+        email: fullEmail,
+        nickname,
+        isDisabled,
+      });
+
+      if (response.status === 201) {
+        navigate("/joinpage"); // 메인 페이지로 이동하게 수정 예정
+      }
+    } catch (error) {
+      setError("회원가입에 실패했습니다. 다시 시도해 주세요.");
+    }
+  };
+
+  const handleDuplicateCheck = async () => {
+    try {
+      const response = await api.post("/api/users/duplicate-check/id", { id });
+      if (response.status === 200) {
+        alert("사용 가능한 아이디 입니다.");
+        setIsIdChecked(true);
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 409) {
+        alert("아이디가 중복됩니다. 다른 아이디를 사용해주세요.");
+      } else {
+        alert("아이디 중복 확인 중 오류가 발생했습니다.");
+      }
+    }
   };
 
   return (
@@ -29,6 +97,10 @@ const RegisterIdForm = () => {
       style={{ minHeight: "90vh" }}
       className="flex flex-col items-center justify-center min-h-screen space-y-4 bg-white"
     >
+      {!isVerified && error && (
+        <div className="w-[300px] mb-4 text-red-500">{error}</div>
+      )}
+
       <div className="w-[300px] mb-4">
         <label htmlFor="id" className="text-sm text-gray-700 mb-2">
           아이디
@@ -39,8 +111,21 @@ const RegisterIdForm = () => {
             id="id"
             className="flex-grow outline-none"
             placeholder="아이디 입력"
+            value={id}
+            onChange={(e) => setId(e.target.value)}
+            disabled={isIdChecked}
           />
-          <button className="ml-2 text-signiture">중복확인</button>
+          <button
+            className={`w-[70px] h-[40px] ml-2 ${
+              isIdChecked
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-signiture text-white"
+            } rounded-lg`}
+            onClick={handleDuplicateCheck}
+            disabled={isIdChecked} // 중복 확인 완료 시 비활성화
+          >
+            중복 확인
+          </button>
         </div>
       </div>
 
@@ -54,6 +139,9 @@ const RegisterIdForm = () => {
             id="password"
             className="flex-grow outline-none"
             placeholder="비밀번호 입력"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            onBlur={handleBlurPasswordFields}
           />
           <button
             type="button"
@@ -75,6 +163,9 @@ const RegisterIdForm = () => {
             id="confirmPassword"
             className="flex-grow outline-none"
             placeholder="비밀번호 확인 입력"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            onBlur={handleBlurPasswordFields}
           />
           <button
             type="button"
@@ -97,7 +188,8 @@ const RegisterIdForm = () => {
             className="flex-grow outline-none"
             placeholder="이메일 입력"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={isVerified} // 이메일 수정 불가
           />
           <span className="mx-2">@</span>
           {domain === "custom" ? (
@@ -106,13 +198,15 @@ const RegisterIdForm = () => {
               className="outline-none"
               placeholder="직접 입력"
               value={customDomain}
-              onChange={(event) => setCustomDomain(event.target.value)}
+              onChange={(e) => setCustomDomain(e.target.value)}
+              disabled={isVerified} // 이메일 수정 불가
             />
           ) : (
             <select
               value={domain}
-              onChange={(event) => setDomain(event.target.value)}
+              onChange={(e) => setDomain(e.target.value)}
               className="outline-none"
+              disabled={isVerified} // 이메일 수정 불가
             >
               <option value="naver.com">naver.com</option>
               <option value="gmail.com">gmail.com</option>
@@ -122,23 +216,13 @@ const RegisterIdForm = () => {
         </div>
       </div>
 
-      <div className="w-[300px] mb-4 flex items-center">
-        <input
-          type="text"
-          id="verificationCode"
-          className="w-full border-b border-gray-400 py-2 outline-none"
-          placeholder="인증번호 6자리 숫자 입력"
-          value={verificationCode}
-          onChange={(e) => setVerificationCode(e.target.value)}
-        />
-        <button
-          className="w-[50px] h-[40px] bg-signiture text-white rounded-lg ml-2"
-          onClick={handleVerify}
-        >
-          확인
-        </button>
-        {isVerified && <FaCheckCircle className="text-green-500 ml-2" />}
-      </div>
+      <VerificationCodeInput
+        email={email}
+        domain={domain}
+        customDomain={customDomain}
+        pageType="register"
+        onVerify={handleVerificationResult}
+      />
 
       <div className="w-[300px] mb-4">
         <label htmlFor="nickname" className="text-sm text-gray-700 mb-2">
@@ -150,6 +234,8 @@ const RegisterIdForm = () => {
             id="nickname"
             className="w-full outline-none"
             placeholder="닉네임 입력"
+            value={nickname}
+            onChange={(e) => setNickname(e.target.value)} // 닉네임 상태 업데이트
           />
         </div>
       </div>
@@ -182,7 +268,15 @@ const RegisterIdForm = () => {
         </div>
       </div>
 
-      <button className="w-[300px] h-[40px] bg-signiture text-white rounded-lg">
+      <button
+        className={`w-[300px] h-[40px] rounded-lg ${
+          isVerified
+            ? "bg-signiture text-white"
+            : "bg-gray-300 text-gray-500 cursor-not-allowed"
+        }`}
+        onClick={handleContinue}
+        disabled={!isVerified}
+      >
         회원가입
       </button>
     </div>

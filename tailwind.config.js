@@ -4,8 +4,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        kakao: "#FEE501",
-        naver: "#02C75A",
+        google: "#4285F4",
+        naver: "#07C050",
+        kakao: "#FEE500",
         email: "#2196F3",
         login: "#D2D2D2",
         signiture: "#3F51B5",

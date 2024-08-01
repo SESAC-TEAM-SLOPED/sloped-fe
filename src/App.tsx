@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Router from "./routes/Router";
+import { CookiesProvider } from "react-cookie";
 
 function App() {
   const [sizeClass, setSizeClass] = useState("min-w-96 max-w-screen-sm");
@@ -13,10 +14,12 @@ function App() {
   }, []);
 
   return (
-    <div className={`${sizeClass} mx-auto`}>
-      <Router />
-      <div id="modal" />
-    </div>
+    <CookiesProvider>
+      <div className={`${sizeClass} mx-auto`}>
+        <Router />
+        <div id="modal" />
+      </div>
+    </CookiesProvider>
   );
 }
 

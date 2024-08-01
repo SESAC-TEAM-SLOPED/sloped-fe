@@ -1,14 +1,43 @@
 import { useState } from "react";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import Button from "../ui/Button";
+import api from "../../service/api";
+import { useNavigate } from "react-router-dom";
+import { handleTokenStorageAndNavigation } from "../../service/tokenUtils";
 
 const IdLoginForm = () => {
-  const [id, setId] = useState("");
+  const [memberId, setmemberId] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await api.post(
+        "/api/auth/login",
+        {
+          memberId,
+          password,
+        },
+        { withCredentials: true },
+      );
+
+      // 응답 상태 코드 확인
+      if (response.status === 200) {
+        const accessToken = response.data.accessToken;
+        const refreshToken = response.data.refreshToken;
+
+        handleTokenStorageAndNavigation(navigate, accessToken, refreshToken);
+      } else {
+        console.error("Login failed with status:", response.status);
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+    }
   };
 
   return (
@@ -24,7 +53,7 @@ const IdLoginForm = () => {
           type="text"
           id="id"
           className="border-b h-7 border-[#949494] outline-none text-[#404040] w-full"
-          onChange={(event) => setId(event.target.value)}
+          onChange={(event) => setmemberId(event.target.value)}
         />
       </div>
 
@@ -48,14 +77,14 @@ const IdLoginForm = () => {
           </button>
         </div>
         <div className="flex justify-end mt-2">
-          <a href="/find/information" className="text-sm text-gray-500">
+          <a href="/login/find-information" className="text-sm text-gray-500">
             아이디/비밀번호 찾기
           </a>
         </div>
       </div>
 
       <div className="flex justify-center mt-20 w-[280px]">
-        <Button text="로그인" onClick={() => {}} />
+        <Button text="로그인" onClick={handleLogin} />
       </div>
     </form>
   );

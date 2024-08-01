@@ -28,7 +28,9 @@ import AdminRoadReport from "../pages/AdminPage/AdminRoadReport";
 import AdminRoadReportDetail from "../pages/AdminPage/AdminRoadReportDetail";
 import AdminReview from "../pages/AdminPage/AdminReview";
 import AdminReviewDetail from "../pages/AdminPage/AdminReviewDetail";
+import GetJwt from "../components/AuthenticationForm/GetJwt";
 import CheckAuth from "./CheckAuth";
+
 
 const Router = () => {
   return (
@@ -69,6 +71,8 @@ const Router = () => {
         </Route>
         <Route path="/" element={<Main />} />
         <Route path="/facility/details" element={<ViewFacilityDetails />} />
+        <Route path="/get-jwt" element={<GetJwt />} />
+
       </Routes>
     </BrowserRouter>
   );
