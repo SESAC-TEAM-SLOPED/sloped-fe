@@ -1,68 +1,16 @@
-const RoadCenterListModal = () => {
-  // 임시 데이터
-  const centerData = [
-    {
-      id: 1,
-      name: "서울지방국토관리청",
-      tel: "02-2110-0691",
-    },
-    {
-      id: 2,
-      name: "수원국토관리사무소",
-      tel: "031-283-0648",
-    },
-    {
-      id: 3,
-      name: "의정부국토관리사무소",
-      tel: "031-847-7680",
-    },
-    {
-      id: 4,
-      name: "원주지방국토관리청",
-      tel: "033-746-6785",
-    },
-    {
-      id: 5,
-      name: "홍천국토관리사무소",
-      tel: "033-435-5982",
-    },
-    {
-      id: 6,
-      name: "강릉국토관리사무소",
-      tel: "033-650-8833",
-    },
-    {
-      id: 7,
-      name: "홍천국토관리사무소",
-      tel: "033-435-5982",
-    },
-    {
-      id: 8,
-      name: "정선국토관리사무소",
-      tel: "033-563-6767",
-    },
-    {
-      id: 9,
-      name: "강릉국토관리사무소",
-      tel: "033-563-0757",
-    },
-    {
-      id: 10,
-      name: "대전지방국토관리사무소",
-      tel: "042-670-3485",
-    },
-    {
-      id: 11,
-      name: "전주지방국토관리사무소",
-      tel: "042-670-3485",
-    },
-    {
-      id: 12,
-      name: "전주지방국토관리사무소",
-      tel: "042-670-3485",
-    },
-  ];
+import { RoadReportCenter } from "../../types/roadReportCenter";
 
+type Props = {
+  centerListState: boolean;
+  stateChangeFunc: () => void;
+  centerList: RoadReportCenter[];
+};
+
+const RoadCenterListModal = ({
+  centerList,
+  centerListState,
+  stateChangeFunc,
+}: Props) => {
   const handleClick = (url: string) => {
     window.open(url, "_blank");
   };
@@ -96,18 +44,22 @@ const RoadCenterListModal = () => {
         </button>
       </div>
       <div className="overflow-auto" style={{ maxHeight: "430px" }}>
-        {centerData.map((center) => (
-          <button
-            key={center.id}
-            className={`relative block w-full mb-3 h-[30px] flex items-center justify-center rounded-xl ${center.id % 2 === 0 ? "bg-blue-200" : "bg-green-200"}`}
-            style={{
-              backgroundColor: center.id % 2 === 0 ? "#EAEAEA" : "#C5CBE9",
-            }}
-          >
-            <p className="absolute left-2 mx-2 text-left">{center.name}</p>
-            <p className="absolute right-2 mx-2 text-right">{center.tel}</p>
-          </button>
-        ))}
+        {centerList &&
+          centerList.map((center) => (
+            <button
+              key={center.id}
+              className={`relative block w-full mb-4 h-[35px] flex items-center rounded-xl ${center.id % 2 === 0 ? "bg-blue-200" : "bg-green-200"} hover:text-black hover:font-bold transition-all duration-200`}
+              style={{
+                backgroundColor: center.id % 2 === 0 ? "#EAEAEA" : "#C5CBE9",
+              }}
+              onClick={() =>
+                (window.location.href = `tel:${center.centerContact}`)
+              }
+            >
+              <p className="absolute left-3">{center.centerName}</p>
+              <p className="absolute right-3">{center.centerContact}</p>
+            </button>
+          ))}
       </div>
     </div>
   );

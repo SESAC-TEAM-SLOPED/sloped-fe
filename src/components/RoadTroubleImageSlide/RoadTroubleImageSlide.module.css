@@ -1,11 +1,10 @@
-.imageContentWrap {
+/* .imageContentWrap {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .mainImage {
-  width: 800px;
   margin-top: 10px;
   margin-bottom: 5px;
   border-radius: 5%;
@@ -20,11 +19,16 @@
   margin-bottom: 10px;
 }
 
+.previewImagesWrap {
+  display: flex;
+  justify-content: center;
+}
+
 .previewImage {
   width: 80px;
   height: 80px;
   border-radius: 10%;
-  object-fit: cove1r;
+  object-fit: cover;
   margin-right: 10px;
   cursor: pointer;
 }
@@ -32,4 +36,57 @@
 .buttonIcon {
   cursor: pointer;
   margin-top: 35%;
+} */
+
+.imageContentWrap {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.mainImage {
+  width: 320px;
+  height: 250px;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  border-radius: 5%;
+}
+
+.mainImageWrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.previewImagesWrap {
+  display: flex;
+  justify-content: center;
+}
+
+.previewImage {
+  width: 80px;
+  height: 80px;
+  border-radius: 10%;
+  object-fit: cover;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.buttonIcon {
+  cursor: pointer;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.buttonIcon:first-of-type {
+  left: -10px;
+}
+
+.buttonIcon:last-of-type {
+  right: -10px;
 }
