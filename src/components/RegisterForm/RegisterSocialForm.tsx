@@ -17,7 +17,7 @@ const RegisterSocialForm = ({ email, oauthType }: RegisterSocialFormProps) => {
 
   const handleRegister = async () => {
     try {
-      const response = await api.post("/api/users/register/social", {
+      const response = await api.post("/api/auth/register/social", {
         nickname,
         email,
         oauthType,

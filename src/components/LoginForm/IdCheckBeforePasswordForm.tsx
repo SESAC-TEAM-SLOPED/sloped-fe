@@ -17,7 +17,7 @@ const IdCheckBeforePasswordForm = ({
 
   const handleDuplicateCheck = async () => {
     try {
-      const response = await api.post("/api/users/duplicate-check/find-id", {
+      const response = await api.post("/api/auth/duplicate-check/find-id", {
         memberId: id,
       });
       if (response.status === 200) {

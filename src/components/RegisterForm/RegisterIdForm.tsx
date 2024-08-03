@@ -60,7 +60,7 @@ const RegisterIdForm = () => {
 
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
     try {
-      const response = await api.post("/api/users/register", {
+      const response = await api.post("/api/auth/register", {
         memberId: id,
         password,
         email: fullEmail,
@@ -78,7 +78,7 @@ const RegisterIdForm = () => {
 
   const handleDuplicateCheck = async () => {
     try {
-      const response = await api.post("/api/users/duplicate-check/id", {
+      const response = await api.post("/api/auth/duplicate-check/id", {
         memberId: id,
       });
       if (response.status === 200) {

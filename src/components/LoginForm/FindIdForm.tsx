@@ -30,7 +30,7 @@ const FindIdForm = ({ setActiveTab, setMemberId }: Props) => {
   const handleContinue = async () => {
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
     try {
-      const response = await api.post("/api/users/find-id", {
+      const response = await api.post("/api/auth/find-id", {
         email: fullEmail,
       });
       const memberId = response.data.memberId; // 서버에서 받은 아이디

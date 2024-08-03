@@ -21,7 +21,7 @@ const FindPasswordPassForm = ({ id }: Props) => {
     setError("");
 
     try {
-      const response = await api.put("/api/users/request-reset", {
+      const response = await api.put("/api/auth/request-reset", {
         memberId: id,
         password: newPassword,
       });

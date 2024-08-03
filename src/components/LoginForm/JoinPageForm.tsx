@@ -1,8 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FcGoogle } from "react-icons/fc";
 import { FaUser } from "react-icons/fa";
-import { RiKakaoTalkFill } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import KakaoLoginButton from "../LoginButton/KakaoLoginButton";
 import NaverLoginButton from "../LoginButton/NaverLoginButton";
