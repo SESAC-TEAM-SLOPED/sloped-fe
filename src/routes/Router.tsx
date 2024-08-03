@@ -50,13 +50,13 @@ const Router = () => {
         <Route path="/" element={<Main />} />
         <Route path="/facility/details" element={<ViewFacilityDetails />} />
         <Route path="/get-jwt" element={<GetJwt />} />
-        <Route path="/register/id" element={<RegisterId />} />
-        <Route path="/register/social" element={<RegisterSocial />} />
+        <Route path="/login/register/id" element={<RegisterId />} />
+        <Route path="/login/register/social" element={<RegisterSocial />} />
         <Route path="/find/information" element={<FindInformation />} />
-        <Route path="/login/id" element={<IdLogin />} />
-        <Route path="/joinpage" element={<JoinPage />} />
         {/* token 유무 체크 */}
         <Route path="" element={<CheckAuth />}>
+          <Route path="/login/id" element={<IdLogin />} />
+          <Route path="/joinpage" element={<JoinPage />} />
           <Route path="/review/new" element={<WriteReview />} />
           <Route path="/facility/new/positioning" element={<Positioning />} />
           <Route path="/road/new/positioning" element={<Positioning />} />

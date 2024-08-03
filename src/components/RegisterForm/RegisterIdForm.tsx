@@ -78,7 +78,9 @@ const RegisterIdForm = () => {
 
   const handleDuplicateCheck = async () => {
     try {
-      const response = await api.post("/api/users/duplicate-check/id", { id });
+      const response = await api.post("/api/users/duplicate-check/id", {
+        memberId: id,
+      });
       if (response.status === 200) {
         alert("사용 가능한 아이디 입니다.");
         setIsIdChecked(true);
