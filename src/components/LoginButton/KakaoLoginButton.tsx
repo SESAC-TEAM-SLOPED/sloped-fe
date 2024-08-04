@@ -2,8 +2,16 @@ import React from "react";
 import { RiKakaoTalkFill } from "react-icons/ri";
 
 const KakaoLoginButton = () => {
-  const handleKakaoLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/kakao";
+  const handleKakaoLogin = async () => {
+    try {
+      const response = await fetch("/api/auth/kakao-login");
+      const data = await response.json();
+      const { kakaoClientId, redirectUri } = data;
+      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientId}&redirect_uri=${redirectUri}`;
+      window.location.href = kakaoAuthUrl;
+    } catch (error) {
+      console.error("Failed to fetch Kakao login info", error);
+    }
   };
 
   return (

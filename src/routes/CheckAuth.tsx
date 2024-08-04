@@ -5,18 +5,9 @@ const CheckAuth = () => {
 
   const token = localStorage.getItem("accessToken");
 
-  if (
-    !token &&
-    ((!token && pathname !== "/joinpage") ||
-      (!token && pathname === "/login/id") ||
-      (!token && pathname.includes("register")) ||
-      (!token && pathname === "/find/information"))
-  ) {
+  if (!token && !token && pathname !== "/joinpage") {
     return <Navigate to="/joinpage" />;
-  } else if (
-    (token && (pathname === "/joinpage" || pathname === "/login/id")) ||
-    (token && pathname.includes("register"))
-  ) {
+  } else if (token && pathname === "/joinpage") {
     return <Navigate to="/" />;
   }
 

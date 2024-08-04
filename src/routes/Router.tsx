@@ -3,7 +3,7 @@ import Main from "../pages/Main/Main";
 import WriteReview from "../pages/WriteReview/WriteReview";
 import Positioning from "../pages/Positioning/Positioning";
 
-import IdLogin from "../pages/Login/IdLogin";
+import LocalLogin from "../pages/Login/LocalLogin";
 import JoinPage from "../pages/Login/JoinPage";
 import FindInformation from "../pages/Login/FindInformation";
 import RegisterId from "../pages/Register/RegisterId";
@@ -53,9 +53,9 @@ const Router = () => {
         <Route path="/login/register/id" element={<RegisterId />} />
         <Route path="/login/register/social" element={<RegisterSocial />} />
         <Route path="/find/information" element={<FindInformation />} />
+        <Route path="/login/local" element={<LocalLogin />} />
         {/* token 유무 체크 */}
         <Route path="" element={<CheckAuth />}>
-          <Route path="/login/id" element={<IdLogin />} />
           <Route path="/joinpage" element={<JoinPage />} />
           <Route path="/review/new" element={<WriteReview />} />
           <Route path="/facility/new/positioning" element={<Positioning />} />

@@ -5,7 +5,7 @@ import api from "../../service/api";
 import { useNavigate } from "react-router-dom";
 import { handleTokenStorageAndNavigation } from "../../service/tokenUtils";
 
-const IdLoginForm = () => {
+const LocalLoginForm = () => {
   const [memberId, setmemberId] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -90,4 +90,4 @@ const IdLoginForm = () => {
   );
 };
 
-export default IdLoginForm;
+export default LocalLoginForm;
