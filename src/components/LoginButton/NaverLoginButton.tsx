@@ -2,8 +2,16 @@ import React from "react";
 import { SiNaver } from "react-icons/si";
 
 const NaverLoginButton = () => {
-  const handleNaverLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/naver";
+  const handleNaverLogin = async () => {
+    try {
+      const response = await fetch("/api/auth/naver-login");
+      const data = await response.json();
+      const { naverClientId, naverRedirectUri } = data;
+      const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientId}&state=STATE_STRING&redirect_uri=${naverRedirectUri}`;
+      window.location.href = naverAuthUrl;
+    } catch (error) {
+      console.error("Failed to fetch naver login info", error);
+    }
   };
 
   return (

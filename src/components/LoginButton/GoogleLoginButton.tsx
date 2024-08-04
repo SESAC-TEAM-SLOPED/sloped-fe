@@ -2,8 +2,16 @@ import React from "react";
 import { FcGoogle } from "react-icons/fc";
 
 const GoogleLoginButton = () => {
-  const handleGoogleLogin = () => {
-    window.location.href = "http://localhost:8080/oauth2/authorization/google";
+  const handleGoogleLogin = async () => {
+    try {
+      const response = await fetch("/api/auth/google-login");
+      const data = await response.json();
+      const { googleClientId, googleRedirectUri } = data;
+      const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=email`;
+      window.location.href = googleAuthUrl;
+    } catch (error) {
+      console.error("Failed to fetch google login info", error);
+    }
   };
 
   return (
