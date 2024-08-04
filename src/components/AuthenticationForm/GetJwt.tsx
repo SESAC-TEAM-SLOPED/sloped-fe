@@ -12,11 +12,11 @@ const GetJwt = () => {
     console.log("Access Token:", accessToken);
     console.log("Refresh Token:", refreshToken);
 
-    if (accessToken) {
-      localStorage.setItem("accessToken", accessToken); // 액세스 토큰을 localStorage에 저장
-      removeCookie("accessToken");
+    if (refreshToken) {
+      localStorage.setItem("refreshToken", refreshToken); // refreshToken 토큰을 localStorage에 저장
+      removeCookie("refreshToken");
     } else {
-      localStorage.removeItem("accessToken"); // 액세스 토큰이 없을 경우 localStorage에서 제거
+      localStorage.removeItem("refreshToken"); // refreshToken 토큰이 없을 경우 localStorage에서 제거
     }
 
     if (accessToken || refreshToken) {

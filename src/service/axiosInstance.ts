@@ -1,6 +1,6 @@
 import axios from "axios";
 import { setCookie, getCookie, removeCookie } from "./cookieUtils";
-import { isTokenExpired } from "./tokenUtils";
+import { isCookieAccessTokenExpired } from "./tokenUtils";
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
@@ -11,14 +11,13 @@ const axiosInstance = axios.create({
 // 요청 인터셉터 추가
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = getCookie("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
     let newAccessToken = null; // 새로운 Access Token 변수
     let newRefreshToken = null;
 
-    if (accessToken && isTokenExpired(accessToken)) {
+    if (accessToken && isCookieAccessTokenExpired()) {
       try {
-        const refreshToken = getCookie("refreshToken"); // 쿠키에서 Refresh Token 가져오기
-
         if (!refreshToken) {
           throw new Error("No refresh token available");
         }
@@ -37,15 +36,12 @@ axiosInstance.interceptors.request.use(
         );
 
         if (response.status === 200) {
-          const AccesstokenFromCookie = getCookie("accessToken"); // 쿠키에서 새로운 Access Token 가져오기
-          newAccessToken = AccesstokenFromCookie || null;
+          newAccessToken = getCookie("accessToken") || null; // 쿠키에서 새로운 Access Token 가져오기
 
           const refreshTokenFromCookie = getCookie("refreshToken"); // 쿠키에서 새로운 Refresh Token 가져오기
           newRefreshToken = refreshTokenFromCookie || null;
 
           if (newAccessToken) {
-            localStorage.setItem("accessToken", newAccessToken); // 새로운 Access Token을 localStorage에 저장
-            removeCookie("accessToken");
             config.headers.Authorization = `Bearer ${newAccessToken}`; // 요청 헤더에 새로운 Access Token 설정
           } else {
             throw new Error("Failed to retrieve new access token from cookie");
