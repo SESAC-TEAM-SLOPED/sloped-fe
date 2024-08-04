@@ -6,28 +6,13 @@ import { useState } from "react";
 import ModalPortal from "../ui/ModalPortal";
 import Modal from "../ui/Modal";
 import FacilityOrRoadModal from "./FacilityOrRoadModal";
-import axiosInstance from "../../service/axiosInstance";
+import { getCookie } from "../../service/cookieUtils";
 
 const LINK_STYLE = "flex flex-col justify-center items-center h-16 w-1/3";
 const TEXT_STYLE = "text-sm text-[#404040]";
 
 const Navbar = () => {
   const [openReportModal, setOpenReportModal] = useState(false);
-
-  const handleMypageClick = async () => {
-    try {
-      const response = await axiosInstance.get("/mypage-request");
-      if (response.status === 200) {
-        // API 응답이 성공적이면 페이지 이동
-        console.log(response.data); // 필요한 동작 수행
-        window.location.href = "/mypage"; // 원하는 페이지로 이동
-      } else {
-        console.error("Failed to access mypage");
-      }
-    } catch (error) {
-      console.error("Failed to access mypage", error);
-    }
-  };
 
   return (
     <>
@@ -40,10 +25,10 @@ const Navbar = () => {
           <HouseIcon size="md" color="3F51B5" />
           <p className={TEXT_STYLE}>메인</p>
         </Link>
-        <button onClick={handleMypageClick} className={LINK_STYLE}>
+        <Link to="/mypage" className={LINK_STYLE}>
           <UserIcon size="md" color="3F51B5" />
           <p className={TEXT_STYLE}>마이페이지</p>
-        </button>
+        </Link>
       </nav>
       {openReportModal && (
         <ModalPortal>

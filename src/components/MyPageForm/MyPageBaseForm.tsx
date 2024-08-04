@@ -12,6 +12,7 @@ import ModalPortal from "../ui/ModalPortal";
 import Modal from "../ui/Modal";
 import { decodeTokenNickname } from "../../service/tokenUtils";
 import { handleLogout } from "../../service/authUtils";
+import { getCookie } from "../../service/cookieUtils";
 
 const MyPageBaseForm = () => {
   const [nickname, setNickname] = useState("");
@@ -23,7 +24,7 @@ const MyPageBaseForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+    const token = getCookie("accessToken");
     if (token) {
       const decodedNickname = decodeTokenNickname(token);
       setNickname(decodedNickname); // 닉네임 설정
