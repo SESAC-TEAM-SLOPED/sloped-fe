@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
-const MyprofileEditorForm = () => {
+const MySocialProfileEditorForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [password, setPassword] = useState("");
@@ -26,52 +26,6 @@ const MyprofileEditorForm = () => {
       style={{ minHeight: "90vh" }}
       className="flex flex-col items-center justify-center min-h-screen space-y-4 bg-white"
     >
-      <div className="w-[300px] mb-4">
-        <label htmlFor="password" className="text-sm text-gray-700 mb-2">
-          비밀번호
-        </label>
-        <div className="flex items-center border-b border-gray-400 py-2">
-          <input
-            type={showPassword ? "text" : "password"}
-            id="password"
-            className="flex-grow outline-none"
-            placeholder="비밀번호 입력"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button
-            type="button"
-            onClick={togglePasswordVisibility}
-            className="ml-2"
-          >
-            {showPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
-        </div>
-      </div>
-
-      <div className="w-[300px] mb-4">
-        <label htmlFor="confirmPassword" className="text-sm text-gray-700 mb-2">
-          비밀번호 확인
-        </label>
-        <div className="flex items-center border-b border-gray-400 py-2">
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            id="confirmPassword"
-            className="flex-grow outline-none"
-            placeholder="비밀번호 확인 입력"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          <button
-            type="button"
-            onClick={toggleConfirmPasswordVisibility}
-            className="ml-2"
-          >
-            {showConfirmPassword ? <FaRegEyeSlash /> : <FaRegEye />}
-          </button>
-        </div>
-      </div>
-
       <div className="w-[300px] mb-4">
         <label htmlFor="nickname" className="text-sm text-gray-700 mb-2">
           닉네임
@@ -126,4 +80,4 @@ const MyprofileEditorForm = () => {
   );
 };
 
-export default MyprofileEditorForm;
+export default MySocialProfileEditorForm;

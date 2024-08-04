@@ -10,17 +10,16 @@ import {
 } from "react-icons/fa";
 import ModalPortal from "../ui/ModalPortal";
 import Modal from "../ui/Modal";
-import { decodeTokenNickname } from "../../service/tokenUtils";
+import {
+  decodeTokenNickname,
+  decodeTokenAuthType,
+} from "../../service/tokenUtils";
 import { handleLogout } from "../../service/authUtils";
 import { getCookie } from "../../service/cookieUtils";
 
 const MyPageBaseForm = () => {
   const [nickname, setNickname] = useState("");
-  const [showModal, setShowModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,12 +30,15 @@ const MyPageBaseForm = () => {
     }
   }, []);
 
-  const handleVerifyPassword = () => {
-    if (password === "123456" && password === confirmPassword) {
-      navigate("/mypage/edit-info");
-      setShowModal(false);
-    } else {
-      setError("비밀번호가 일치하지 않거나 잘못되었습니다.");
+  const handleEditAccount = () => {
+    const token = getCookie("accessToken");
+    if (token) {
+      const authType = decodeTokenAuthType(token);
+      if (authType === "LOCAL") {
+        navigate("/mypage/edit-info");
+      } else {
+        navigate("/mypage/edit-social-info");
+      }
     }
   };
 
@@ -52,7 +54,7 @@ const MyPageBaseForm = () => {
       <div className="w-full max-w-md space-y-6">
         <div className="flex justify-around bg-white p-4 rounded-lg shadow">
           <button
-            onClick={() => setShowModal(true)}
+            onClick={handleEditAccount}
             className="flex flex-col items-center px-4 rounded-lg"
           >
             <FaUserEdit className="text-2xl mb-2" />
@@ -98,55 +100,6 @@ const MyPageBaseForm = () => {
           <p>회원 탈퇴</p>
         </button>
       </div>
-
-      {showModal && (
-        <ModalPortal>
-          <Modal onClose={() => setShowModal(false)} height="350px">
-            <div className="p-4">
-              <h2 className="text-xl font-bold mb-4">비밀번호 확인</h2>
-              <div className="mb-4">
-                <label
-                  htmlFor="password"
-                  className="block text-sm text-gray-700 mb-2"
-                >
-                  비밀번호
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  className="w-full border-b border-gray-400 py-2 outline-none"
-                  placeholder="비밀번호 입력"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-              <div className="mb-4">
-                <label
-                  htmlFor="confirmPassword"
-                  className="block text-sm text-gray-700 mb-2"
-                >
-                  비밀번호 확인
-                </label>
-                <input
-                  type="password"
-                  id="confirmPassword"
-                  className="w-full border-b border-gray-400 py-2 outline-none"
-                  placeholder="비밀번호 확인 입력"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </div>
-              {error && <div className="text-red-500 mb-4">{error}</div>}
-              <button
-                className="w-full bg-signiture text-white py-2 rounded-lg"
-                onClick={handleVerifyPassword}
-              >
-                확인
-              </button>
-            </div>
-          </Modal>
-        </ModalPortal>
-      )}
 
       {showDeleteModal && (
         <ModalPortal>

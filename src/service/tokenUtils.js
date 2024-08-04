@@ -11,6 +11,16 @@ export const decodeTokenNickname = (token) => {
   }
 };
 
+export const decodeTokenAuthType = (token) => {
+  try {
+    const decoded = jwtDecode(token);
+    return decoded.oauthType; // 토큰에서 type 추출
+  } catch (error) {
+    console.error("Failed to decode token", error);
+    return null;
+  }
+};
+
 export const isCookieAccessTokenExpired = () => {
   const accessToken = getCookie("accessToken"); // 쿠키에서 Access Token 가져오기
 
