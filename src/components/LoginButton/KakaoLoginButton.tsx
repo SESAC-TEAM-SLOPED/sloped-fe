@@ -6,8 +6,8 @@ const KakaoLoginButton = () => {
     try {
       const response = await fetch("/api/auth/kakao-login");
       const data = await response.json();
-      const { kakaoClientId, redirectUri } = data;
-      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientId}&redirect_uri=${redirectUri}`;
+      const { kakaoClientId, kakaoRedirectUri } = data;
+      const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUri}`;
       window.location.href = kakaoAuthUrl;
     } catch (error) {
       console.error("Failed to fetch Kakao login info", error);
