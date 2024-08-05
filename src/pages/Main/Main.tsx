@@ -24,6 +24,7 @@ import CallTaxiModal from "../../components/CallTaxiModal/CallTaxiModal";
 import { RoadReportDetail } from "../../types/roadReportDetail";
 import { RoadReportCenter } from "../../types/roadReportCenter";
 import { RoadReportCallTaxi } from "../../types/RoadReportCallTaxi";
+import { serverUrl } from "../../constant/url";
 
 const facilitiesData: Facility[] = [
   {
@@ -111,7 +112,7 @@ const Main = () => {
     const fetchRoadsData = async () => {
       try {
         const response = await axios.get<Road[]>(
-          "http://localhost:8080/api/roads/get-points",
+          `${serverUrl}/api/roads/get-points`,
         );
         setRoads(response.data);
       } catch (error) {
@@ -162,13 +163,13 @@ const Main = () => {
     setClickedId(id);
     try {
       const roadResponse = await axios.get<Road>(
-        `http://localhost:8080/api/roads/${id}`,
+        `${serverUrl}/api/roads/${id}`,
       );
       const roadData = roadResponse.data;
       setRequestRoad(roadData);
 
       const response = await axios.get(
-        `http://localhost:8080/api/roadReport/info/${id}`,
+        `${serverUrl}/api/roadReport/info/${id}`,
       );
       setRoadReport(response.data);
       setIsRoadOpen(true);
@@ -187,7 +188,7 @@ const Main = () => {
     if (requestRoad) {
       try {
         const response = await axios.post<RoadReportCenter>(
-          "http://localhost:8080/api/roadReport/connect-center",
+          `${serverUrl}/api/roadReport/connect-center`,
           requestRoad,
         );
         setRoadReportCenter(response.data);
@@ -209,7 +210,7 @@ const Main = () => {
     setIsComplaintCallOpen(false);
     try {
       const response = await axios.get<RoadReportCenter[]>(
-        "http://localhost:8080/api/roadReport/get-centerList",
+        `${serverUrl}/api/roadReport/get-centerList`,
       );
       setComplaintCenterList(response.data);
       setIsCenterListOpen(true);
@@ -227,7 +228,7 @@ const Main = () => {
     if (requestRoad) {
       try {
         const response = await axios.post<RoadReportCallTaxi>(
-          "http://localhost:8080/api/roadReport/connect-callTaxi",
+          `${serverUrl}/api/roadReport/connect-callTaxi`,
           requestRoad,
         );
         setCallTaxi(response.data);
