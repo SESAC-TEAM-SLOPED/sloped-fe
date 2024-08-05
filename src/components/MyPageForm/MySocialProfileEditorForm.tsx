@@ -1,24 +1,32 @@
 import React, { useState } from "react";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import axiosInstance from "../../service/axiosInstance";
+import { handleLogout } from "../../service/authUtils";
 
 const MySocialProfileEditorForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
   const [userType, setUserType] = useState("general");
+  const navigate = useNavigate();
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
+  const handleSubmit = async () => {
+    const isDisabled = userType === "disabled";
+    console.log("isDisabled :", isDisabled);
 
-  const toggleConfirmPasswordVisibility = () => {
-    setShowConfirmPassword(!showConfirmPassword);
-  };
+    try {
+      const response = await axiosInstance.post("/api/users/user-update", {
+        password: null,
+        nickname: nickname || null,
+        isDisabled,
+      });
 
-  const handleSubmit = () => {
-    // 여기에 프로필 업데이트 로직을 추가하세요.
+      if (response.status === 200) {
+        handleLogout(navigate);
+      } else {
+        alert(response.data.message || "프로필 업데이트에 실패했습니다.");
+      }
+    } catch (error) {
+      alert("update 중 error 발생!");
+    }
   };
 
   return (
@@ -35,7 +43,7 @@ const MySocialProfileEditorForm = () => {
             type="text"
             id="nickname"
             className="w-full outline-none"
-            placeholder="닉네임 입력"
+            placeholder="닉네임 입력 (수정 필요 없다면, 공백)"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />

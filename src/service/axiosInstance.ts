@@ -40,6 +40,7 @@ axiosInstance.interceptors.request.use(
 
           const refreshTokenFromCookie = getCookie("refreshToken"); // 쿠키에서 새로운 Refresh Token 가져오기
           newRefreshToken = refreshTokenFromCookie || null;
+          removeCookie("refreshToken");
 
           if (newAccessToken) {
             config.headers.Authorization = `Bearer ${newAccessToken}`; // 요청 헤더에 새로운 Access Token 설정

@@ -2,11 +2,9 @@ import { removeCookie } from "./cookieUtils";
 
 export const handleLogout = (navigate) => {
   // 쿠키 삭제
-  removeCookie("refreshToken");
-
-  // LocalStorage에서 Access Token 삭제
-  localStorage.removeItem("accessToken");
-
+  removeCookie("accessToken");
+  // LocalStorage에서 Refresh Token 삭제
+  localStorage.removeItem("refreshToken");
   // 로그인 페이지로 이동
   navigate("/joinpage");
 };
