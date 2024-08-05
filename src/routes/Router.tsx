@@ -53,7 +53,7 @@ const Router = () => {
         <Route path="/get-jwt" element={<GetJwt />} />
         <Route path="/login/register/id" element={<RegisterId />} />
         <Route path="/login/register/social" element={<RegisterSocial />} />
-        <Route path="/find/information" element={<FindInformation />} />
+        <Route path="/login/find-information" element={<FindInformation />} />
         <Route path="/login/local" element={<LocalLogin />} />
         {/* token 유무 체크 */}
         <Route path="" element={<CheckAuth />}>

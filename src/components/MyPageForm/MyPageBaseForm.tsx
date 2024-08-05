@@ -16,6 +16,7 @@ import {
 } from "../../service/tokenUtils";
 import { handleLogout } from "../../service/authUtils";
 import { getCookie } from "../../service/cookieUtils";
+import axiosInstance from "../../service/axiosInstance";
 
 const MyPageBaseForm = () => {
   const [nickname, setNickname] = useState("");
@@ -42,10 +43,18 @@ const MyPageBaseForm = () => {
     }
   };
 
-  const handleDeleteAccount = () => {
-    // 여기에서 회원 탈퇴 로직을 추가하세요.
-    console.log("회원 탈퇴 처리");
-    handleLogout(navigate);
+  const handleDeleteAccount = async () => {
+    try {
+      const response = await axiosInstance.delete("/api/users/delete-user");
+      if (response.status === 204) {
+        alert("회원 탈퇴 처리 완료!");
+        handleLogout(navigate);
+      } else {
+        alert(response.data.message || "계정 삭제에 실패했습니다.");
+      }
+    } catch (error) {
+      alert("삭제 중 error 발생!");
+    }
   };
 
   return (
