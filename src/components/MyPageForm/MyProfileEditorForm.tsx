@@ -36,7 +36,7 @@ const MyprofileEditorForm = () => {
 
     try {
       const response = await axiosInstance.post("/api/users/update-user", {
-        password: null,
+        password: password || null,
         nickname: nickname || null,
         isDisabled,
       });
