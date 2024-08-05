@@ -11,6 +11,16 @@ export const decodeTokenNickname = (token) => {
   }
 };
 
+export const decodeTokenAuthType = (token) => {
+  try {
+    const decoded = jwtDecode(token);
+    return decoded.oauthType; // 토큰에서 type 추출
+  } catch (error) {
+    console.error("Failed to decode token", error);
+    return null;
+  }
+};
+
 export const isCookieAccessTokenExpired = () => {
   const accessToken = getCookie("accessToken"); // 쿠키에서 Access Token 가져오기
 
@@ -38,11 +48,11 @@ export const handleTokenStorageAndNavigation = (
   console.log("Access Token:", accessToken);
   console.log("Refresh Token:", refreshToken);
 
-  if (accessToken) {
-    localStorage.setItem("accessToken", accessToken); // 액세스 토큰을 localStorage에 저장
-    removeCookie("accessToken");
+  if (refreshToken) {
+    localStorage.setItem("refreshToken", refreshToken); // 액세스 토큰을 localStorage에 저장
+    removeCookie("refreshToken");
   } else {
-    localStorage.removeItem("accessToken"); // 액세스 토큰이 없을 경우 localStorage에서 제거
+    localStorage.removeItem("refreshToken"); // 액세스 토큰이 없을 경우 localStorage에서 제거
   }
 
   if (accessToken || refreshToken) {

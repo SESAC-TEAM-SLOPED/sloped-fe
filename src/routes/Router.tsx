@@ -15,6 +15,7 @@ import PostNewFacility from "../pages/PostNewFacility/PostNewFacility";
 import MyPageBase from "../pages/MyPage/MyPageBase";
 import MyFavorite from "../pages/MyPage/MyFavorite";
 import MyProfileEditor from "../pages/MyPage/MyProfileEditor";
+import MySocialProfileEditor from "../pages/MyPage/MySocialProfileEditor";
 import MyReview from "../pages/MyPage/MyReview";
 import MyReviewEditor from "../pages/MyPage/MyReviewEditor";
 import MyReport from "../pages/MyPage/MyReport";
@@ -52,7 +53,7 @@ const Router = () => {
         <Route path="/get-jwt" element={<GetJwt />} />
         <Route path="/login/register/id" element={<RegisterId />} />
         <Route path="/login/register/social" element={<RegisterSocial />} />
-        <Route path="/find/information" element={<FindInformation />} />
+        <Route path="/login/find-information" element={<FindInformation />} />
         <Route path="/login/local" element={<LocalLogin />} />
         {/* token 유무 체크 */}
         <Route path="" element={<CheckAuth />}>
@@ -67,6 +68,10 @@ const Router = () => {
           <Route path="/mypage" element={<MyPageBase />} />
           <Route path="/mypage/favorites" element={<MyFavorite />} />
           <Route path="/mypage/edit-info" element={<MyProfileEditor />} />
+          <Route
+            path="/mypage/edit-social-info"
+            element={<MySocialProfileEditor />}
+          />
           <Route path="/mypage/my-reviews" element={<MyReview />} />
           <Route path="/mypage/edit-review" element={<MyReviewEditor />} />
           <Route path="/mypage/my-reports" element={<MyReport />} />

@@ -6,7 +6,6 @@ import { useState } from "react";
 import ModalPortal from "../ui/ModalPortal";
 import Modal from "../ui/Modal";
 import FacilityOrRoadModal from "./FacilityOrRoadModal";
-import { getCookie } from "../../service/cookieUtils";
 
 const LINK_STYLE = "flex flex-col justify-center items-center h-16 w-1/3";
 const TEXT_STYLE = "text-sm text-[#404040]";
