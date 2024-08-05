@@ -45,7 +45,7 @@ const MyPageBaseForm = () => {
   const handleDeleteAccount = () => {
     // 여기에서 회원 탈퇴 로직을 추가하세요.
     console.log("회원 탈퇴 처리");
-    setShowDeleteModal(false);
+    handleLogout(navigate);
   };
 
   return (

@@ -36,7 +36,7 @@ const MyprofileEditorForm = () => {
     console.log("isDisabled :", isDisabled);
 
     try {
-      const response = await axiosInstance.post("/api/users/user-update", {
+      const response = await axiosInstance.post("/api/users/update-user", {
         password: null,
         nickname: nickname || null,
         isDisabled,
