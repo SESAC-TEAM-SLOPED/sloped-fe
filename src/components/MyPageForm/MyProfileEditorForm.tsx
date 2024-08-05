@@ -33,7 +33,6 @@ const MyprofileEditorForm = () => {
 
   const handleSubmit = async () => {
     const isDisabled = userType === "disabled";
-    console.log("isDisabled :", isDisabled);
 
     try {
       const response = await axiosInstance.post("/api/users/update-user", {

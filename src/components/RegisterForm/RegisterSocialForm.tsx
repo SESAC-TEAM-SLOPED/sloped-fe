@@ -11,11 +11,12 @@ interface RegisterSocialFormProps {
 const RegisterSocialForm = ({ email, oauthType }: RegisterSocialFormProps) => {
   const [nickname, setNickname] = useState("");
   const [userType, setUserType] = useState("general");
-  const isDisabled = userType === "disabled";
+
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
   const handleRegister = async () => {
+    const isDisabled = userType === "disabled";
     try {
       const response = await api.post("/api/auth/register/social", {
         nickname,

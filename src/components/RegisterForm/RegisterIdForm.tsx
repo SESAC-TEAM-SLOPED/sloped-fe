@@ -18,7 +18,6 @@ const RegisterIdForm = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [nickname, setNickname] = useState("");
-  const isDisabled = userType === "disabled";
   const navigate = useNavigate();
 
   const togglePasswordVisibility = () => {
@@ -59,6 +58,7 @@ const RegisterIdForm = () => {
     console.log();
 
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
+    const isDisabled = userType === "disabled";
     try {
       const response = await api.post("/api/auth/register", {
         memberId: id,
