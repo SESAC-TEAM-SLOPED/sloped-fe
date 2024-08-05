@@ -1,35 +1,29 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "../../service/api";
+import axiosInstance from "../../service/axiosInstance";
+import { handleLogout } from "../../service/authUtils";
 
-// Props의 타입을 정의합니다.
-interface RegisterSocialFormProps {
-  email: string;
-  oauthType: string;
-}
-
-const RegisterSocialForm = ({ email, oauthType }: RegisterSocialFormProps) => {
+const MySocialProfileEditorForm = () => {
   const [nickname, setNickname] = useState("");
   const [userType, setUserType] = useState("general");
-
   const navigate = useNavigate();
-  const [error, setError] = useState("");
 
-  const handleRegister = async () => {
+  const handleSubmit = async () => {
     const isDisabled = userType === "disabled";
     try {
-      const response = await api.post("/api/auth/register/social", {
-        nickname,
-        email,
-        oauthType,
+      const response = await axiosInstance.post("/api/users/update-user", {
+        password: null,
+        nickname: nickname || null,
         isDisabled,
       });
 
-      if (response.status === 201) {
-        navigate("/joinpage"); // 회원 가입 완료 후 이동할 페이지
+      if (response.status === 200) {
+        handleLogout(navigate);
+      } else {
+        alert(response.data.message || "프로필 업데이트에 실패했습니다.");
       }
     } catch (error) {
-      setError("회원가입에 실패했습니다. 다시 시도해 주세요.");
+      alert("update 중 error 발생!");
     }
   };
 
@@ -38,22 +32,23 @@ const RegisterSocialForm = ({ email, oauthType }: RegisterSocialFormProps) => {
       style={{ minHeight: "90vh" }}
       className="flex flex-col items-center justify-center min-h-screen space-y-4 bg-white"
     >
-      <div style={{ marginBottom: "2rem" }} className="w-[300px] mb-4">
+      <div className="w-[300px] mb-4">
         <label htmlFor="nickname" className="text-sm text-gray-700 mb-2">
           닉네임
         </label>
-        <div className="flex items-center border-b border-gray-400 py-2">
+        <div className="border-b border-gray-400 py-2">
           <input
             type="text"
             id="nickname"
-            className="flex-grow outline-none"
-            placeholder="닉네임 입력"
+            className="w-full outline-none"
+            placeholder="닉네임 입력 (수정 필요 없다면, 공백)"
             value={nickname}
             onChange={(e) => setNickname(e.target.value)}
           />
         </div>
       </div>
-      <div style={{ marginBottom: "4rem" }} className="w-[300px] mb-4">
+
+      <div className="w-[300px] mb-4">
         <label className="text-sm text-gray-700 mb-2">교통약자 여부</label>
         <div className="flex items-center mt-2">
           <input
@@ -81,16 +76,14 @@ const RegisterSocialForm = ({ email, oauthType }: RegisterSocialFormProps) => {
         </div>
       </div>
 
-      {error && <div className="text-red-500 mb-4">{error}</div>}
-
       <button
         className="w-[300px] h-[40px] bg-signiture text-white rounded-lg"
-        onClick={handleRegister}
+        onClick={handleSubmit}
       >
-        회원가입
+        수정하기
       </button>
     </div>
   );
 };
 
-export default RegisterSocialForm;
+export default MySocialProfileEditorForm;
