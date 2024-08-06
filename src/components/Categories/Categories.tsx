@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 
-const BUTTON_STYLE = "px-3 py-1 text-sm bg-white rounded-full shadow-md";
+const BUTTON_STYLE = "px-3 py-1 text-sm rounded-full shadow-md";
 
 type Props = {
   onClick: () => void;
@@ -16,7 +16,7 @@ const Categories = ({ onClick }: Props) => {
           setSearchParams({ category: "all" });
           onClick();
         }}
-        className={`${BUTTON_STYLE} ${searchParams.get("category") === "all" && "bg-blue-600 text-white font-bold"}`}
+        className={`${BUTTON_STYLE} ${searchParams.get("category") === "all" ? "bg-blue-600 text-white font-bold" : "bg-white"}`}
       >
         전체
       </button>
@@ -25,7 +25,7 @@ const Categories = ({ onClick }: Props) => {
           setSearchParams({ category: "cafe" });
           onClick();
         }}
-        className={`${BUTTON_STYLE} ${searchParams.get("category") === "cafe" && "bg-blue-600 text-white font-bold"}`}
+        className={`${BUTTON_STYLE} ${searchParams.get("category") === "cafe" ? "bg-blue-600 text-white font-bold" : "bg-white"}`}
       >
         카페
       </button>
@@ -34,7 +34,7 @@ const Categories = ({ onClick }: Props) => {
           setSearchParams({ category: "tour" });
           onClick();
         }}
-        className={`${BUTTON_STYLE} ${searchParams.get("category") === "tour" && "bg-blue-600 text-white font-bold"}`}
+        className={`${BUTTON_STYLE} ${searchParams.get("category") === "tour" ? "bg-blue-600 text-white font-bold" : "bg-white"}`}
       >
         관광지
       </button>
@@ -43,7 +43,7 @@ const Categories = ({ onClick }: Props) => {
           setSearchParams({ category: "hospital" });
           onClick();
         }}
-        className={`${BUTTON_STYLE} ${searchParams.get("category") === "hospital" && "bg-blue-600 text-white font-bold"}`}
+        className={`${BUTTON_STYLE} ${searchParams.get("category") === "hospital" ? "bg-blue-600 text-white font-bold" : "bg-white"}`}
       >
         병원
       </button>
@@ -52,7 +52,7 @@ const Categories = ({ onClick }: Props) => {
           setSearchParams({ category: "etc" });
           onClick();
         }}
-        className={`${BUTTON_STYLE} ${searchParams.get("category") === "etc" && "bg-blue-600 text-white font-bold"}`}
+        className={`${BUTTON_STYLE} ${searchParams.get("category") === "etc" ? "bg-blue-600 text-white font-bold" : "bg-white"}`}
       >
         기타
       </button>

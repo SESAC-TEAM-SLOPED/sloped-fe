@@ -128,8 +128,10 @@ const Main = () => {
       // 카테고리별로 장소를 받아오는 로직
       const currentCategory = searchParams.get("category");
 
-      //const data = await axios.get("");
-      //return data;
+      // const { data } = await axios.get(
+      //   `${serverUrl}/api/facilities?latitude=${location?.lat}&longitude=${location?.lng}&distance_meters=50&limit=10`,
+      // );
+      // console.log(data);
 
       const data = facilitiesData.filter(
         (data) =>
@@ -142,7 +144,7 @@ const Main = () => {
     };
 
     getByCategory();
-  }, [bookmarks, searchParams, visibleBookmarks]);
+  }, [bookmarks, location?.lat, location?.lng, searchParams, visibleBookmarks]);
 
   const openBottomSheet = () => {
     setBottomSheetOpen(true);
