@@ -11,9 +11,8 @@ const useVerificationCode = (
   const [isVerified, setIsVerified] = useState(false);
   const [timer, setTimer] = useState(0);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState("");
   const [error, setError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     if (timer > 0) {
@@ -35,13 +34,15 @@ const useVerificationCode = (
 
     try {
       await api.post(endpoint, { email: fullEmail });
-      setMessage("이메일이 전송되었습니다!");
-      setMessageType("success");
+      setSuccessMessage("이메일이 전송되었습니다!");
       setIsButtonDisabled(true);
       handleRequestCode();
     } catch (error: any) {
-      setError(error.response?.data || "이메일 전송에 실패했습니다!");
-      setMessageType("error");
+      if (error.response?.status === 409) {
+        setError("중복된 이메일입니다. 다른 이메일을 사용해주세요.");
+      } else {
+        setError(error.response?.data || "이메일 전송에 실패했습니다!");
+      }
     }
   };
 
@@ -53,19 +54,20 @@ const useVerificationCode = (
         code: verificationCode,
       });
       if (response.status === 200) {
-        setMessage("인증이 성공했습니다!");
-        setMessageType("success");
+        setSuccessMessage("인증이 성공했습니다!");
         setIsVerified(true);
         return true;
       } else {
-        setMessage("인증에 실패했습니다. 코드가 올바르지 않습니다.");
-        setMessageType("error");
+        setError("인증에 실패했습니다. 코드가 올바르지 않습니다.");
         setIsVerified(false);
         return false;
       }
     } catch (error: any) {
-      setError(error.response?.data || "인증에 실패했습니다.");
-      setMessageType("error");
+      if (error.response?.status === 400) {
+        setError("코드가 올바르지 않습니다.");
+      } else {
+        setError(error.response?.data || "인증에 실패했습니다.");
+      }
       setIsVerified(false);
       return false;
     }
@@ -88,8 +90,7 @@ const useVerificationCode = (
     setIsVerified,
     timer,
     isButtonDisabled,
-    message,
-    messageType,
+    successMessage,
     handleSendVerificationCode,
     handleVerify,
     formatTime,

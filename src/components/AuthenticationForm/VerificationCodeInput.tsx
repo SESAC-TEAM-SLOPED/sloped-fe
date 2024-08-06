@@ -24,12 +24,10 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
     setIsVerified,
     timer,
     isButtonDisabled,
-    message,
-    messageType,
+    successMessage, // 성공 메시지
     handleSendVerificationCode,
     handleVerify,
     formatTime,
-    error,
   } = useVerificationCode(email, domain, customDomain, pageType);
 
   const [localError, setLocalError] = useState("");
@@ -43,7 +41,6 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
     const verified = await handleVerify();
     setIsVerified(verified);
     onVerify(verified);
-    setLocalError(verified ? "" : "인증에 실패했습니다. 다시 시도해 주세요.");
   };
 
   return (
@@ -67,22 +64,9 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
         </button>
       </div>
 
-      {message && (
-        <div
-          className={`text-sm mt-2 ${
-            messageType === "success" ? "text-green-500" : "text-red-500"
-          }`}
-        >
-          {message}
-        </div>
-      )}
-
-      {error && ( // 오류 메시지 표시
-        <div className="text-sm mt-2 text-red-500">{error}</div>
-      )}
-
-      {localError && (
-        <div className="text-sm mt-2 text-red-500">{localError}</div>
+      {/* 성공 메시지 표시 */}
+      {successMessage && (
+        <div className="text-sm mt-2 text-green-500">{successMessage}</div>
       )}
 
       <div className="flex items-center mb-4">
