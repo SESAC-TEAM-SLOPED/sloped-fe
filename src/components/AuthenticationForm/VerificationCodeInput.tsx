@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import useVerificationCode from "./useVerificationCode";
 

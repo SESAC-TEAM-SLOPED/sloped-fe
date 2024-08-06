@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
 
 type Props = {
@@ -11,7 +11,6 @@ const FindPasswordForm = ({ setActiveTab, id }: Props) => {
   const [domain, setDomain] = useState("naver.com");
   const [customDomain, setCustomDomain] = useState("");
   const [isVerified, setIsVerified] = useState(false);
-  const [error, setError] = useState("");
 
   const handleVerificationResult = (isVerified: boolean) => {
     setIsVerified(isVerified);
@@ -88,10 +87,6 @@ const FindPasswordForm = ({ setActiveTab, id }: Props) => {
         pageType="recovery"
         onVerify={handleVerificationResult}
       />
-
-      {!isVerified && error && (
-        <div className="w-[300px] mb-4 text-red-500">{error}</div>
-      )}
 
       <button
         className={`w-[300px] h-[40px] rounded-lg mb-4 ${

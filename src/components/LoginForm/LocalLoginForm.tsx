@@ -9,6 +9,7 @@ const LocalLoginForm = () => {
   const [memberId, setmemberId] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const toggleShowPassword = () => {
@@ -26,17 +27,23 @@ const LocalLoginForm = () => {
         { withCredentials: true },
       );
 
-      // 응답 상태 코드 확인
       if (response.status === 200) {
         const accessToken = response.data.accessToken;
         const refreshToken = response.data.refreshToken;
-
         handleTokenStorageAndNavigation(navigate, accessToken, refreshToken);
-      } else {
-        console.error("Login failed with status:", response.status);
       }
-    } catch (error) {
-      console.error("Login failed", error);
+    } catch (error: any) {
+      if (error.response) {
+        console.log(error.response.data);
+        const errorMessage = error.response.data;
+        if (errorMessage === "잘못된 자격 증명입니다.") {
+          setError("비밀 번호를 확인해주세요.");
+        } else {
+          setError(errorMessage);
+        }
+      } else {
+        setError("서버와의 통신 중 오류가 발생했습니다.");
+      }
     }
   };
 
@@ -82,6 +89,10 @@ const LocalLoginForm = () => {
           </a>
         </div>
       </div>
+
+      {error && (
+        <div className="w-full text-center mb-4 text-red-500 px-4">{error}</div>
+      )}
 
       <div className="flex justify-center mt-20 w-[280px]">
         <Button text="로그인" onClick={handleLogin} />

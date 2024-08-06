@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
 import api from "../../service/api";
