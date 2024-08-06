@@ -25,9 +25,9 @@ const Positioning = () => {
   const handleNextClick = () => {
     if (pathname.includes("facility")) {
       // 시설 form 페이지 path 지정 필요
-      navigate("/post/new/facility", { state: { location, address } });
+      navigate("/report/facility/new", { state: { location, address } });
     } else {
-      navigate("/report/road/form", { state: { location, address } });
+      navigate("/report/road/new", { state: { location, address } });
     }
   };
 
