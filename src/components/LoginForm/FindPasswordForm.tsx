@@ -13,14 +13,9 @@ const FindPasswordForm = ({ setActiveTab, id }: Props) => {
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState("");
 
-  const handleVerificationResult = useCallback((isVerified: boolean) => {
+  const handleVerificationResult = (isVerified: boolean) => {
     setIsVerified(isVerified);
-    if (!isVerified) {
-      setError("인증에 실패했습니다. 다시 시도해 주세요.");
-    } else {
-      setError("");
-    }
-  }, []);
+  };
 
   const handleContinue = () => {
     setActiveTab("password-pass"); // 통과페이지로

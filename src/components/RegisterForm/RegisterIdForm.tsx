@@ -28,17 +28,9 @@ const RegisterIdForm = () => {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  const handleVerificationResult = useCallback(
-    (isVerified: boolean) => {
-      setIsVerified(isVerified);
-      if (!isVerified && email) {
-        setError("인증에 실패했습니다. 다시 시도해 주세요.");
-      } else {
-        setError("");
-      }
-    },
-    [email],
-  );
+  const handleVerificationResult = (isVerified: boolean) => {
+    setIsVerified(isVerified);
+  };
 
   const handleBlurPasswordFields = () => {
     if (password && confirmPassword && password !== confirmPassword) {

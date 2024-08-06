@@ -24,16 +24,14 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
     setIsVerified,
     timer,
     isButtonDisabled,
-    successMessage, // 성공 메시지
     handleSendVerificationCode,
     handleVerify,
     formatTime,
+    message,
+    messageType,
   } = useVerificationCode(email, domain, customDomain, pageType);
 
-  const [localError, setLocalError] = useState("");
-
   const handleSendCodeClick = () => {
-    setLocalError("");
     handleSendVerificationCode();
   };
 
@@ -64,9 +62,15 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
         </button>
       </div>
 
-      {/* 성공 메시지 표시 */}
-      {successMessage && (
-        <div className="text-sm mt-2 text-green-500">{successMessage}</div>
+      {/* 메시지 표시 */}
+      {message && (
+        <div
+          className={`text-sm mt-2 ${
+            messageType === "Success" ? "text-green-500" : "text-red-500"
+          }`}
+        >
+          {message}
+        </div>
       )}
 
       <div className="flex items-center mb-4">
@@ -77,6 +81,7 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
           placeholder="인증번호 6자리 숫자 입력"
           value={verificationCode}
           onChange={(e) => setVerificationCode(e.target.value)}
+          disabled={!isButtonDisabled || isVerified}
         />
         <button
           className={`w-[50px] h-[40px] ml-2 ${

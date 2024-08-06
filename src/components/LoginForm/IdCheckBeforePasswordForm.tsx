@@ -29,7 +29,7 @@ const IdCheckBeforePasswordForm = ({
         setError("없는 아이디입니다. 확인해주세요.");
       }
     } catch (error: any) {
-      setError("아이디 중복 확인 중 오류가 발생했습니다.");
+      setError("없는 아이디입니다. 확인해주세요.");
     }
   };
 
