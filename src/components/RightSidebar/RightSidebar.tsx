@@ -1,3 +1,4 @@
+import { getCookie } from "../../service/cookieUtils";
 import StarIcon from "../icons/StarIcon";
 import WarningIcon from "../icons/WarningIcon";
 
@@ -28,15 +29,17 @@ const RightSidebar = ({
         </span>
         <span>불편지역</span>
       </button>
-      <button
-        className={`${BUTTON_STYLE} ${visibleBookmarks ? "text-white bg-[#fff500] border-[#fff500]" : "bg-white"}`}
-        onClick={onClickBookmarks}
-      >
-        <span>
-          <StarIcon active={visibleBookmarks} />
-        </span>
-        <span>즐겨찾기</span>
-      </button>
+      {getCookie("accessToken") && (
+        <button
+          className={`${BUTTON_STYLE} ${visibleBookmarks ? "text-white bg-[#fff500] border-[#fff500]" : "bg-white"}`}
+          onClick={onClickBookmarks}
+        >
+          <span>
+            <StarIcon active={visibleBookmarks} />
+          </span>
+          <span>즐겨찾기</span>
+        </button>
+      )}
     </div>
   );
 };
