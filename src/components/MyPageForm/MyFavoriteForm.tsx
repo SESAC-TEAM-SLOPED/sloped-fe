@@ -1,48 +1,61 @@
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa"; // 추후 star 마커 동일하게 수정 예정
+import axiosInstance from "../../service/axiosInstance";
 
-const favoriteData = [
-  {
-    name: "청년취업사관학교",
-    category: "기타",
-    address: "서울특별시 영등포구 선유로9길 30 106동",
-    reviewCount: 10,
-  },
-  {
-    name: "원조부안집 문래점",
-    category: "음식점",
-    address: "서울특별시 영등포구 선유로9길 10 문래SK V1센터 104호",
-    reviewCount: 10,
-  },
-  {
-    name: "청년다방",
-    category: "음식점",
-    address: "서울특별시 영등포구 선유로9길 10 문래SK V1센터 104호",
-    reviewCount: 10,
-  },
-  {
-    name: "빽다방",
-    category: "카페",
-    address: "서울특별시 영등포구 선유로9길 10 문래SK V1센터 104호",
-    reviewCount: 10,
-  },
-];
+// 데이터 항목의 타입 정의
+interface FavoriteItem {
+  facilityId: number;
+  name: string;
+  facilityType: string;
+  address: string;
+}
 
 const MyFavoriteForm = () => {
+  const [favoriteData, setFavoriteData] = useState<FavoriteItem[]>([]);
+
+  useEffect(() => {
+    const fetchFavoriteData = async () => {
+      try {
+        const response = await axiosInstance.get("/api/users/bookmark/");
+        setFavoriteData(response.data);
+      } catch (error) {
+        console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
+      }
+    };
+
+    fetchFavoriteData();
+  }, []);
+
+  const removeFavorite = async (facilityId: number) => {
+    try {
+      const response = await axiosInstance.delete(
+        `/api/users/bookmark?facilityId=${facilityId}`,
+      );
+      if (response.status === 204) {
+        // 삭제가 성공하면, 즐겨찾기 데이터를 다시 가져와서 업데이트
+        const fetchResponse = await axiosInstance.get("/api/users/bookmark/");
+        setFavoriteData(fetchResponse.data);
+      }
+    } catch (error) {
+      console.error("즐겨찾기를 삭제하는 중 오류가 발생했습니다:", error);
+    }
+  };
+
   return (
     <div className="py-4">
-      {favoriteData.map((item, index) => (
+      {favoriteData.map((item) => (
         <div
-          key={index}
+          key={item.facilityId}
           className="flex items-center bg-white p-4 rounded-lg shadow mb-4"
         >
           <div className="flex-grow">
             <h2 className="text-xl font-bold">{item.name}</h2>
-            <p className="text-gray-600">{item.category}</p>
+            <p className="text-gray-600">{item.facilityType}</p>
             <p className="text-gray-600">{item.address}</p>
-            <p className="text-gray-600">리뷰 {item.reviewCount}개</p>
           </div>
-          <FaStar className="text-yellow-500" size={24} />
+          <button onClick={() => removeFavorite(item.facilityId)}>
+            <FaStar className="text-yellow-500" size={24} />
+          </button>
         </div>
       ))}
     </div>
