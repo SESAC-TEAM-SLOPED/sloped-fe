@@ -13,7 +13,6 @@ const useVerificationCode = (
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-  const [error, setError] = useState("");
 
   useEffect(() => {
     if (timer > 0) {
@@ -27,6 +26,12 @@ const useVerificationCode = (
   }, [timer]);
 
   const handleSendVerificationCode = async () => {
+    if (!email) {
+      setMessage("이메일을 입력하지 않았습니다.");
+      setMessageType("Error");
+      return;
+    }
+
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
     const endpoint =
       pageType === "recovery"
@@ -36,12 +41,20 @@ const useVerificationCode = (
     try {
       await api.post(endpoint, { email: fullEmail });
       setMessage("이메일이 전송되었습니다!");
-      setMessageType("success");
+      setMessageType("Success");
       setIsButtonDisabled(true);
       handleRequestCode();
     } catch (error: any) {
-      setError(error.response?.data || "이메일 전송에 실패했습니다!");
-      setMessageType("error");
+      if (error.response?.status === 409) {
+        setMessage("중복된 이메일입니다. 다른 이메일을 사용해주세요.");
+        setMessageType("Error");
+      } else if (error.response?.status === 404) {
+        setMessage("없는 이메일입니다. 이메일을 확인해주세요.");
+        setMessageType("Error");
+      } else {
+        setMessage(error.response?.data || "이메일 전송에 실패했습니다!");
+        setMessageType("Error");
+      }
     }
   };
 
@@ -54,18 +67,23 @@ const useVerificationCode = (
       });
       if (response.status === 200) {
         setMessage("인증이 성공했습니다!");
-        setMessageType("success");
+        setMessageType("Success");
         setIsVerified(true);
         return true;
       } else {
         setMessage("인증에 실패했습니다. 코드가 올바르지 않습니다.");
-        setMessageType("error");
+        setMessageType("Error");
         setIsVerified(false);
         return false;
       }
     } catch (error: any) {
-      setError(error.response?.data || "인증에 실패했습니다.");
-      setMessageType("error");
+      if (error.response?.status === 400) {
+        setMessage("코드가 올바르지 않습니다.");
+        setMessageType("Error");
+      } else {
+        setMessage(error.response?.data || "인증에 실패했습니다.");
+        setMessageType("Error");
+      }
       setIsVerified(false);
       return false;
     }
@@ -88,12 +106,11 @@ const useVerificationCode = (
     setIsVerified,
     timer,
     isButtonDisabled,
-    message,
-    messageType,
     handleSendVerificationCode,
     handleVerify,
     formatTime,
-    error,
+    message,
+    messageType,
   };
 };
 

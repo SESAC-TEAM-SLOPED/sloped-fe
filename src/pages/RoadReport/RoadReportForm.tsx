@@ -7,6 +7,7 @@ import Button from "../../components/ui/Button";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { serverUrl } from "../../constant/url";
+import axiosInstance from "../../service/axiosInstance";
 
 const RoadReportForm = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const RoadReportForm = () => {
       formData.append("address", address);
       formData.append("content", content);
 
-      const response = await axios.post(
+      const response = await axiosInstance.post(
         `${serverUrl}/api/roadReport/upload`,
         formData,
         {

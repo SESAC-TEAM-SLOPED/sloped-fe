@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
 
 type Props = {
@@ -11,16 +11,10 @@ const FindPasswordForm = ({ setActiveTab, id }: Props) => {
   const [domain, setDomain] = useState("naver.com");
   const [customDomain, setCustomDomain] = useState("");
   const [isVerified, setIsVerified] = useState(false);
-  const [error, setError] = useState("");
 
-  const handleVerificationResult = useCallback((isVerified: boolean) => {
+  const handleVerificationResult = (isVerified: boolean) => {
     setIsVerified(isVerified);
-    if (!isVerified) {
-      setError("인증에 실패했습니다. 다시 시도해 주세요.");
-    } else {
-      setError("");
-    }
-  }, []);
+  };
 
   const handleContinue = () => {
     setActiveTab("password-pass"); // 통과페이지로
@@ -93,10 +87,6 @@ const FindPasswordForm = ({ setActiveTab, id }: Props) => {
         pageType="recovery"
         onVerify={handleVerificationResult}
       />
-
-      {!isVerified && error && (
-        <div className="w-[300px] mb-4 text-red-500">{error}</div>
-      )}
 
       <button
         className={`w-[300px] h-[40px] rounded-lg mb-4 ${

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import useVerificationCode from "./useVerificationCode";
 
@@ -24,18 +24,14 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
     setIsVerified,
     timer,
     isButtonDisabled,
-    message,
-    messageType,
     handleSendVerificationCode,
     handleVerify,
     formatTime,
-    error,
+    message,
+    messageType,
   } = useVerificationCode(email, domain, customDomain, pageType);
 
-  const [localError, setLocalError] = useState("");
-
   const handleSendCodeClick = () => {
-    setLocalError("");
     handleSendVerificationCode();
   };
 
@@ -43,7 +39,6 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
     const verified = await handleVerify();
     setIsVerified(verified);
     onVerify(verified);
-    setLocalError(verified ? "" : "인증에 실패했습니다. 다시 시도해 주세요.");
   };
 
   return (
@@ -67,22 +62,15 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
         </button>
       </div>
 
+      {/* 메시지 표시 */}
       {message && (
         <div
           className={`text-sm mt-2 ${
-            messageType === "success" ? "text-green-500" : "text-red-500"
+            messageType === "Success" ? "text-green-500" : "text-red-500"
           }`}
         >
           {message}
         </div>
-      )}
-
-      {error && ( // 오류 메시지 표시
-        <div className="text-sm mt-2 text-red-500">{error}</div>
-      )}
-
-      {localError && (
-        <div className="text-sm mt-2 text-red-500">{localError}</div>
       )}
 
       <div className="flex items-center mb-4">
@@ -93,6 +81,7 @@ const VerificationCodeInput: React.FC<VerificationCodeInputProps> = ({
           placeholder="인증번호 6자리 숫자 입력"
           value={verificationCode}
           onChange={(e) => setVerificationCode(e.target.value)}
+          disabled={!isButtonDisabled || isVerified}
         />
         <button
           className={`w-[50px] h-[40px] ml-2 ${

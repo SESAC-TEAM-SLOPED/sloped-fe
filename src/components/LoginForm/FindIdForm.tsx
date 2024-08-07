@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import api from "../../service/api";
 import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
 
@@ -15,17 +15,9 @@ const FindIdForm = ({ setActiveTab, setMemberId }: Props) => {
   const [isVerified, setIsVerified] = useState(false);
   const [error, setError] = useState("");
 
-  const handleVerificationResult = useCallback(
-    (isVerified: boolean) => {
-      setIsVerified(isVerified);
-      if (!isVerified && email) {
-        setError("인증에 실패했습니다. 다시 시도해 주세요.");
-      } else {
-        setError("");
-      }
-    },
-    [email],
-  );
+  const handleVerificationResult = (isVerified: boolean) => {
+    setIsVerified(isVerified);
+  };
 
   const handleContinue = async () => {
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
@@ -46,6 +38,10 @@ const FindIdForm = ({ setActiveTab, setMemberId }: Props) => {
       style={{ minHeight: "80vh" }}
       className="flex flex-col items-center justify-center min-h-screen space-y-6 bg-white"
     >
+      {!isVerified && error && (
+        <div className="w-[300px] mb-4 text-red-500">{error}</div>
+      )}
+
       <h1 className="text-xl font-bold mb-6">본인확인 이메일로 인증</h1>
 
       <div className="w-[300px] mb-4">
