@@ -1,6 +1,6 @@
 import { useSearchParams } from "react-router-dom";
 
-const BUTTON_STYLE = "px-3 py-1 text-sm bg-white rounded-full shadow-md";
+const BUTTON_STYLE = "px-3 py-1 text-sm rounded-full shadow-md";
 
 type Props = {
   onClick: () => void;
@@ -16,43 +16,43 @@ const Categories = ({ onClick }: Props) => {
           setSearchParams({ category: "all" });
           onClick();
         }}
-        className={`${BUTTON_STYLE} ${searchParams.get("category") === "all" && "bg-blue-600 text-white font-bold"}`}
+        className={`${BUTTON_STYLE} ${searchParams.get("category") === "all" ? "bg-blue-600 text-white font-bold" : "bg-white"}`}
       >
         전체
       </button>
       <button
         onClick={() => {
-          setSearchParams({ category: "cafe" });
+          setSearchParams({ category: "CAFE" });
           onClick();
         }}
-        className={`${BUTTON_STYLE} ${searchParams.get("category") === "cafe" && "bg-blue-600 text-white font-bold"}`}
+        className={`${BUTTON_STYLE} ${searchParams.get("category") === "CAFE" ? "bg-blue-600 text-white font-bold" : "bg-white"}`}
       >
         카페
       </button>
       <button
         onClick={() => {
-          setSearchParams({ category: "tour" });
+          setSearchParams({ category: "RESTAURANT" });
           onClick();
         }}
-        className={`${BUTTON_STYLE} ${searchParams.get("category") === "tour" && "bg-blue-600 text-white font-bold"}`}
+        className={`${BUTTON_STYLE} ${searchParams.get("category") === "RESTAURANT" ? "bg-blue-600 text-white font-bold" : "bg-white"}`}
       >
-        관광지
+        식당
       </button>
       <button
         onClick={() => {
-          setSearchParams({ category: "hospital" });
+          setSearchParams({ category: "PUBLIC_SPACE" });
           onClick();
         }}
-        className={`${BUTTON_STYLE} ${searchParams.get("category") === "hospital" && "bg-blue-600 text-white font-bold"}`}
+        className={`${BUTTON_STYLE} ${searchParams.get("category") === "PUBLIC_SPACE" ? "bg-blue-600 text-white font-bold" : "bg-white"}`}
       >
-        병원
+        공공장소
       </button>
       <button
         onClick={() => {
-          setSearchParams({ category: "etc" });
+          setSearchParams({ category: "ETC" });
           onClick();
         }}
-        className={`${BUTTON_STYLE} ${searchParams.get("category") === "etc" && "bg-blue-600 text-white font-bold"}`}
+        className={`${BUTTON_STYLE} ${searchParams.get("category") === "ETC" ? "bg-blue-600 text-white font-bold" : "bg-white"}`}
       >
         기타
       </button>

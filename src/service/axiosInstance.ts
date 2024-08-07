@@ -1,10 +1,11 @@
 import axios from "axios";
 import { setCookie, getCookie, removeCookie } from "./cookieUtils";
 import { isCookieAccessTokenExpired } from "./tokenUtils";
+import { serverUrl } from "../constant/url";
 
 // Axios 인스턴스 생성
 const axiosInstance = axios.create({
-  baseURL: "/", // API 기본 URL 설정
+  baseURL: serverUrl, // API 기본 URL 설정
   withCredentials: true, // 쿠키를 포함하도록 설정
 });
 

@@ -1,3 +1,4 @@
+import { getCookie } from "../../service/cookieUtils";
 import StarIcon from "../icons/StarIcon";
 import WarningIcon from "../icons/WarningIcon";
 
@@ -9,7 +10,7 @@ type Props = {
 };
 
 const BUTTON_STYLE =
-  "bg-white rounded-full w-14 h-14 flex flex-col items-center justify-center shadow-xl border";
+  "rounded-full w-14 h-14 flex flex-col items-center justify-center shadow-xl border";
 
 const RightSidebar = ({
   onClickBookmarks,
@@ -20,7 +21,7 @@ const RightSidebar = ({
   return (
     <div className="w-fit text-xs flex flex-col gap-3 absolute top-24 right-2">
       <button
-        className={`${BUTTON_STYLE} ${visibleRoads && "text-white bg-[#F8837C] border-[#F8837C]"}`}
+        className={`${BUTTON_STYLE} ${visibleRoads ? "text-white bg-[#F8837C] border-[#F8837C]" : "bg-white "}`}
         onClick={onClickRoads}
       >
         <span>
@@ -28,15 +29,17 @@ const RightSidebar = ({
         </span>
         <span>불편지역</span>
       </button>
-      <button
-        className={`${BUTTON_STYLE} ${visibleBookmarks && "text-white bg-[#fff500] border-[#fff500]"}`}
-        onClick={onClickBookmarks}
-      >
-        <span>
-          <StarIcon active={visibleBookmarks} />
-        </span>
-        <span>즐겨찾기</span>
-      </button>
+      {getCookie("accessToken") && (
+        <button
+          className={`${BUTTON_STYLE} ${visibleBookmarks ? "text-white bg-[#fff500] border-[#fff500]" : "bg-white"}`}
+          onClick={onClickBookmarks}
+        >
+          <span>
+            <StarIcon active={visibleBookmarks} />
+          </span>
+          <span>즐겨찾기</span>
+        </button>
+      )}
     </div>
   );
 };

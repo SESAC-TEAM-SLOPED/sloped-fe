@@ -49,7 +49,7 @@ const Router = () => {
           <Route path="/admin/review/:id" element={<AdminReviewDetail />} />
         </Route>
         <Route path="/" element={<Main />} />
-        <Route path="/facility/details" element={<ViewFacilityDetails />} />
+        <Route path="/facility/details/:id" element={<ViewFacilityDetails />} />
         <Route path="/get-jwt" element={<GetJwt />} />
         <Route path="/login/register/id" element={<RegisterId />} />
         <Route path="/login/register/social" element={<RegisterSocial />} />
@@ -61,8 +61,7 @@ const Router = () => {
           <Route path="/review/new" element={<WriteReview />} />
           <Route path="/facility/new/positioning" element={<Positioning />} />
           <Route path="/road/new/positioning" element={<Positioning />} />
-          <Route path="/report/road/new" element={<Positioning />} />
-          <Route path="/report/road/form" element={<RoadReportForm />} />
+          <Route path="/report/road/new" element={<RoadReportForm />} />
           <Route path="/submit/completed" element={<SubmitComplete />} />
           <Route path="/report/facility/new" element={<PostNewFacility />} />
           <Route path="/mypage" element={<MyPageBase />} />

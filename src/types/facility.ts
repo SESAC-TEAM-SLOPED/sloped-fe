@@ -4,4 +4,35 @@ export interface Facility {
   longitude: number;
   address: string;
   type: string;
+  countOfConvenient: number;
+  countOfInconvenient: number;
+  countOfReviews: number;
+  isBookmarked: null | boolean;
+  imageUrl: null | string;
+  name: string;
+}
+
+export interface FacilityDetail {
+  id: number;
+  latitude: number;
+  longitude: number;
+  address: string;
+  type: string;
+  name: string;
+  businessHours: null | string;
+  contact: null | string;
+  hasElevator: boolean;
+  hasSlope: boolean;
+  isEntranceBarrier: boolean;
+  createdAt: string;
+  updatedAt: string;
+  content: string;
+}
+
+export interface Bookmark {
+  id: number;
+  latitude: number;
+  longitude: number;
+  address: string;
+  type: string;
 }

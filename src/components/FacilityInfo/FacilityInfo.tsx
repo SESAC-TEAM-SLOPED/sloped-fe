@@ -1,38 +1,58 @@
+import { useEffect, useState } from "react";
 import IsConvenient from "../IsConvenient/IsConvenient";
+import axios from "axios";
+import { serverUrl } from "../../constant/url";
+import { Facility } from "../../types/facility";
+import { Link } from "react-router-dom";
 
 type Props = {
   id: number;
 };
 
 const FacilityInfo = ({ id }: Props) => {
-  return (
+  const [info, setInfo] = useState<Facility>();
+
+  useEffect(() => {
+    const getFacilityInfo = async () => {
+      const { data } = await axios.get(`${serverUrl}/api/facilities/${id}`);
+      setInfo(data);
+    };
+
+    getFacilityInfo();
+  }, [id]);
+
+  return info ? (
     <div className="flex justify-between items-center">
       <div>
         <div className="mb-5">
-          <h2 className="text-lg font-bold">청년취업사관학교</h2>
-          <p className="text-sm text-gray-600">
-            서울특별시 영등포구 선유로9길 30 106동
-          </p>
+          <Link to={`/facility/details/${info.id}`}>
+            <h2 className="text-lg font-bold">{info.name}</h2>
+          </Link>
+          <p className="text-sm text-gray-600">{info.address}</p>
         </div>
         <div className="flex items-center gap-3 mb-4">
           <div className="flex items-center space-x-2">
             <IsConvenient isConvenient={true} />
-            <span className="text-gray-600 text-xs">7</span>
+            <span className="text-gray-600 text-xs">
+              {info.countOfConvenient}
+            </span>
           </div>
           <div className="flex items-center space-x-2">
             <IsConvenient isConvenient={false} />
-            <span className="text-gray-600 text-xs">7</span>
+            <span className="text-gray-600 text-xs">
+              {info.countOfInconvenient}
+            </span>
           </div>
         </div>
       </div>
       <div>
-        <img
-          src="https://via.placeholder.com/100"
-          alt="School"
-          className="rounded-lg"
-        />
+        {info.imageUrl && (
+          <img src={info.imageUrl} alt="School" className="rounded-lg" />
+        )}
       </div>
     </div>
+  ) : (
+    <div></div>
   );
 };
 
