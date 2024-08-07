@@ -6,6 +6,7 @@ import UploadButton from "../../components/ui/UploadButton";
 import Button from "../../components/ui/Button";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import axiosInstance from "../../service/axiosInstance";
 
 const RoadReportForm = () => {
   const navigate = useNavigate();
@@ -43,11 +44,15 @@ const RoadReportForm = () => {
       formData.append("address", address);
       formData.append("content", content);
 
-      const response = await axios.post("/api/roadReport/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const response = await axiosInstance.post(
+        "/api/roadReport/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
+      );
 
       navigate("/submit/completed");
     } catch (error) {
