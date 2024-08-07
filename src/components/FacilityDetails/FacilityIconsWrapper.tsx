@@ -17,28 +17,47 @@ const FacilityIconsWrapper = ({
 }: Props) => {
   const size = 25;
   const color = "#3F51B5";
+  const falseColor = "#909090";
 
   return (
     <div className="flex space-x-6">
-      {hasSlope && (
+      {hasSlope ? (
         <IconWithLabel
           icon={<SlopeIcon size={size} color={color} />}
           text="경사로 있음"
           color={color}
         />
+      ) : (
+        <IconWithLabel
+          icon={<SlopeIcon size={size} color={falseColor} />}
+          text="경사로 없음"
+          color={falseColor}
+        />
       )}
-      {isEntranceBarrier && (
+      {isEntranceBarrier ? (
         <IconWithLabel
           icon={<EntranceBarrierIcon size={size} color={color} />}
           text="입구턱 있음"
           color={color}
         />
+      ) : (
+        <IconWithLabel
+          icon={<EntranceBarrierIcon size={size} color={falseColor} />}
+          text="입구턱 없음"
+          color={falseColor}
+        />
       )}
-      {hasElevator && (
+      {hasElevator ? (
         <IconWithLabel
           icon={<ElevatorIcon size={size} color={color} />}
           text="엘리베이터 있음"
           color={color}
+        />
+      ) : (
+        <IconWithLabel
+          icon={<ElevatorIcon size={size} color={falseColor} />}
+          text="엘리베이터 없음"
+          color={falseColor}
         />
       )}
     </div>

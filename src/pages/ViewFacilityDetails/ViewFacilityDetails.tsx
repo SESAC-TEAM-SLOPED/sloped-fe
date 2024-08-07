@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "../../components/Header/Header";
 import Map from "../../components/Map/Map";
 import Container from "../../components/ui/Container";
@@ -8,7 +8,7 @@ import FacilityName from "../../components/FacilityDetails/FacilityName";
 import FacilityIconsWrapper from "../../components/FacilityDetails/FacilityIconsWrapper";
 import FacilityInformation from "../../components/FacilityDetails/FacilityInformation";
 import ReportIcon from "../../components/icons/ReportIcon";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import RightArrowIcon from "../../components/icons/RightArrowIcon";
 import ReviewPhotos from "../../components/FacilityReview/ReviewPhotos";
 import ReviewHeader from "../../components/FacilityReview/ReviewHeader";
@@ -18,29 +18,26 @@ import ReviewFilter from "../../components/FacilityReview/ReviewFilter";
 import { Review } from "../../types/Review";
 import UserReview from "../../components/FacilityReview/UserReview";
 import Footer from "../../components/ui/Footer";
+import { serverUrl } from "../../constant/url";
+import axios from "axios";
+import { FacilityDetail } from "../../types/facility";
 
 const ViewFacilityDetails = () => {
-  const { location } = useGeoLocation();
+  const { id } = useParams();
+  const [detail, setDetail] = useState<FacilityDetail>();
 
-  // 임의로 시설 데이터 지정
-  const facility = {
-    name: "컴포즈커피 문래skv1점",
-    category: "카페",
-    hasSlope: true,
-    isEntranceBarrier: true,
-    hasElevator: true,
-    address: "서울특별시 영등포구 문래동 3가 55-20",
-    contact: "02-123-4567",
-    businessHours: {
-      Monday: "08:00 - 22:00",
-      Tuesday: "08:00 - 22:00",
-      Wednesday: "08:00 - 22:00",
-      Thursday: "08:00 - 22:00",
-      Friday: "08:00 - 22:00",
-      Saturday: "10:00 - 18:00",
-      Sunday: "10:00 - 18:00",
-    },
-  };
+  useEffect(() => {
+    const getDetail = async () => {
+      const { data } = await axios.get(
+        `${serverUrl}/api/facilities/${id}/detail`,
+      );
+
+      setDetail(data);
+    };
+
+    getDetail();
+  }, [id]);
+  const { location } = useGeoLocation();
 
   // 리뷰 개수(임의)
   const reviewCounts = {
@@ -93,7 +90,7 @@ const ViewFacilityDetails = () => {
   const [filteredReviews, setFilteredReviews] = useState(reviewData);
   const [map, setMap] = useState();
 
-  return (
+  return detail ? (
     <Container hasHeader={true}>
       <Header text="시설 정보" closeButton={true} />
       <div className="flex flex-col gap-6">
@@ -104,26 +101,30 @@ const ViewFacilityDetails = () => {
             height="100%"
             canDrag={false}
             canZoom={false}
-            location={location}
+            currentLocation={location}
+            location={{ lat: detail.latitude, lng: detail.longitude }}
           />
         </div>
         {/* 시설 이름, 카테고리 */}
         <div className="flex items-center gap-4 h-3">
-          <FacilityName name={facility.name} />
-          <FacilityCategory category={facility.category} />
+          <FacilityName name={detail.name} />
+          <FacilityCategory category={detail.type} />
         </div>
         {/* 경사로, 입구턱, 엘리베이터 유무 */}
         <FacilityIconsWrapper
-          hasSlope={facility.hasSlope}
-          isEntranceBarrier={facility.isEntranceBarrier}
-          hasElevator={facility.hasElevator}
+          hasSlope={detail.hasSlope}
+          isEntranceBarrier={detail.isEntranceBarrier}
+          hasElevator={detail.hasElevator}
         />
         {/* 주소, 전화번호, 영업시간 */}
         <FacilityInformation
-          address={facility.address}
-          contact={facility.contact}
-          businessHours={facility.businessHours}
+          address={detail.address}
+          contact={detail.contact}
+          businessHours={detail.businessHours}
         />
+        <div>
+          <p>{detail.content}</p>
+        </div>
         {/* 틀린 정보 제보 하러 가기 */}
         <div className="flex justify-end items-center gap-1 mt-4">
           <Link
@@ -143,7 +144,7 @@ const ViewFacilityDetails = () => {
           reviewCount={
             reviewCounts.comfortableCount + reviewCounts.uncomfortableCount
           }
-          facilityName={facility.name}
+          facilityName={detail.name}
         />
         {/* 편해요/불편해요 개수 */}
         <Convenience
@@ -173,6 +174,8 @@ const ViewFacilityDetails = () => {
       </div>
       <Footer />
     </Container>
+  ) : (
+    <></>
   );
 };
 export default ViewFacilityDetails;

@@ -64,9 +64,10 @@ const Map = ({
   useEffect(() => {
     // 유저 위치 마커 생성
     if (currentLocation) {
-      map.setCenter(
-        new Tmapv2.LatLng(currentLocation.lat, currentLocation.lng),
-      );
+      map &&
+        map.setCenter(
+          new Tmapv2.LatLng(currentLocation.lat, currentLocation.lng),
+        );
 
       const currentMarker = getCurrentMarker({
         map,
@@ -92,7 +93,7 @@ const Map = ({
     }
 
     if (location) {
-      map.setCenter(new Tmapv2.LatLng(location.lat, location.lng));
+      map && map.setCenter(new Tmapv2.LatLng(location.lat, location.lng));
 
       const marker = getCenterMarker({
         map,

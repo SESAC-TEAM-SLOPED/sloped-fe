@@ -4,7 +4,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import BottomSheet from "../../components/ui/BottomSheet";
 import Container from "../../components/ui/Container";
 import useGeoLocation from "../../hooks/geoLocation";
-import { Facility } from "../../types/facility";
+import { Bookmark, Facility } from "../../types/facility";
 import { Road } from "../../types/road";
 import FacilityInfo from "../../components/FacilityInfo/FacilityInfo";
 import ModalPortal from "../../components/ui/ModalPortal";
@@ -26,38 +26,7 @@ import { RoadReportCenter } from "../../types/roadReportCenter";
 import { RoadReportCallTaxi } from "../../types/RoadReportCallTaxi";
 import { serverUrl } from "../../constant/url";
 
-const facilitiesData: Facility[] = [
-  {
-    id: 1,
-    latitude: 37.517799,
-    longitude: 126.886949,
-    type: "hospital",
-    address: "",
-  },
-  {
-    id: 2,
-    latitude: 37.517393,
-    longitude: 126.886155,
-    type: "cafe",
-    address: "",
-  },
-  {
-    id: 3,
-    latitude: 37.51703,
-    longitude: 126.88811,
-    type: "tour",
-    address: "",
-  },
-  {
-    id: 4,
-    latitude: 37.51395,
-    longitude: 127.102234,
-    type: "tour",
-    address: "",
-  },
-];
-
-const bookmarksData: Facility[] = [
+const bookmarksData: Bookmark[] = [
   {
     id: 1,
     latitude: 37.517799,
@@ -85,6 +54,7 @@ const Main = () => {
     useState<RoadReportCenter>(Object);
   const [complaintCenterList, setComplaintCenterList] = useState<any[]>([]);
   const [callTaxi, setCallTaxi] = useState<RoadReportCallTaxi>(Object);
+  const [center, setCenter] = useState({ lat: 0, lng: 0 });
 
   /*
    1. isRoadOpen - 첫 번째 도로 모달
@@ -114,6 +84,7 @@ const Main = () => {
         const response = await axios.get<Road[]>(
           `${serverUrl}/api/roads/get-points`,
         );
+        console.log(response.data);
         setRoads(response.data);
       } catch (error) {
         console.error("데이터를 불러오는 데 오류가 발생했습니다.:", error);
@@ -128,23 +99,23 @@ const Main = () => {
       // 카테고리별로 장소를 받아오는 로직
       const currentCategory = searchParams.get("category");
 
-      // const { data } = await axios.get(
-      //   `${serverUrl}/api/facilities?latitude=${location?.lat}&longitude=${location?.lng}&distance_meters=50&limit=10`,
-      // );
-      // console.log(data);
+      map &&
+        map.addListener("dragend", () => {
+          const center = map.getCenter();
+          setCenter({ lng: center._lng, lat: center._lat });
+        });
 
-      const data = facilitiesData.filter(
-        (data) =>
-          (data.type === currentCategory || currentCategory === "all") &&
-          !bookmarks.some(
-            (bookmark) => visibleBookmarks && bookmark.id === data.id,
-          ),
+      console.log(center);
+
+      const { data } = await axios.get(
+        `${serverUrl}/api/facilities?latitude=${location && center.lat === 0 ? location.lat : center ? center.lat : 37.566481622437934}&longitude=${location && center.lng === 0 ? location.lng : center ? center.lng : 126.98502302169841}&distance_meters=50&limit=20${currentCategory !== "all" && currentCategory !== null && currentCategory !== "" ? "&type=" + currentCategory : ""}`,
       );
+
       setFacilities(data);
     };
 
     getByCategory();
-  }, [bookmarks, location?.lat, location?.lng, searchParams, visibleBookmarks]);
+  }, [bookmarks, location, searchParams, visibleBookmarks, map, center]);
 
   const openBottomSheet = () => {
     setBottomSheetOpen(true);

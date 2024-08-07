@@ -1,9 +1,10 @@
 import { FaMapMarkerAlt, FaPhone, FaClock } from "react-icons/fa";
+import { IoTime } from "react-icons/io5";
 
 type FacilityInformationProps = {
   address: string;
-  contact: string;
-  businessHours: { [day: string]: string }; // 요일별 영업시간 정보를 받도록
+  contact?: string | null;
+  businessHours?: string | null; // 요일별 영업시간 정보를 받도록
 };
 
 const FacilityInformation = ({
@@ -29,21 +30,12 @@ const FacilityInformation = ({
       </div>
       <div className="flex items-center gap-2">
         <FaPhone color="#404040" size={20} />
-        <p>{contact}</p>
+        <p>{contact || "정보 없음"}</p>
       </div>
-      <div className="flex flex-col">
-        {Object.keys(businessHours).map((day, index) => (
-          <div key={index} className="flex items-center gap-2">
-            {index === 0 ? (
-              <FaClock color="#404040" size={20} />
-            ) : (
-              <div className="w-[20px]" />
-            )}
-            <p>
-              {daysOfWeek[index]}: {businessHours[day]}
-            </p>
-          </div>
-        ))}
+
+      <div className="flex items-center gap-2">
+        <IoTime color="#404040" size={20} />
+        <p>{businessHours || "정보 없음"}</p>
       </div>
     </div>
   );
