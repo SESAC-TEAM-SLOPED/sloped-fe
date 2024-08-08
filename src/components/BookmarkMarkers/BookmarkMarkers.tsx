@@ -1,8 +1,9 @@
 import { useSearchParams } from "react-router-dom";
 import Marker from "../Map/Marker";
+import { Bookmark } from "../../types/facility";
 
 type Props = {
-  bookmarks: any[];
+  bookmarks: Bookmark[];
   map: any;
   clickedId: number;
   onClick: (id: number) => void;
@@ -14,18 +15,18 @@ const BookmarkMarkers = ({ bookmarks, map, clickedId, onClick }: Props) => {
     <>
       {bookmarks.map((location) => (
         <Marker
-          key={location.id}
+          key={location.facilityId}
           map={map}
           lat={location.latitude}
           lng={location.longitude}
           icon="star"
           clickedId={clickedId}
-          id={location.id}
+          id={location.facilityId}
           onClick={() => {
-            onClick(location.id);
+            onClick(location.facilityId);
             setSearchParams({
               category: searchParams.get("category") || "",
-              id: location.id.toString(),
+              id: location.facilityId.toString(),
             });
           }}
         />

@@ -25,16 +25,7 @@ import { RoadReportDetail } from "../../types/roadReportDetail";
 import { RoadReportCenter } from "../../types/roadReportCenter";
 import { RoadReportCallTaxi } from "../../types/RoadReportCallTaxi";
 import { serverUrl } from "../../constant/url";
-
-const bookmarksData: Bookmark[] = [
-  {
-    id: 1,
-    latitude: 37.517799,
-    longitude: 126.886949,
-    type: "병원",
-    address: "",
-  },
-];
+import axiosInstance from "../../service/axiosInstance";
 
 const Main = () => {
   const { location } = useGeoLocation();
@@ -44,7 +35,7 @@ const Main = () => {
   const [map, setMap] = useState<any>();
   const [searchParams, setSearchParams] = useSearchParams();
   const [facilities, setFacilities] = useState<Facility[]>([]);
-  const [bookmarks, setBookmarks] = useState<any[]>([]);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [visibleBookmarks, setVisibleBookmarks] = useState(false);
   const [roads, setRoads] = useState<any[]>([]);
   const [visibleRoads, setVisibleRoads] = useState(false);
@@ -73,8 +64,14 @@ const Main = () => {
 
   useEffect(() => {
     // 즐겨찾기를 받아오는 로직
-    //const data = await axios.get()
-    visibleBookmarks && setBookmarks(bookmarksData);
+    const getBookmarks = async () => {
+      const { data } = await axiosInstance.get(
+        `${serverUrl}/api/users/bookmark`,
+      );
+
+      setBookmarks(data);
+    };
+    getBookmarks();
   }, [visibleBookmarks]);
 
   useEffect(() => {

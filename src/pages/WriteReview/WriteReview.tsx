@@ -6,6 +6,7 @@ import Container from "../../components/ui/Container";
 import UploadButton from "../../components/ui/UploadButton";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axiosInstance from "../../service/axiosInstance";
+import { serverUrl } from "../../constant/url";
 
 const WriteReview = () => {
   const location = useLocation();
@@ -50,7 +51,7 @@ const WriteReview = () => {
       });
 
       const response = await axiosInstance.post(
-        `/api/reviews/${facilityId}/create-reviews`,
+        `${serverUrl}/api/reviews/${facilityId}/create-reviews`,
         formData,
         {
           headers: {
