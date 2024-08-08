@@ -8,6 +8,16 @@ import { useLocation, useNavigate } from "react-router-dom";
 import RadioButtonGroup from "../../components/ui/RadioButtonGroup";
 import Textarea from "../../components/ui/TextArea";
 import Button from "../../components/ui/Button";
+import axiosInstance from "../../service/axiosInstance";
+import { serverUrl } from "../../constant/url";
+import FacilityCategory from "../../components/FacilityDetails/FacilityCategory";
+
+const FACILITY_TYPE: { [key: string]: string } = {
+  식당: "RESTAURANT",
+  카페: "CAFE",
+  공공장소: "PUBLIC_SPACE",
+  기타: "ETC",
+};
 
 const PostNewFacility = () => {
   const navigate = useNavigate();
@@ -42,17 +52,21 @@ const PostNewFacility = () => {
     setElevator(option); // 엘리베이터유무 선택 상태 업데이트
   };
 
-  const submitForm = () => {
+  const submitForm = async () => {
     // 성공시 submit 페이지로 이동
-    console.log(postLocation);
-    console.log(`주소: ${address}`);
-    console.log(`이름: ${facilityName}`);
-    console.log(`카테고리: ${selectedCategory}`);
-    console.log(`입구턱 유무: ${entranceStep}`);
-    console.log(`경사로 유무: ${slope}`);
-    console.log(`엘리베이터 유무: ${elevator}`);
-    console.log(`전화번호: ${phoneNumber}`);
-    console.log(`내용: ${textContent}`);
+    await axiosInstance.post(`${serverUrl}/api/facilities`, {
+      name: facilityName,
+      address,
+      content: textContent,
+      contact: phoneNumber,
+      facilityType: FACILITY_TYPE[selectedCategory],
+      //businessHours:
+      hasSlope: slope === "있음" ? true : false,
+      isEntranceBarrier: entranceStep === "있음" ? true : false,
+      hasElevator: elevator === "있음" ? true : false,
+      latitude: postLocation.lat,
+      longitude: postLocation.lng,
+    });
 
     navigate("/submit/completed");
   };
@@ -125,7 +139,7 @@ const PostNewFacility = () => {
             <p className="text-red-500 inline font-bold text-l">*</p>
             <div className="flex flex-wrap items-center mt-2">
               <RadioButtonGroup
-                options={["식당", "관광지", "카페", "기타"]}
+                options={["식당", "카페", "공공장소", "기타"]}
                 name="category"
                 onChange={handleCategoryChange}
                 initialOption={selectedCategory}
