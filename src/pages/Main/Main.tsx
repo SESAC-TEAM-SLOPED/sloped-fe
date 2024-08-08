@@ -26,6 +26,7 @@ import { RoadReportCenter } from "../../types/roadReportCenter";
 import { RoadReportCallTaxi } from "../../types/RoadReportCallTaxi";
 import { serverUrl } from "../../constant/url";
 import axiosInstance from "../../service/axiosInstance";
+import { getCookie } from "../../service/cookieUtils";
 
 const Main = () => {
   const { location } = useGeoLocation();
@@ -73,7 +74,7 @@ const Main = () => {
 
       setBookmarks(data);
     };
-    getBookmarks();
+    getCookie("accessToken") && getBookmarks();
   }, [visibleBookmarks]);
 
   useEffect(() => {

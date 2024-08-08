@@ -11,9 +11,8 @@ const RoadImageCaptioning = ({ image }: Props) => {
 
   useEffect(() => {
     const getImageCaptioning = async () => {
-      const { data } = await axios.post(`${serverUrl}/api/v1/gpt`, {
-        image:
-          "https://bsj-test-071124.s3.ap-northeast-1.amazonaws.com/road_report/entrance_test.jpg.png",
+      const { data } = await axios.post(`${serverUrl}/api/gpt`, {
+        image,
         message: "이 사진에 대해 설명해줘",
       });
 
