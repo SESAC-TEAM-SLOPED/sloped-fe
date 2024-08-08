@@ -23,7 +23,7 @@ import axios from "axios";
 import { FacilityDetail } from "../../types/facility";
 
 const ViewFacilityDetails = () => {
-  const { id } = useParams();
+  const { id } = useParams() as { id: string };
   const [detail, setDetail] = useState<FacilityDetail>();
 
   useEffect(() => {
@@ -145,6 +145,7 @@ const ViewFacilityDetails = () => {
             reviewCounts.comfortableCount + reviewCounts.uncomfortableCount
           }
           facilityName={detail.name}
+          facilityId={id}
         />
         {/* 편해요/불편해요 개수 */}
         <Convenience
