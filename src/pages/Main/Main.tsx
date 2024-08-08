@@ -13,7 +13,7 @@ import FacilityMarkers from "../../components/FacilityMarkers/FacilityMarkers";
 import RoadMarkers from "../../components/RoadMarkers/RoadMarkers";
 import BookmarkMarkers from "../../components/BookmarkMarkers/BookmarkMarkers";
 import Categories from "../../components/Categories/Categories";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
@@ -29,6 +29,8 @@ import axiosInstance from "../../service/axiosInstance";
 
 const Main = () => {
   const { location } = useGeoLocation();
+
+  const navigate = useNavigate();
 
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [clickedId, setClickedId] = useState<number>(0);

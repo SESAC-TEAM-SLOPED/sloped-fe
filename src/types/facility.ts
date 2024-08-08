@@ -12,6 +12,14 @@ export interface Facility {
   name: string;
 }
 
+export interface FacilitySearch {
+  id: number;
+  name: string;
+  type: string;
+  distance_meters: number;
+  address: string;
+}
+
 export interface FacilityDetail {
   id: number;
   latitude: number;
