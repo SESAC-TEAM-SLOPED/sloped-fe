@@ -47,7 +47,11 @@ const FacilityInfo = ({ id }: Props) => {
       </div>
       <div>
         {info.imageUrl && (
-          <img src={info.imageUrl} alt="School" className="rounded-lg" />
+          <img
+            src={info.imageUrl}
+            alt="Facility"
+            className="rounded-lg w-32 h-32 object-cover"
+          />
         )}
       </div>
     </div>
