@@ -12,6 +12,14 @@ export interface Facility {
   name: string;
 }
 
+export interface FacilitySearch {
+  id: number;
+  name: string;
+  type: string;
+  distance_meters: number;
+  address: string;
+}
+
 export interface FacilityDetail {
   id: number;
   latitude: number;
@@ -30,9 +38,11 @@ export interface FacilityDetail {
 }
 
 export interface Bookmark {
-  id: number;
+  facilityId: number;
   latitude: number;
   longitude: number;
   address: string;
-  type: string;
+  facilityType: string;
+  countOfReviews: number;
+  name: string;
 }

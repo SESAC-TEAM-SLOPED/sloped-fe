@@ -13,7 +13,7 @@ import FacilityMarkers from "../../components/FacilityMarkers/FacilityMarkers";
 import RoadMarkers from "../../components/RoadMarkers/RoadMarkers";
 import BookmarkMarkers from "../../components/BookmarkMarkers/BookmarkMarkers";
 import Categories from "../../components/Categories/Categories";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
@@ -25,26 +25,19 @@ import { RoadReportDetail } from "../../types/roadReportDetail";
 import { RoadReportCenter } from "../../types/roadReportCenter";
 import { RoadReportCallTaxi } from "../../types/RoadReportCallTaxi";
 import { serverUrl } from "../../constant/url";
-
-const bookmarksData: Bookmark[] = [
-  {
-    id: 1,
-    latitude: 37.517799,
-    longitude: 126.886949,
-    type: "병원",
-    address: "",
-  },
-];
+import axiosInstance from "../../service/axiosInstance";
 
 const Main = () => {
   const { location } = useGeoLocation();
+
+  const navigate = useNavigate();
 
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [clickedId, setClickedId] = useState<number>(0);
   const [map, setMap] = useState<any>();
   const [searchParams, setSearchParams] = useSearchParams();
   const [facilities, setFacilities] = useState<Facility[]>([]);
-  const [bookmarks, setBookmarks] = useState<any[]>([]);
+  const [bookmarks, setBookmarks] = useState<Bookmark[]>([]);
   const [visibleBookmarks, setVisibleBookmarks] = useState(false);
   const [roads, setRoads] = useState<any[]>([]);
   const [visibleRoads, setVisibleRoads] = useState(false);
@@ -73,8 +66,14 @@ const Main = () => {
 
   useEffect(() => {
     // 즐겨찾기를 받아오는 로직
-    //const data = await axios.get()
-    visibleBookmarks && setBookmarks(bookmarksData);
+    const getBookmarks = async () => {
+      const { data } = await axiosInstance.get(
+        `${serverUrl}/api/users/bookmark`,
+      );
+
+      setBookmarks(data);
+    };
+    getBookmarks();
   }, [visibleBookmarks]);
 
   useEffect(() => {
@@ -84,7 +83,6 @@ const Main = () => {
         const response = await axios.get<Road[]>(
           `${serverUrl}/api/roads/get-points`,
         );
-        console.log(response.data);
         setRoads(response.data);
       } catch (error) {
         console.error("데이터를 불러오는 데 오류가 발생했습니다.:", error);
@@ -104,8 +102,6 @@ const Main = () => {
           const center = map.getCenter();
           setCenter({ lng: center._lng, lat: center._lat });
         });
-
-      console.log(center);
 
       const { data } = await axios.get(
         `${serverUrl}/api/facilities?latitude=${location && center.lat === 0 ? location.lat : center ? center.lat : 37.566481622437934}&longitude=${location && center.lng === 0 ? location.lng : center ? center.lng : 126.98502302169841}&distance_meters=50&limit=20${currentCategory !== "all" && currentCategory !== null && currentCategory !== "" ? "&type=" + currentCategory : ""}`,
@@ -205,7 +201,6 @@ const Main = () => {
           requestRoad,
         );
         setCallTaxi(response.data);
-        console.log(callTaxi);
       } catch (error) {
         console.error(
           "Error sending road data or fetching report centers:",

@@ -31,6 +31,7 @@ import AdminReview from "../pages/AdminPage/AdminReview";
 import AdminReviewDetail from "../pages/AdminPage/AdminReviewDetail";
 import GetJwt from "../components/AuthenticationForm/GetJwt";
 import CheckAuth from "./CheckAuth";
+import SearchFacility from "../pages/SearchFacility/SearchFacility";
 
 const Router = () => {
   return (
@@ -55,6 +56,7 @@ const Router = () => {
         <Route path="/login/register/social" element={<RegisterSocial />} />
         <Route path="/login/find-information" element={<FindInformation />} />
         <Route path="/login/local" element={<LocalLogin />} />
+        <Route path="/search" element={<SearchFacility />} />
         {/* token 유무 체크 */}
         <Route path="" element={<CheckAuth />}>
           <Route path="/joinpage" element={<JoinPage />} />
