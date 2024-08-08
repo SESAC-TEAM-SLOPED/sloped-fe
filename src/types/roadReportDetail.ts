@@ -4,4 +4,5 @@ export interface RoadReportDetail {
   id: number;
   reportImageList: RoadReportImage[];
   content: string;
+  imageCaption: string;
 }
