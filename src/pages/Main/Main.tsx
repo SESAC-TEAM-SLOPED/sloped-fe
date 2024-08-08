@@ -84,7 +84,6 @@ const Main = () => {
         const response = await axios.get<Road[]>(
           `${serverUrl}/api/roads/get-points`,
         );
-        console.log(response.data);
         setRoads(response.data);
       } catch (error) {
         console.error("데이터를 불러오는 데 오류가 발생했습니다.:", error);
@@ -104,8 +103,6 @@ const Main = () => {
           const center = map.getCenter();
           setCenter({ lng: center._lng, lat: center._lat });
         });
-
-      console.log(center);
 
       const { data } = await axios.get(
         `${serverUrl}/api/facilities?latitude=${location && center.lat === 0 ? location.lat : center ? center.lat : 37.566481622437934}&longitude=${location && center.lng === 0 ? location.lng : center ? center.lng : 126.98502302169841}&distance_meters=50&limit=20${currentCategory !== "all" && currentCategory !== null && currentCategory !== "" ? "&type=" + currentCategory : ""}`,
@@ -205,7 +202,6 @@ const Main = () => {
           requestRoad,
         );
         setCallTaxi(response.data);
-        console.log(callTaxi);
       } catch (error) {
         console.error(
           "Error sending road data or fetching report centers:",
