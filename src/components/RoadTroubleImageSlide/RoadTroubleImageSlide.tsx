@@ -30,23 +30,26 @@ const RoadTroubleImageSlide = ({ roadReportImage }: Props) => {
   return (
     <div className={styles.imageContentWrap}>
       <div className={styles.mainImageWrap}>
-        <svg
-          className={styles.buttonIcon}
-          xmlns="http://www.w3.org/2000/svg"
-          width="35"
-          height="35"
-          viewBox="0 0 40 40"
-          fill="none"
-          onClick={onPrevImage}
-        >
-          <path
-            d="M25 30L15 20L25 10"
-            stroke="#7b7b7b"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        {roadReportImage.length > 1 && (
+          <svg
+            className={styles.buttonIcon}
+            xmlns="http://www.w3.org/2000/svg"
+            width="35"
+            height="35"
+            viewBox="0 0 40 40"
+            fill="none"
+            onClick={onPrevImage}
+          >
+            <path
+              d="M25 30L15 20L25 10"
+              stroke="#7b7b7b"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )}
+
         {roadReportImage.length > 0 && (
           <img
             src={roadReportImage[selectedImageIndex].url}
@@ -54,23 +57,25 @@ const RoadTroubleImageSlide = ({ roadReportImage }: Props) => {
             className={styles.mainImage}
           />
         )}
-        <svg
-          className={styles.buttonIcon}
-          xmlns="http://www.w3.org/2000/svg"
-          width="35"
-          height="35"
-          viewBox="0 0 40 40"
-          fill="none"
-          onClick={onNextImage}
-        >
-          <path
-            d="M15 30L25 20L15 10"
-            stroke="#7b7b7b"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+        {roadReportImage.length > 1 && (
+          <svg
+            className={styles.buttonIcon}
+            xmlns="http://www.w3.org/2000/svg"
+            width="35"
+            height="35"
+            viewBox="0 0 40 40"
+            fill="none"
+            onClick={onNextImage}
+          >
+            <path
+              d="M15 30L25 20L15 10"
+              stroke="#7b7b7b"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        )}
       </div>
       {roadReportImage.length > 1 && (
         <div className={styles.previewImagesWrap}>

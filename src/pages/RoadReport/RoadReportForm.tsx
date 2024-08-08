@@ -17,11 +17,10 @@ const RoadReportForm = () => {
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
   const [isPhotoUploaded, setIsPhotoUploaded] = useState(false);
-  const isButtonDisabled = content.trim() === "";
-  //!isPhotoUploaded || textContent.trim() === "";
+  const isButtonDisabled =
+    !isPhotoUploaded || uploadedFiles.length === 0 || content.trim() === "";
 
   useEffect(() => {
-    //console.log(reportLocation);
     if (!reportLocation || !address) {
       alert("잘못된 접근입니다.");
       navigate("/road/new/positioning");
@@ -29,16 +28,18 @@ const RoadReportForm = () => {
   }, [reportLocation, address, navigate]);
 
   const submitForm = async () => {
-    //console.log(reportLocation);
-    //console.log(`주소: ${address}`);
-    //console.log(uploadedFiles);
-    //console.log(`내용: ${content}`);
-
+    for (const file of uploadedFiles) {
+      if (file.name.length > 200) {
+        alert(
+          `파일명 "${file.name}"이(가) 너무 깁니다. 파일명을 수정한 후 업로드해주세요.`,
+        );
+        return;
+      }
+    }
     try {
       const formData = new FormData();
       uploadedFiles.forEach((file) => {
         formData.append("files", file);
-        console.log(file);
       });
       formData.append("latitude", reportLocation.lat.toString());
       formData.append("longitude", reportLocation.lng.toString());
@@ -71,42 +72,6 @@ const RoadReportForm = () => {
       }
     }
   };
-
-  // const submitForm = async () => {
-  //   console.log(reportLocation);
-  //   console.log(`주소: ${address}`);
-  //   console.log(uploadedFiles);
-  //   console.log(`내용: ${content}`);
-
-  //   try {
-  //     const formData = new FormData();
-  //     // uploadedFiles.forEach((file) => {
-  //     //   formData.append("photos", file);
-  //     //   console.log(file);
-  //     // });
-  //     //formData.append("location", JSON.stringify(reportLocation));
-  //     formData.append("latitude", reportLocation.lat);
-  //     formData.append("longitude", reportLocation.lng);
-  //     formData.append("address", address);
-  //     formData.append("content", content);
-
-  //     const response = await fetch("/api/roadReport/register", {
-  //       method: "POST",
-  //       body: formData,
-  //     });
-
-  //     if (!response.ok) {
-  //       const errorData = await response.json();
-  //       console.error("Error response:", errorData);
-  //       throw new Error(errorData.message || "Something went wrong");
-  //     }
-
-  //     navigate("/submit/completed");
-  //   } catch (error) {
-  //     console.error("Error submitting form :", error);
-  //     alert("폼 제출에 실패했습니다. 다시 시도해주세요.");
-  //   }
-  // };
 
   return (
     <Container hasHeader={true} full={true}>
