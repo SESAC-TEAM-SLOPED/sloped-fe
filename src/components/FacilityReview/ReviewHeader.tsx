@@ -4,9 +4,10 @@ import { Link } from "react-router-dom";
 type Props = {
   reviewCount: number;
   facilityName: string;
+  facilityId: string;
 };
 
-const ReviewHeader = ({ reviewCount, facilityName }: Props) => {
+const ReviewHeader = ({ reviewCount, facilityName, facilityId }: Props) => {
   return (
     <div className="flex justify-between items-center mt-4">
       <p className="text-[#404040] text-xl font-semibold">
@@ -14,7 +15,7 @@ const ReviewHeader = ({ reviewCount, facilityName }: Props) => {
       </p>
       <Link
         to="/review/new"
-        state={{ facilityName }}
+        state={{ facilityName, facilityId }}
         className="flex items-center gap-2 cursor-pointer"
       >
         <FaPencilAlt color="#3F51B5" />
