@@ -18,6 +18,7 @@ const RoadTroubleModal = ({
   stateChangeFunc,
 }: Props) => {
   const [openImageCaptioning, setOpenImageCaptioning] = useState(false);
+  console.log(roadReport);
 
   return (
     <>
@@ -37,7 +38,14 @@ const RoadTroubleModal = ({
               <span>AI 이미지 설명</span>
             </button>
             {openImageCaptioning && (
-              <RoadImageCaptioning image={roadReport.reportImageList[0].url} />
+              <RoadImageCaptioning
+                onClose={() => setOpenImageCaptioning(false)}
+                imageCaption={
+                  roadReport.imageCaption
+                    ? roadReport.imageCaption.split('"')[1]
+                    : "설명이 제공되지 않는 이미지입니다."
+                }
+              />
             )}
           </div>
           <div className="h-[130px] pt-5 mb-3">{roadReport.content}</div>

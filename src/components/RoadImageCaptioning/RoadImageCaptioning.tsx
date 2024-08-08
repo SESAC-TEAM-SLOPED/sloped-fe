@@ -1,30 +1,22 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { serverUrl } from "../../constant/url";
+import CloseIcon from "../icons/CloseIcon";
 
 type Props = {
-  image: string;
+  imageCaption: string;
+  onClose: () => void;
 };
 
-const RoadImageCaptioning = ({ image }: Props) => {
-  const [content, setContent] = useState("");
-
-  useEffect(() => {
-    const getImageCaptioning = async () => {
-      const { data } = await axios.post(`${serverUrl}/api/gpt`, {
-        image,
-        message: "이 사진에 대해 설명해줘",
-      });
-
-      setContent(data.choices[0].message.content);
-    };
-
-    getImageCaptioning();
-  }, [image]);
-
+const RoadImageCaptioning = ({ imageCaption, onClose }: Props) => {
   return (
-    <div className="bg-white border rounded-md absolute z-10 left-0 right-0 h-40 scroll-auto px-3 py-2">
-      {content}
+    <div className="bg-white border rounded-md absolute z-10 left-0 right-0 h-40 scroll-auto px-5 py-7">
+      <div className="absolute right-1 top-1">
+        <button onClick={onClose}>
+          <CloseIcon color="4d4d4d" />
+        </button>
+      </div>
+      <div>{imageCaption}</div>
     </div>
   );
 };
