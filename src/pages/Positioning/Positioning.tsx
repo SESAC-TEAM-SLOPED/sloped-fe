@@ -12,22 +12,29 @@ const Positioning = () => {
   const navigate = useNavigate();
   const { location } = useGeoLocation();
   const [address, setAddress] = useState("");
+  const [center, setCenter] = useState<{ lat: number; lng: number }>();
   const [map, setMap] = useState();
 
   useEffect(() => {
-    if (location) {
+    if (location && !center) {
       getAddressFromCoord({ lng: location.lng, lat: location.lat }).then(
         (addr) => setAddress(addr),
       );
+    } else if (center) {
+      getAddressFromCoord({ lng: center.lng, lat: center.lat }).then((addr) =>
+        setAddress(addr),
+      );
     }
-  }, [location]);
+  }, [center, location]);
 
   const handleNextClick = () => {
     if (pathname.includes("facility")) {
       // 시설 form 페이지 path 지정 필요
-      navigate("/report/facility/new", { state: { location, address } });
+      navigate("/report/facility/new", {
+        state: { location: center, address },
+      });
     } else {
-      navigate("/report/road/new", { state: { location, address } });
+      navigate("/report/road/new", { state: { location: center, address } });
     }
   };
 
@@ -54,6 +61,7 @@ const Positioning = () => {
           currentLocation={location}
           height="70%"
           setAddress={setAddress}
+          setCenter={setCenter}
         />
         <Button text="다음" onClick={handleNextClick} size="full" />
       </div>
