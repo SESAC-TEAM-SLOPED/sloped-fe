@@ -26,7 +26,7 @@ import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 interface FacilityReview {
   facilityReviewId: number;
   name: string;
-  userName: string;
+  nickname: string;
   isDisability: boolean;
   isConvenient: boolean;
   content: string;
@@ -64,7 +64,7 @@ const ViewFacilityDetails = () => {
         );
         const formattedReviews = data.map((review: FacilityReview) => ({
           id: review.facilityReviewId,
-          nickname: review.userName,
+          nickname: review.nickname,
           isDisability: review.isDisability,
           content: review.content,
           type: review.isConvenient ? "comfortable" : "uncomfortable",
