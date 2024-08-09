@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Header from "../../components/Header/Header";
 import Map from "../../components/Map/Map";
 import Container from "../../components/ui/Container";
@@ -10,7 +10,6 @@ import Textarea from "../../components/ui/TextArea";
 import Button from "../../components/ui/Button";
 import axiosInstance from "../../service/axiosInstance";
 import { serverUrl } from "../../constant/url";
-import FacilityCategory from "../../components/FacilityDetails/FacilityCategory";
 
 const FACILITY_TYPE: { [key: string]: string } = {
   식당: "RESTAURANT",
@@ -35,6 +34,7 @@ const PostNewFacility = () => {
   const [textContent, setTextContent] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const isButtonDisabled = facilityName.trim() === "";
+  const addressRef = useRef<HTMLInputElement>(null);
 
   const handleCategoryChange = (option: string) => {
     setSelectedCategory(option); // 카테고리 선택 상태 업데이트
@@ -71,14 +71,6 @@ const PostNewFacility = () => {
     navigate("/submit/completed");
   };
 
-  useEffect(() => {
-    if (geoLocation) {
-      getAddressFromCoord({ lng: geoLocation.lng, lat: geoLocation.lat }).then(
-        (addr) => setAddress(addr),
-      );
-    }
-  }, [geoLocation]);
-
   return (
     <Container hasHeader={true}>
       <Header text="시설 등록" />
@@ -90,6 +82,7 @@ const PostNewFacility = () => {
             height="100%"
             canDrag={false}
             canZoom={false}
+            location={postLocation}
             currentLocation={geoLocation} // 현재 위치 전달
           />
           <div className="w-full mb-4">
@@ -101,10 +94,22 @@ const PostNewFacility = () => {
               <input
                 type="text"
                 value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 className="flex-grow outline-none"
                 readOnly
+                ref={addressRef}
               />
-              <button className="ml-2 text-[#F8837C]">수정</button>
+              <button
+                className="ml-2 text-[#F8837C]"
+                onClick={() => {
+                  if (addressRef.current) {
+                    addressRef.current.readOnly = false;
+                    addressRef.current.focus();
+                  }
+                }}
+              >
+                수정
+              </button>
             </div>
           </div>
           <div className="w-full mb-4">

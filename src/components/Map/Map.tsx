@@ -21,6 +21,7 @@ type Props = {
   setClickedId?: (id: number) => void;
   setMap: (map: any) => void;
   map: any;
+  setCenter?: (center: any) => void;
 };
 
 const Map = ({
@@ -33,6 +34,7 @@ const Map = ({
   children,
   setMap,
   map,
+  setCenter,
 }: Props) => {
   const { Tmapv2 } = window;
   //const [map, setMap] = useState<any>();
@@ -65,6 +67,7 @@ const Map = ({
     // 유저 위치 마커 생성
     if (currentLocation) {
       map &&
+        !location &&
         map.setCenter(
           new Tmapv2.LatLng(currentLocation.lat, currentLocation.lng),
         );
@@ -85,6 +88,7 @@ const Map = ({
         map.addListener("dragend", () => {
           const center = map.getCenter();
           marker.setPosition(new Tmapv2.LatLng(center._lat, center._lng));
+          setCenter && setCenter({ lat: center._lat, lng: center._lng });
           getAddressFromCoord({ lat: center._lat, lng: center._lng }).then(
             (addr) => setAddress && setAddress(addr),
           );
@@ -101,7 +105,15 @@ const Map = ({
         lng: location.lng,
       });
     }
-  }, [Tmapv2.LatLng, currentLocation, location, map, pathname, setAddress]);
+  }, [
+    Tmapv2.LatLng,
+    currentLocation,
+    location,
+    map,
+    pathname,
+    setAddress,
+    setCenter,
+  ]);
 
   return (
     <>
