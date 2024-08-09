@@ -33,6 +33,7 @@ import AdminReviewDetail from "../pages/AdminPage/AdminReviewDetail";
 import GetJwt from "../components/AuthenticationForm/GetJwt";
 import CheckAuth from "./CheckAuth";
 import SearchFacility from "../pages/SearchFacility/SearchFacility";
+import RecommendFacility from "../pages/RecommendFacility/RecommendFacility";
 
 const Router = () => {
   return (
@@ -58,6 +59,7 @@ const Router = () => {
         <Route path="/login/find-information" element={<FindInformation />} />
         <Route path="/login/local" element={<LocalLogin />} />
         <Route path="/search" element={<SearchFacility />} />
+        <Route path="/facility/recommend" element={<RecommendFacility />} />
         {/* token 유무 체크 */}
         <Route path="" element={<CheckAuth />}>
           <Route path="/joinpage" element={<JoinPage />} />

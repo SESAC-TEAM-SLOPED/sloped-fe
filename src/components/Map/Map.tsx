@@ -99,11 +99,13 @@ const Map = ({
     if (location) {
       map && map.setCenter(new Tmapv2.LatLng(location.lat, location.lng));
 
-      const marker = getCenterMarker({
-        map,
-        lat: location.lat,
-        lng: location.lng,
-      });
+      const marker =
+        !pathname.includes("recommend") &&
+        getCenterMarker({
+          map,
+          lat: location.lat,
+          lng: location.lng,
+        });
     }
   }, [
     Tmapv2.LatLng,
