@@ -70,8 +70,13 @@ const Main = () => {
   useEffect(() => {
     const fetchRoadReport = async () => {
       if (roadClickId !== null) {
-        console.log(roadClickId);
         try {
+          const roadResponse = await axios.get<Road>(
+            `${serverUrl}/api/roads/${roadClickId}`,
+          );
+          const roadData = roadResponse.data;
+          setRequestRoad(roadData);
+
           const response = await axios.get(
             `${serverUrl}/api/roadReport/info/${roadClickId}`,
           );
@@ -163,6 +168,7 @@ const Main = () => {
     setIsRoadOpen(false);
     setIsComplaintCallOpen(true);
     if (requestRoad) {
+      console.log(requestRoad);
       try {
         const response = await axios.post<RoadReportCenter>(
           `${serverUrl}/api/roadReport/connect-center`,
