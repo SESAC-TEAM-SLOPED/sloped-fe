@@ -9,17 +9,21 @@ interface FavoriteItem {
   name: string;
   facilityType: string;
   address: string;
+  isBookmarked: boolean;
 }
 
 const MyFavoriteForm = () => {
   const [favoriteData, setFavoriteData] = useState<FavoriteItem[]>([]);
-  const [isBookmarked, setIsBookmarked] = useState(true);
 
   useEffect(() => {
     const fetchFavoriteData = async () => {
       try {
         const response = await axiosInstance.get("/api/users/bookmark");
-        setFavoriteData(response.data);
+        const modifiedData = response.data.map((item: any) => ({
+          ...item,
+          isBookmarked: true, // 즐겨찾기 목록에 있는 항목은 모두 true로 설정
+        }));
+        setFavoriteData(modifiedData);
       } catch (error) {
         console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
       }
@@ -28,33 +32,31 @@ const MyFavoriteForm = () => {
     fetchFavoriteData();
   }, []);
 
-  const onClickBookmark = (id: number) => {
-    setIsBookmarked(!isBookmarked);
+  const onClickBookmark = async (id: number) => {
+    const item = favoriteData.find((item) => item.facilityId === id);
+    if (!item) {
+      return;
+    }
 
-    if (!isBookmarked) {
-      const addBookmark = async () => {
+    try {
+      if (!item.isBookmarked) {
         await axiosInstance.post(`${serverUrl}/api/users/bookmark`, {
           facilityId: id,
         });
-      };
-      addBookmark();
-    } else {
-      removeFavorite(id);
-    }
-  };
-
-  const removeFavorite = async (facilityId: number) => {
-    try {
-      const response = await axiosInstance.delete(
-        `/api/users/bookmark?facilityId=${facilityId}`,
-      );
-      if (response.status === 204) {
-        // 삭제가 성공하면, 즐겨찾기 데이터를 다시 가져와서 업데이트
-        const fetchResponse = await axiosInstance.get("/api/users/bookmark");
-        setFavoriteData(fetchResponse.data);
+      } else {
+        await axiosInstance.delete(`/api/users/bookmark?facilityId=${id}`);
       }
+
+      // 상태 업데이트
+      setFavoriteData((prevData) =>
+        prevData.map((item) =>
+          item.facilityId === id
+            ? { ...item, isBookmarked: !item.isBookmarked }
+            : item,
+        ),
+      );
     } catch (error) {
-      console.error("즐겨찾기를 삭제하는 중 오류가 발생했습니다:", error);
+      console.error("북마크 상태를 변경하는 중 오류가 발생했습니다:", error);
     }
   };
 
@@ -71,7 +73,10 @@ const MyFavoriteForm = () => {
             <p className="text-gray-600">{item.address}</p>
           </div>
           <button onClick={() => onClickBookmark(item.facilityId)}>
-            <FaStar size={20} color={isBookmarked ? "#FFF500" : "#dfdfdf"} />
+            <FaStar
+              size={20}
+              color={item.isBookmarked ? "#FFF500" : "#dfdfdf"}
+            />
           </button>
         </div>
       ))}

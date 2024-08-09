@@ -1,4 +1,5 @@
 import { Review } from "../../types/Review";
+import { FaUser } from "react-icons/fa";
 
 type Props = {
   review: Review;
@@ -14,12 +15,17 @@ const UserReview = ({ review }: Props) => {
     <div className="mt-6 border-t border-gray-200 pt-6">
       {/* 사용자 닉네임, 교통약자 여부 */}
       <div className="flex items-center">
-        <p className="text-[#404040] font-semibold text-lg">
+        <div className="flex items-center bg-gray-100 rounded-full p-2 mr-3">
+          <FaUser className="text-gray-600 text-lg" />
+        </div>
+        <p className="text-[#404040] font-semibold text-xl mr-3">
           {review.nickname}
-          {review.isDisability && (
-            <span className="text-sm text-[#3F51B5] ml-4">교통약자</span>
-          )}
         </p>
+        {review.isDisability && (
+          <span className="bg-[#E3F2FD] text-[#3F51B5] px-2 py-1 rounded-full text-sm">
+            교통약자
+          </span>
+        )}
       </div>
       {/* 편해요/불편해요, 날짜, 리뷰 내용 */}
       <div className="flex items-center mt-3">

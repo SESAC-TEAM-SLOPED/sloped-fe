@@ -13,6 +13,7 @@ import RoadReportForm from "../pages/RoadReport/RoadReportForm";
 import SubmitComplete from "../pages/SubmitComplete/SubmitComplete";
 import ViewFacilityDetails from "../pages/ViewFacilityDetails/ViewFacilityDetails";
 import PostNewFacility from "../pages/PostNewFacility/PostNewFacility";
+import UpdateFacility from "../pages/UpdateNewFacility/UpdateFacility";
 import MyPageBase from "../pages/MyPage/MyPageBase";
 import MyFavorite from "../pages/MyPage/MyFavorite";
 import MyProfileEditor from "../pages/MyPage/MyProfileEditor";
@@ -67,6 +68,7 @@ const Router = () => {
           <Route path="/report/road/new" element={<RoadReportForm />} />
           <Route path="/submit/completed" element={<SubmitComplete />} />
           <Route path="/report/facility/new" element={<PostNewFacility />} />
+          <Route path="/report/facility/update" element={<UpdateFacility />} />
           <Route path="/mypage" element={<MyPageBase />} />
           <Route path="/mypage/favorites" element={<MyFavorite />} />
           <Route path="/mypage/edit-info" element={<MyProfileEditor />} />
