@@ -35,6 +35,8 @@ export interface FacilityDetail {
   createdAt: string;
   updatedAt: string;
   content: string;
+  accessibilityDescription: string;
+  averageAccessibilityScore: number;
 }
 
 export interface Bookmark {

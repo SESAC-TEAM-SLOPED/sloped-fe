@@ -21,74 +21,86 @@ import Footer from "../../components/ui/Footer";
 import { serverUrl } from "../../constant/url";
 import axios from "axios";
 import { FacilityDetail } from "../../types/facility";
+import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
+
+interface FacilityReview {
+  facilityReviewId: number;
+  name: string;
+  userName: string;
+  isDisability: boolean;
+  isConvenient: boolean;
+  content: string;
+  urls: string[];
+  updatedAt: string;
+}
 
 const ViewFacilityDetails = () => {
   const { id } = useParams() as { id: string };
   const [detail, setDetail] = useState<FacilityDetail>();
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviewCounts, setReviewCounts] = useState({
+    total: 0,
+    comfortable: 0,
+  });
+  const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
+  const { location } = useGeoLocation();
+  const [map, setMap] = useState();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const getDetail = async () => {
       const { data } = await axios.get(
         `${serverUrl}/api/facilities/${id}/detail`,
       );
-
       setDetail(data);
+      console.log(data);
+    };
+
+    const getReviews = async () => {
+      try {
+        const { data } = await axios.get(
+          `${serverUrl}/api/facilities/${id}/get-facility-reviews`,
+        );
+        const formattedReviews = data.map((review: FacilityReview) => ({
+          id: review.facilityReviewId,
+          nickname: review.userName,
+          isDisability: review.isDisability,
+          content: review.content,
+          type: review.isConvenient ? "comfortable" : "uncomfortable",
+          createdAt: new Date(review.updatedAt),
+          images: review.urls,
+        }));
+        setReviews(formattedReviews);
+        setFilteredReviews(formattedReviews);
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response?.status === 404) {
+          // 리뷰가 없는 경우
+          setError("");
+        } else {
+          setError("");
+        }
+      }
+    };
+
+    const getReviewCounts = async () => {
+      try {
+        const { data } = await axios.get(
+          `${serverUrl}/api/facilities/${id}/get-facility-reviews-count`,
+        );
+        setReviewCounts({
+          total: data[0],
+          comfortable: data[1],
+        });
+      } catch (error) {
+        console.error("Failed to fetch review counts:", error);
+        setReviewCounts({ total: 0, comfortable: 0 });
+      }
     };
 
     getDetail();
+    getReviews();
+    getReviewCounts();
   }, [id]);
-  const { location } = useGeoLocation();
-
-  // 리뷰 개수(임의)
-  const reviewCounts = {
-    comfortableCount: 2,
-    uncomfortableCount: 1,
-  };
-
-  // AI 한 줄 요약(임의)
-  const aiSummary = "아이와 이용하기 편하지만 엘리베이터 공사가 아쉬웠습니다.";
-
-  // 임의로 리뷰 데이터 지정
-  const reviewData: Review[] = [
-    {
-      id: 1,
-      nickname: "사용자1",
-      isDisability: true,
-      content: "아이와 이용하기 편했어요!",
-      type: "comfortable",
-      createdAt: new Date(),
-      images: [
-        "https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/advices/168706489604934270.png?w=960&h=960&c=c",
-        "https://t3.ftcdn.net/jpg/08/08/64/76/240_F_808647692_npvJI21i4mJGygx12yvm4IGU035oSC3K.jpg",
-      ],
-    },
-    {
-      id: 2,
-      nickname: "사용자2",
-      isDisability: false,
-      content: "공사가 불편해요!",
-      type: "uncomfortable",
-      createdAt: new Date(),
-      images: [
-        "https://t3.ftcdn.net/jpg/07/02/60/46/240_F_702604626_9ojecqSF0MHmeV4St7PGi3mqcUWdygJh.jpg",
-      ],
-    },
-    {
-      id: 3,
-      nickname: "사용자3",
-      isDisability: false,
-      content: "편했어요!",
-      type: "comfortable",
-      createdAt: new Date(),
-      images: [
-        "https://t4.ftcdn.net/jpg/07/59/26/79/240_F_759267971_s8RJaXgaZAjpzh9rSPO1VUXLonyx765D.jpg",
-        "https://t3.ftcdn.net/jpg/07/29/56/12/240_F_729561297_8vLVkUUjfZ93LhuNpShkbTd1b5NjUFFU.jpg",
-      ],
-    },
-  ];
-  // 리뷰 필터링 상태 관리
-  const [filteredReviews, setFilteredReviews] = useState(reviewData);
-  const [map, setMap] = useState();
 
   return detail ? (
     <Container hasHeader={true}>
@@ -123,8 +135,39 @@ const ViewFacilityDetails = () => {
           businessHours={detail.businessHours}
         />
         <div>
-          <p>{detail.content}</p>
+          {detail.content && (
+            <div className="bg-gray-50 rounded-lg p-6 shadow-sm my-4">
+              <h3 className="text-lg font-semibold text-gray-700 mb-3">
+                시설 제보자의 의견
+              </h3>
+              <div className="flex">
+                <FaQuoteLeft className="text-blue-400 text-xl mr-2" />
+                <p className="text-gray-600 italic flex-grow">
+                  {detail.content}
+                </p>
+                <FaQuoteRight className="text-blue-400 text-xl ml-2 self-end" />
+              </div>
+            </div>
+          )}
         </div>
+        {/* 리뷰 사진 이미지 총 나열 */}
+        <p className="text-[#404040] text-xl font-semibold">방문자 사진</p>
+        <ReviewPhotos photos={reviews.flatMap((review) => review.images)} />
+        {/* 리뷰 총 개수, 리뷰 작성하러가기 */}
+        <ReviewHeader
+          reviewCount={reviewCounts.total}
+          facilityName={detail.name}
+          facilityId={id}
+        />
+        {/* 편해요/불편해요 개수 */}
+        <Convenience
+          comfortableCount={reviewCounts.comfortable}
+          uncomfortableCount={reviewCounts.total - reviewCounts.comfortable}
+        />
+        {/* AI 한 줄 요약 */}
+        <AISummary
+          summary={detail.accessibilityDescription || "아직 AI가 분석중입니다!"}
+        />
         {/* 틀린 정보 제보 하러 가기 */}
         <div className="flex justify-end items-center gap-1 mt-4">
           <Link
@@ -136,28 +179,9 @@ const ViewFacilityDetails = () => {
             <RightArrowIcon />
           </Link>
         </div>
-        {/* 리뷰 사진 이미지 총 나열 */}
-        <p className="text-[#404040] text-xl font-semibold">방문자 사진</p>
-        <ReviewPhotos photos={reviewData.flatMap((review) => review.images)} />
-        {/* 리뷰 총 개수, 리뷰 작성하러가기 */}
-        <ReviewHeader
-          reviewCount={
-            reviewCounts.comfortableCount + reviewCounts.uncomfortableCount
-          }
-          facilityName={detail.name}
-          facilityId={id}
-        />
-        {/* 편해요/불편해요 개수 */}
-        <Convenience
-          comfortableCount={reviewCounts.comfortableCount}
-          uncomfortableCount={reviewCounts.uncomfortableCount}
-        />
-        {/* AI 한 줄 요약 */}
-        <p className="text-[#404040] text-xl font-semibold">AI 한 줄 요약</p>
-        <AISummary summary={aiSummary} />
         {/* 리뷰 필터링 및 정렬 */}
         <ReviewFilter
-          reviewData={reviewData}
+          reviewData={reviews}
           setFilteredReviews={setFilteredReviews}
         />
         {/* 사용자 리뷰 */}
