@@ -289,7 +289,7 @@ const Main = () => {
                 to="/facility/recommend"
                 className="flex gap-2 w-fit m-3 items-center z-10 px-3 py-2 bg-white rounded-md shadow-md"
               >
-                내 주변 추천 장소 Top10
+                내 주변 추천 장소
                 <RightArrowIcon color="3F51B5" />
               </Link>
             </div>

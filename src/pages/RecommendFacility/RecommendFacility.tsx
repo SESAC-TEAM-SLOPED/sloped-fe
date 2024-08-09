@@ -10,6 +10,7 @@ import axios from "axios";
 import { FacilityRecommended } from "../../types/facility";
 import FacilityCategory from "../../components/FacilityDetails/FacilityCategory";
 import RecommendedFacility from "../../components/RecommendedFacility/RecommendedFacility";
+import { serverUrl } from "../../constant/url";
 
 const RecommendFacility = () => {
   const { pathname } = useLocation();
@@ -26,7 +27,7 @@ const RecommendFacility = () => {
   useEffect(() => {
     const getFacilities = async () => {
       const { data } = await axios.get(
-        `http://localhost:8080/api/facilities/recommendation?latitude=${currentLocation?.lat}&longitude=${currentLocation?.lng}&distance_meters=10000`,
+        `${serverUrl}/api/facilities/recommendation?latitude=${currentLocation?.lat}&longitude=${currentLocation?.lng}&distance_meters=10000`,
       );
 
       setFacilities(data);

@@ -32,6 +32,14 @@ const RecommendedFacility = ({
     }
   }, [clickedId]);
 
+  // 50점 이하인 경우 null을 반환하여 렌더링하지 않음
+  if (
+    facility.averageAccessibilityScore &&
+    facility.averageAccessibilityScore <= 50
+  ) {
+    return null;
+  }
+
   return (
     <li
       key={facility.id}
