@@ -21,6 +21,7 @@ import Footer from "../../components/ui/Footer";
 import { serverUrl } from "../../constant/url";
 import axios from "axios";
 import { FacilityDetail } from "../../types/facility";
+import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa";
 
 interface FacilityReview {
   facilityReviewId: number;
@@ -31,7 +32,6 @@ interface FacilityReview {
   content: string;
   urls: string[];
   updatedAt: string;
-  aiDescription: string;
 }
 
 const ViewFacilityDetails = () => {
@@ -45,7 +45,6 @@ const ViewFacilityDetails = () => {
   const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
   const { location } = useGeoLocation();
   const [map, setMap] = useState();
-  const [aiSummary, setAiSummary] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -54,6 +53,7 @@ const ViewFacilityDetails = () => {
         `${serverUrl}/api/facilities/${id}/detail`,
       );
       setDetail(data);
+      console.log(data);
     };
 
     const getReviews = async () => {
@@ -72,12 +72,6 @@ const ViewFacilityDetails = () => {
         }));
         setReviews(formattedReviews);
         setFilteredReviews(formattedReviews);
-
-        if (data.length > 0 && data[0].aiDescription) {
-          setAiSummary(data[0].aiDescription);
-        } else {
-          setAiSummary("AI 요약이 아직 생성되지 않았습니다.");
-        }
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 404) {
           // 리뷰가 없는 경우
@@ -85,7 +79,6 @@ const ViewFacilityDetails = () => {
         } else {
           setError("");
         }
-        setAiSummary("AI 요약이 아직 생성되지 않았습니다.");
       }
     };
 
@@ -142,7 +135,20 @@ const ViewFacilityDetails = () => {
           businessHours={detail.businessHours}
         />
         <div>
-          <p>{detail.content}</p>
+          {detail.content && (
+            <div className="bg-gray-50 rounded-lg p-6 shadow-sm my-4">
+              <h3 className="text-lg font-semibold text-gray-700 mb-3">
+                시설 제보자의 의견
+              </h3>
+              <div className="flex">
+                <FaQuoteLeft className="text-blue-400 text-xl mr-2" />
+                <p className="text-gray-600 italic flex-grow">
+                  {detail.content}
+                </p>
+                <FaQuoteRight className="text-blue-400 text-xl ml-2 self-end" />
+              </div>
+            </div>
+          )}
         </div>
         {/* 리뷰 사진 이미지 총 나열 */}
         <p className="text-[#404040] text-xl font-semibold">방문자 사진</p>
@@ -159,8 +165,9 @@ const ViewFacilityDetails = () => {
           uncomfortableCount={reviewCounts.total - reviewCounts.comfortable}
         />
         {/* AI 한 줄 요약 */}
-        <p className="text-[#404040] text-xl font-semibold">AI 한 줄 요약</p>
-        <AISummary summary={aiSummary} />
+        <AISummary
+          summary={detail.accessibilityDescription || "아직 AI가 분석중입니다!"}
+        />
         {/* 틀린 정보 제보 하러 가기 */}
         <div className="flex justify-end items-center gap-1 mt-4">
           <Link
