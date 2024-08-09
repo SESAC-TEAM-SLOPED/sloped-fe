@@ -16,7 +16,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="min-w-96 max-w-screen-sm border h-16 fixed inset-x-0 bottom-0 mx-auto flex justify-between bg-white">
+      <nav className="min-w-96 max-w-screen-sm border h-16 fixed inset-x-0 bottom-0 mx-auto flex justify-between bg-white z-10">
         <button onClick={() => setOpenReportModal(true)} className={LINK_STYLE}>
           <CommentIcon size="md" color="3F51B5" />
           <p className={TEXT_STYLE}>제보</p>

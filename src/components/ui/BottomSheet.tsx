@@ -9,7 +9,7 @@ type Props = {
 const BottomSheet = ({ isOpen, onClose, children }: Props) => {
   return (
     <div
-      className={`bg-white border rounded-t-lg p-4 transition-transform transform ${isOpen ? "translate-y-0 " : "translate-y-full z-100"}`}
+      className={`bg-white border rounded-t-lg p-4 ${isOpen ? "translate-y-0 " : "bottom-0 z-1"}`}
     >
       {children}
     </div>
