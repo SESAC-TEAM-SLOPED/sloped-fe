@@ -30,19 +30,17 @@ const MyFavoriteForm = () => {
 
   const onClickBookmark = (id: number) => {
     setIsBookmarked(!isBookmarked);
-    const addBookmark = async () => {
-      await axiosInstance.post(`${serverUrl}/api/users/bookmark`, {
-        facilityId: id,
-      });
-    };
 
-    const removeBookmark = async () => {
-      await axiosInstance.delete(
-        `${serverUrl}/api/users/bookmark?facilityId=${id}`,
-      );
-    };
-
-    !isBookmarked ? addBookmark() : removeBookmark();
+    if (!isBookmarked) {
+      const addBookmark = async () => {
+        await axiosInstance.post(`${serverUrl}/api/users/bookmark`, {
+          facilityId: id,
+        });
+      };
+      addBookmark();
+    } else {
+      removeFavorite(id);
+    }
   };
 
   const removeFavorite = async (facilityId: number) => {
@@ -52,7 +50,7 @@ const MyFavoriteForm = () => {
       );
       if (response.status === 204) {
         // 삭제가 성공하면, 즐겨찾기 데이터를 다시 가져와서 업데이트
-        const fetchResponse = await axiosInstance.get("/api/users/bookmark/");
+        const fetchResponse = await axiosInstance.get("/api/users/bookmark");
         setFavoriteData(fetchResponse.data);
       }
     } catch (error) {

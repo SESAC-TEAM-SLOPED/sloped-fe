@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import IsConvenient from "../IsConvenient/IsConvenient";
-import axios from "axios";
 import { serverUrl } from "../../constant/url";
 import { Facility } from "../../types/facility";
 import { Link } from "react-router-dom";
@@ -13,7 +12,6 @@ type Props = {
 
 const FacilityInfo = ({ id }: Props) => {
   const [info, setInfo] = useState<Facility>();
-  const [isClickedBookmark, setIsClickedBookmark] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
@@ -76,7 +74,11 @@ const FacilityInfo = ({ id }: Props) => {
       </div>
       <div>
         {info.imageUrl && (
-          <img src={info.imageUrl} alt="School" className="rounded-lg" />
+          <img
+            src={info.imageUrl}
+            alt="Facility"
+            className="rounded-lg w-32 h-32 object-cover"
+          />
         )}
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import ArrowBackIcon from "../icons/ArrowBackIcon";
 import CloseIcon from "../icons/CloseIcon";
 
@@ -8,8 +9,14 @@ type Props = {
 };
 
 const Header = ({ text, backButton = true, closeButton = false }: Props) => {
+  const navigate = useNavigate();
+
   const handleGoBack = () => {
     window.history.back();
+  };
+
+  const handleClose = () => {
+    navigate("/");
   };
 
   return (
@@ -24,7 +31,7 @@ const Header = ({ text, backButton = true, closeButton = false }: Props) => {
       <h2 className="text-white text-xl font-semibold">{text}</h2>
       <div className="w-[25px] h-[25px]">
         {closeButton && (
-          <button>
+          <button onClick={handleClose}>
             <CloseIcon color="white" />
           </button>
         )}
