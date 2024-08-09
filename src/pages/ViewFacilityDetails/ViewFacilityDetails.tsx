@@ -27,7 +27,7 @@ interface FacilityReview {
   facilityReviewId: number;
   name: string;
   nickname: string;
-  isDisability: boolean;
+  disability: boolean;
   isConvenient: boolean;
   content: string;
   urls: string[];
@@ -54,7 +54,6 @@ const ViewFacilityDetails = () => {
         `${serverUrl}/api/facilities/${id}/detail`,
       );
       setDetail(data);
-      console.log(data);
     };
 
     const getReviews = async () => {
@@ -65,7 +64,7 @@ const ViewFacilityDetails = () => {
         const formattedReviews = data.map((review: FacilityReview) => ({
           id: review.facilityReviewId,
           nickname: review.nickname,
-          isDisability: review.isDisability,
+          isDisability: review.disability,
           content: review.content,
           type: review.isConvenient ? "comfortable" : "uncomfortable",
           createdAt: new Date(review.updatedAt),

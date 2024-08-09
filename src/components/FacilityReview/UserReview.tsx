@@ -11,6 +11,7 @@ type Props = {
 };
 
 const UserReview = ({ review }: Props) => {
+  console.log("isDisability:", review.isDisability);
   return (
     <div className="mt-6 border-t border-gray-200 pt-6">
       {/* 사용자 닉네임, 교통약자 여부 */}
