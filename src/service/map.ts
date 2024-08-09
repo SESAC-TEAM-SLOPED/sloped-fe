@@ -16,5 +16,7 @@ export const getAddressFromCoord = async ({
     },
   );
 
-  return data.documents[0].address.address_name;
+  return data.documents[0]
+    ? data.documents[0].address.address_name
+    : "지도 범위를 벗어났습니다.";
 };
