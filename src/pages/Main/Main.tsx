@@ -294,7 +294,10 @@ const Main = () => {
       {isRoadOpen && (
         <ModalPortal>
           <Modal
-            onClose={() => setIsRoadOpen(false)}
+            onClose={() => {
+              setIsRoadOpen(false);
+              setRoadClickedId(null);
+            }}
             height="700px"
             width="450px"
           >
@@ -310,7 +313,10 @@ const Main = () => {
       {isComplaintCallOpen && (
         <ModalPortal>
           <Modal
-            onClose={() => setIsComplaintCallOpen(false)}
+            onClose={() => {
+              setIsComplaintCallOpen(false);
+              setRoadClickedId(null);
+            }}
             height="250px"
             width="350px"
           >
@@ -329,7 +335,10 @@ const Main = () => {
           <Modal
             height="600px"
             width="420px"
-            onClose={() => setIsCenterListOpen(false)}
+            onClose={() => {
+              setIsCenterListOpen(false);
+              setRoadClickedId(null);
+            }}
           >
             <RoadCenterListModal
               centerList={complaintCenterList}
@@ -345,7 +354,10 @@ const Main = () => {
           <Modal
             width="380px"
             height="220px"
-            onClose={() => setIscallTaxiOpen(false)}
+            onClose={() => {
+              setIscallTaxiOpen(false);
+              setRoadClickedId(null);
+            }}
           >
             <CallTaxiModal callTaxi={callTaxi}></CallTaxiModal>
           </Modal>
