@@ -8,7 +8,7 @@ import FacilityName from "../../components/FacilityDetails/FacilityName";
 import FacilityIconsWrapper from "../../components/FacilityDetails/FacilityIconsWrapper";
 import FacilityInformation from "../../components/FacilityDetails/FacilityInformation";
 import ReportIcon from "../../components/icons/ReportIcon";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import RightArrowIcon from "../../components/icons/RightArrowIcon";
 import ReviewPhotos from "../../components/FacilityReview/ReviewPhotos";
 import ReviewHeader from "../../components/FacilityReview/ReviewHeader";
@@ -46,6 +46,7 @@ const ViewFacilityDetails = () => {
   const { location } = useGeoLocation();
   const [map, setMap] = useState();
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const getDetail = async () => {
@@ -101,6 +102,24 @@ const ViewFacilityDetails = () => {
     getReviews();
     getReviewCounts();
   }, [id]);
+
+  const handleUpdateClick = () => {
+    if (detail) {
+      navigate("/report/facility/update", {
+        state: {
+          id: detail.id,
+          name: detail.name,
+          contact: detail.contact,
+          facilityType: detail.type,
+          isEntranceBarrier: detail.isEntranceBarrier,
+          hasSlope: detail.hasSlope,
+          hasElevator: detail.hasElevator,
+          content: detail.content,
+          address: detail.address,
+        },
+      });
+    }
+  };
 
   return detail ? (
     <Container hasHeader={true}>
@@ -170,14 +189,14 @@ const ViewFacilityDetails = () => {
         />
         {/* 틀린 정보 제보 하러 가기 */}
         <div className="flex justify-end items-center gap-1 mt-4">
-          <Link
-            to="/facility/new/report"
-            className="flex items-center gap-1 cursor-pointer"
+          <button
+            onClick={handleUpdateClick}
+            className="flex items-center gap-1 cursor-pointer text-blue-500"
           >
             <ReportIcon />
             <p style={{ color: "#F8837C" }}>틀린 정보 제보</p>
             <RightArrowIcon />
-          </Link>
+          </button>
         </div>
         {/* 리뷰 필터링 및 정렬 */}
         <ReviewFilter
