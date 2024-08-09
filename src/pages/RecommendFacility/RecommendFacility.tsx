@@ -26,7 +26,7 @@ const RecommendFacility = () => {
   useEffect(() => {
     const getFacilities = async () => {
       const { data } = await axios.get(
-        `http://localhost:8080/api/facilities/recommendation?latitude=${currentLocation?.lat}&longitude=${currentLocation?.lng}&distance_meters=100`,
+        `http://localhost:8080/api/facilities/recommendation?latitude=${currentLocation?.lat}&longitude=${currentLocation?.lng}&distance_meters=10000`,
       );
 
       setFacilities(data);
