@@ -1,10 +1,11 @@
 import React from "react";
 import { FcGoogle } from "react-icons/fc";
+import { serverUrl } from "../../constant/url";
 
 const GoogleLoginButton = () => {
   const handleGoogleLogin = async () => {
     try {
-      const response = await fetch("/api/auth/google-login");
+      const response = await fetch(`${serverUrl}/api/auth/google-login`);
       const data = await response.json();
       const { googleClientId, googleRedirectUri } = data;
       const googleAuthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${googleClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=email`;

@@ -1,10 +1,11 @@
 import React from "react";
 import { RiKakaoTalkFill } from "react-icons/ri";
+import { serverUrl } from "../../constant/url";
 
 const KakaoLoginButton = () => {
   const handleKakaoLogin = async () => {
     try {
-      const response = await fetch("/api/auth/kakao-login");
+      const response = await fetch(`${serverUrl}/api/auth/kakao-login`);
       const data = await response.json();
       const { kakaoClientId, kakaoRedirectUri } = data;
       const kakaoAuthUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${kakaoClientId}&redirect_uri=${kakaoRedirectUri}`;

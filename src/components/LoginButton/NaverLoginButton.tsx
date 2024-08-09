@@ -1,10 +1,11 @@
 import React from "react";
 import { SiNaver } from "react-icons/si";
+import { serverUrl } from "../../constant/url";
 
 const NaverLoginButton = () => {
   const handleNaverLogin = async () => {
     try {
-      const response = await fetch("/api/auth/naver-login");
+      const response = await fetch(`${serverUrl}/api/auth/naver-login`);
       const data = await response.json();
       const { naverClientId, naverRedirectUri } = data;
       const naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naverClientId}&state=STATE_STRING&redirect_uri=${naverRedirectUri}`;
