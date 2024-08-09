@@ -18,7 +18,6 @@ const RoadTroubleModal = ({
   stateChangeFunc,
 }: Props) => {
   const [openImageCaptioning, setOpenImageCaptioning] = useState(false);
-  console.log(roadReport);
 
   return (
     <>
@@ -49,7 +48,7 @@ const RoadTroubleModal = ({
             )}
           </div>
           <div className="h-[130px] pt-5 mb-3">{roadReport.content}</div>
-          <div className="h-[50px] flex items-center">
+          <div className="h-[50px] flex items-center mt-6 ml-2">
             <p className="flex space-x-4">
               <button
                 onClick={stateChangeFunc}

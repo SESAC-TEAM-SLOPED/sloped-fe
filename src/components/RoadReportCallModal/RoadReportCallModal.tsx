@@ -14,7 +14,7 @@ const RoadReportCallModal = ({
   centerListSetState,
 }: Props) => {
   const handleCenterList = () => {
-    stateChangeFunc(!complaintCallState);
+    stateChangeFunc(complaintCallState);
     centerListSetState();
   };
 
