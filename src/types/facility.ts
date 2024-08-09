@@ -20,6 +20,21 @@ export interface FacilitySearch {
   address: string;
 }
 
+export interface FacilityRecommended {
+  id: number;
+  latitude: number;
+  longitude: number;
+  address: string;
+  type: string;
+  countOfConvenient: number;
+  countOfInconvenient: number;
+  countOfReviews: number;
+  imageUrl: null | string;
+  name: string;
+  accessibilityDescription: string;
+  averageAccessibilityScore: number;
+}
+
 export interface FacilityDetail {
   id: number;
   latitude: number;

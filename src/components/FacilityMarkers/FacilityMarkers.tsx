@@ -1,14 +1,15 @@
-import { useSearchParams } from "react-router-dom";
-import { Facility } from "../../types/facility";
+import { useLocation, useSearchParams } from "react-router-dom";
+import { Facility, FacilityRecommended } from "../../types/facility";
 import Marker from "../Map/Marker";
 
 type Props = {
-  facilities: Facility[];
+  facilities: Facility[] | FacilityRecommended[];
   map: any;
   clickedId: number;
   onClick: (id: number) => void;
 };
 const FacilityMarkers = ({ facilities, map, clickedId, onClick }: Props) => {
+  const pathname = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
 
   return (
@@ -24,10 +25,11 @@ const FacilityMarkers = ({ facilities, map, clickedId, onClick }: Props) => {
           id={location.id}
           onClick={() => {
             onClick(location.id);
-            setSearchParams({
-              category: searchParams.get("category") || "",
-              id: location.id.toString(),
-            });
+            !pathname.pathname.includes("recommend") &&
+              setSearchParams({
+                category: searchParams.get("category") || "",
+                id: location.id.toString(),
+              });
           }}
         />
       ))}

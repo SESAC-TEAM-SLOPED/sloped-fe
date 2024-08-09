@@ -13,7 +13,7 @@ import FacilityMarkers from "../../components/FacilityMarkers/FacilityMarkers";
 import RoadMarkers from "../../components/RoadMarkers/RoadMarkers";
 import BookmarkMarkers from "../../components/BookmarkMarkers/BookmarkMarkers";
 import Categories from "../../components/Categories/Categories";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
@@ -27,6 +27,7 @@ import { RoadReportCallTaxi } from "../../types/RoadReportCallTaxi";
 import { serverUrl } from "../../constant/url";
 import axiosInstance from "../../service/axiosInstance";
 import { getCookie } from "../../service/cookieUtils";
+import RightArrowIcon from "../../components/icons/RightArrowIcon";
 
 const Main = () => {
   const { location } = useGeoLocation();
@@ -282,11 +283,26 @@ const Main = () => {
               />
             )}
           </Map>
-          {searchParams.get("id") && (
-            <BottomSheet isOpen={isBottomSheetOpen} onClose={closeBottomSheet}>
-              <FacilityInfo id={Number(searchParams.get("id"))} />
-            </BottomSheet>
-          )}
+          <div className="fixed inset-x-0 bottom-16 min-w-96 max-w-screen-sm mx-auto z-10">
+            <div className="flex justify-end">
+              <Link
+                to="/facility/recommend"
+                className="flex gap-2 w-fit m-3 items-center z-10 px-3 py-2 bg-white rounded-md shadow-md"
+              >
+                내 주변 추천 장소 Top5
+                <RightArrowIcon color="3F51B5" />
+              </Link>
+            </div>
+            {searchParams.get("id") && (
+              <BottomSheet
+                isOpen={isBottomSheetOpen}
+                onClose={closeBottomSheet}
+              >
+                <FacilityInfo id={Number(searchParams.get("id"))} />
+              </BottomSheet>
+            )}
+          </div>
+
           <Navbar />
         </div>
       </Container>
