@@ -21,6 +21,7 @@ export const setCookie = (
 };
 
 export const getCookie = (name: string): string | undefined => {
+  console.log(cookies.getAll());
   return cookies.get(name);
 };
 
