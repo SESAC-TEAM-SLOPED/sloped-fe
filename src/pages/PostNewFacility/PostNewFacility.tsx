@@ -22,7 +22,7 @@ const PostNewFacility = () => {
   const navigate = useNavigate();
   const locationState = useLocation();
   const { location: geoLocation } = useGeoLocation(); // 현재 위치 가져오기
-  const { location: postLocation, address: initialAddress } =
+  const { location: postLocation = geoLocation, address: initialAddress } =
     locationState.state || {};
   const [address, setAddress] = useState(initialAddress || "");
   const [facilityName, setFacilityName] = useState("");
@@ -53,20 +53,22 @@ const PostNewFacility = () => {
   };
 
   const submitForm = async () => {
-    // 성공시 submit 페이지로 이동
-    await axiosInstance.post(`${serverUrl}/api/facilities`, {
+    // JSON 객체로 요청 데이터 준비
+    const requestData = {
       name: facilityName,
       address,
       content: textContent,
       contact: phoneNumber,
       facilityType: FACILITY_TYPE[selectedCategory],
-      //businessHours:
-      hasSlope: slope === "있음" ? true : false,
-      isEntranceBarrier: entranceStep === "있음" ? true : false,
-      hasElevator: elevator === "있음" ? true : false,
-      latitude: postLocation.lat,
-      longitude: postLocation.lng,
-    });
+      hasSlope: slope === "있음",
+      isEntranceBarrier: entranceStep === "있음",
+      hasElevator: elevator === "있음",
+      latitude: postLocation?.lat, // postLocation이 undefined인 경우를 대비하여 optional chaining 사용
+      longitude: postLocation?.lng, // postLocation이 undefined인 경우를 대비하여 optional chaining 사용
+    };
+    // 성공시 submit 페이지로 이동
+    await axiosInstance.post(`${serverUrl}/api/facilities`, requestData);
+    console.log(requestData);
 
     navigate("/submit/completed");
   };
