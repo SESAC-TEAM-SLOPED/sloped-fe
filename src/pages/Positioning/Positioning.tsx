@@ -52,7 +52,7 @@ const Positioning = () => {
             주소가 이곳이 맞나요?
           </p>
           <p className="h-12 text-[#515151] bg-[#E4E8FF] rounded-md flex items-center justify-center">
-            {address}
+            {address ? address : "지도 범위를 벗어났습니다."}
           </p>
         </div>
         <Map
