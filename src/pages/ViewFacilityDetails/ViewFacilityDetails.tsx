@@ -31,6 +31,7 @@ interface FacilityReview {
   content: string;
   urls: string[];
   updatedAt: string;
+  aiDescription: string;
 }
 
 const ViewFacilityDetails = () => {
@@ -44,7 +45,7 @@ const ViewFacilityDetails = () => {
   const [filteredReviews, setFilteredReviews] = useState<Review[]>([]);
   const { location } = useGeoLocation();
   const [map, setMap] = useState();
-  const aiSummary = "아이와 이용하기 편하지만 엘리베이터 공사가 아쉬웠습니다.";
+  const [aiSummary, setAiSummary] = useState<string>("");
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -71,6 +72,12 @@ const ViewFacilityDetails = () => {
         }));
         setReviews(formattedReviews);
         setFilteredReviews(formattedReviews);
+
+        if (data.length > 0 && data[0].aiDescription) {
+          setAiSummary(data[0].aiDescription);
+        } else {
+          setAiSummary("AI 요약이 아직 생성되지 않았습니다.");
+        }
       } catch (error) {
         if (axios.isAxiosError(error) && error.response?.status === 404) {
           // 리뷰가 없는 경우
@@ -78,6 +85,7 @@ const ViewFacilityDetails = () => {
         } else {
           setError("");
         }
+        setAiSummary("AI 요약이 아직 생성되지 않았습니다.");
       }
     };
 
