@@ -7,7 +7,9 @@ import FacilityCategory from "../../components/FacilityDetails/FacilityCategory"
 import FacilityName from "../../components/FacilityDetails/FacilityName";
 import FacilityIconsWrapper from "../../components/FacilityDetails/FacilityIconsWrapper";
 import FacilityInformation from "../../components/FacilityDetails/FacilityInformation";
+import ReportIcon from "../../components/icons/ReportIcon";
 import { Link, useParams } from "react-router-dom";
+import RightArrowIcon from "../../components/icons/RightArrowIcon";
 import ReviewPhotos from "../../components/FacilityReview/ReviewPhotos";
 import ReviewHeader from "../../components/FacilityReview/ReviewHeader";
 import Convenience from "../../components/FacilityReview/Convenience";
@@ -151,7 +153,7 @@ const ViewFacilityDetails = () => {
         {/* AI 한 줄 요약 */}
         <p className="text-[#404040] text-xl font-semibold">AI 한 줄 요약</p>
         <AISummary summary={aiSummary} />
-        {/* 틀린 정보 제보 하러 가기
+        {/* 틀린 정보 제보 하러 가기 */}
         <div className="flex justify-end items-center gap-1 mt-4">
           <Link
             to="/facility/new/report"
@@ -161,7 +163,7 @@ const ViewFacilityDetails = () => {
             <p style={{ color: "#F8837C" }}>틀린 정보 제보</p>
             <RightArrowIcon />
           </Link>
-        </div> */}
+        </div>
         {/* 리뷰 필터링 및 정렬 */}
         <ReviewFilter
           reviewData={reviews}
