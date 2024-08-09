@@ -7,9 +7,7 @@ import FacilityCategory from "../../components/FacilityDetails/FacilityCategory"
 import FacilityName from "../../components/FacilityDetails/FacilityName";
 import FacilityIconsWrapper from "../../components/FacilityDetails/FacilityIconsWrapper";
 import FacilityInformation from "../../components/FacilityDetails/FacilityInformation";
-import ReportIcon from "../../components/icons/ReportIcon";
 import { Link, useParams } from "react-router-dom";
-import RightArrowIcon from "../../components/icons/RightArrowIcon";
 import ReviewPhotos from "../../components/FacilityReview/ReviewPhotos";
 import ReviewHeader from "../../components/FacilityReview/ReviewHeader";
 import Convenience from "../../components/FacilityReview/Convenience";

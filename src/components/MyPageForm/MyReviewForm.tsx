@@ -1,42 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ModalPortal from "../ui/ModalPortal";
 import Modal from "../ui/Modal";
+import axiosInstance from "../../service/axiosInstance";
+
+interface Review {
+  facilityReviewId: number;
+  facilityName: string;
+  nickname: string;
+  isConvenient: boolean;
+  content: string;
+  urls: string[];
+  updatedAt: string;
+  disability: boolean;
+}
 
 const MyReviewForm = () => {
   const navigate = useNavigate();
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [reviewToDelete, setReviewToDelete] = useState<number | null>(null);
+  const [reviews, setReviews] = useState<Review[]>([]);
 
-  // 임시 데이터
-  const reviews = [
-    {
-      id: 1,
-      name: "청년취업사관학교",
-      rating: "편해요",
-      content: "아이랑 이용하기 편해요 엘리베이터는 공사중이었어요",
-      images: [
-        "https://t3.ftcdn.net/jpg/07/02/60/46/240_F_702604626_9ojecqSF0MHmeV4St7PGi3mqcUWdygJh.jpg",
-        "https://t3.ftcdn.net/jpg/07/02/60/46/240_F_702604626_9ojecqSF0MHmeV4St7PGi3mqcUWdygJh.jpg",
-        "https://t3.ftcdn.net/jpg/07/02/60/46/240_F_702604626_9ojecqSF0MHmeV4St7PGi3mqcUWdygJh.jpg",
-      ],
-      createdAt: "8개월 전",
-    },
-    {
-      id: 2,
-      name: "원조부안집 문래점",
-      rating: "불편해요",
-      content: "아이랑 이용하기 편해요 엘리베이터는 공사중이었어요",
-      images: [
-        "https://t3.ftcdn.net/jpg/07/02/60/46/240_F_702604626_9ojecqSF0MHmeV4St7PGi3mqcUWdygJh.jpg",
-      ],
-      createdAt: "8개월 전",
-    },
-  ];
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const response = await axiosInstance.get(
+          "/api/reviews/get-all-reviews",
+        );
+        setReviews(response.data);
+      } catch (error) {
+        console.error("리뷰 데이터를 가져오는 중 오류가 발생했습니다:", error);
+      }
+    };
 
-  const handleEdit = (id: number) => {
-    // id 임시로 number로 설정
-    navigate("/mypage/edit-review");
+    fetchReviews();
+  }, []);
+
+  const handleEdit = (
+    facilityReviewId: number,
+    facilityName: string,
+    facilityId: string,
+    content: string,
+    isConvenient: boolean,
+  ) => {
+    navigate(`/review/update/`, {
+      state: {
+        facilityReviewId,
+        facilityName,
+        facilityId,
+        content,
+        isConvenient,
+      },
+    });
   };
 
   const handleDelete = (id: number) => {
@@ -44,31 +59,55 @@ const MyReviewForm = () => {
     setShowDeleteModal(true);
   };
 
-  const confirmDelete = () => {
+  const confirmDelete = async () => {
     if (reviewToDelete !== null) {
-      // 삭제 로직 추가
-      console.log(`삭제: ${reviewToDelete}`);
-      // 삭제 로직 후 상태 초기화
-      setReviewToDelete(null);
-      setShowDeleteModal(false);
+      try {
+        // DELETE 요청을 보내 리뷰를 삭제
+        const response = await axiosInstance.delete(
+          `/api/reviews/${reviewToDelete}`,
+        );
+        if (response.status === 204) {
+          // 삭제 성공 시 상태 업데이트
+          setReviews(
+            reviews.filter(
+              (review) => review.facilityReviewId !== reviewToDelete,
+            ),
+          );
+          setReviewToDelete(null);
+          setShowDeleteModal(false);
+        }
+      } catch (error) {
+        console.error("리뷰 삭제 중 오류가 발생했습니다:", error);
+      }
     }
   };
 
   return (
     <div className="py-4">
       {reviews.map((review) => (
-        <div key={review.id} className="bg-white p-4 rounded-lg shadow mb-4">
+        <div
+          key={review.facilityReviewId}
+          className="bg-white p-4 rounded-lg shadow mb-4"
+        >
           <div className="flex justify-between items-center mb-2">
-            <h2 className="text-xl font-bold">{review.name}</h2>
+            <h2 className="text-xl font-bold">{review.facilityName}</h2>
             <div className="flex gap-2">
               <button
-                onClick={() => handleEdit(review.id)}
+                onClick={() =>
+                  handleEdit(
+                    review.facilityReviewId,
+                    review.facilityName,
+                    review.nickname,
+                    review.content,
+                    review.isConvenient,
+                  )
+                }
                 className="px-4 py-2 bg-signiture text-white rounded-lg"
               >
                 수정
               </button>
               <button
-                onClick={() => handleDelete(review.id)}
+                onClick={() => handleDelete(review.facilityReviewId)}
                 className="px-4 py-2 bg-signiture text-white rounded-lg"
               >
                 삭제
@@ -78,18 +117,20 @@ const MyReviewForm = () => {
           <div className="flex items-center mb-2">
             <span
               className={`px-2 py-1 rounded ${
-                review.rating === "편해요"
+                review.isConvenient
                   ? "bg-[#F1F9F1] text-[#4caf50]"
                   : "bg-[#FFF0EF] text-[#F8837C]"
               }`}
             >
-              {review.rating}
+              {review.isConvenient ? "편해요" : "불편해요"}
             </span>
-            <span className="ml-4 text-gray-500">{review.createdAt}</span>
+            <span className="ml-4 text-gray-500">
+              {new Date(review.updatedAt).toLocaleDateString()}
+            </span>
           </div>
           <p className="mb-4">{review.content}</p>
           <div className="grid grid-cols-3 gap-2">
-            {review.images.slice(0, 3).map((image, index) => (
+            {review.urls.slice(0, 3).map((image, index) => (
               <img
                 key={index}
                 src={image}

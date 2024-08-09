@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Main from "../pages/Main/Main";
 import WriteReview from "../pages/WriteReview/WriteReview";
+import UpdateReview from "../pages/UpdateReview/UpdateReview";
 import Positioning from "../pages/Positioning/Positioning";
 
 import LocalLogin from "../pages/Login/LocalLogin";
@@ -17,7 +18,6 @@ import MyFavorite from "../pages/MyPage/MyFavorite";
 import MyProfileEditor from "../pages/MyPage/MyProfileEditor";
 import MySocialProfileEditor from "../pages/MyPage/MySocialProfileEditor";
 import MyReview from "../pages/MyPage/MyReview";
-import MyReviewEditor from "../pages/MyPage/MyReviewEditor";
 import MyReport from "../pages/MyPage/MyReport";
 import AdminLogin from "../pages/AdminPage/AdminLogin";
 import AdminMember from "../pages/AdminPage/AdminMember";
@@ -61,6 +61,7 @@ const Router = () => {
         <Route path="" element={<CheckAuth />}>
           <Route path="/joinpage" element={<JoinPage />} />
           <Route path="/review/new" element={<WriteReview />} />
+          <Route path="/review/update" element={<UpdateReview />} />
           <Route path="/facility/new/positioning" element={<Positioning />} />
           <Route path="/road/new/positioning" element={<Positioning />} />
           <Route path="/report/road/new" element={<RoadReportForm />} />
@@ -74,7 +75,6 @@ const Router = () => {
             element={<MySocialProfileEditor />}
           />
           <Route path="/mypage/my-reviews" element={<MyReview />} />
-          <Route path="/mypage/edit-review" element={<MyReviewEditor />} />
           <Route path="/mypage/my-reports" element={<MyReport />} />
         </Route>
       </Routes>
