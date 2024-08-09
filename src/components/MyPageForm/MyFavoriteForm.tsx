@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaStar } from "react-icons/fa"; // 추후 star 마커 동일하게 수정 예정
 import axiosInstance from "../../service/axiosInstance";
+import { serverUrl } from "../../constant/url";
 
 // 데이터 항목의 타입 정의
 interface FavoriteItem {
@@ -12,11 +13,12 @@ interface FavoriteItem {
 
 const MyFavoriteForm = () => {
   const [favoriteData, setFavoriteData] = useState<FavoriteItem[]>([]);
+  const [isBookmarked, setIsBookmarked] = useState(true);
 
   useEffect(() => {
     const fetchFavoriteData = async () => {
       try {
-        const response = await axiosInstance.get("/api/users/bookmark/");
+        const response = await axiosInstance.get("/api/users/bookmark");
         setFavoriteData(response.data);
       } catch (error) {
         console.error("데이터를 가져오는 중 오류가 발생했습니다:", error);
@@ -26,6 +28,21 @@ const MyFavoriteForm = () => {
     fetchFavoriteData();
   }, []);
 
+  const onClickBookmark = (id: number) => {
+    setIsBookmarked(!isBookmarked);
+
+    if (!isBookmarked) {
+      const addBookmark = async () => {
+        await axiosInstance.post(`${serverUrl}/api/users/bookmark`, {
+          facilityId: id,
+        });
+      };
+      addBookmark();
+    } else {
+      removeFavorite(id);
+    }
+  };
+
   const removeFavorite = async (facilityId: number) => {
     try {
       const response = await axiosInstance.delete(
@@ -33,7 +50,7 @@ const MyFavoriteForm = () => {
       );
       if (response.status === 204) {
         // 삭제가 성공하면, 즐겨찾기 데이터를 다시 가져와서 업데이트
-        const fetchResponse = await axiosInstance.get("/api/users/bookmark/");
+        const fetchResponse = await axiosInstance.get("/api/users/bookmark");
         setFavoriteData(fetchResponse.data);
       }
     } catch (error) {
@@ -53,8 +70,8 @@ const MyFavoriteForm = () => {
             <p className="text-gray-600">{item.facilityType}</p>
             <p className="text-gray-600">{item.address}</p>
           </div>
-          <button onClick={() => removeFavorite(item.facilityId)}>
-            <FaStar className="text-yellow-500" size={24} />
+          <button onClick={() => onClickBookmark(item.facilityId)}>
+            <FaStar size={20} color={isBookmarked ? "#FFF500" : "#dfdfdf"} />
           </button>
         </div>
       ))}

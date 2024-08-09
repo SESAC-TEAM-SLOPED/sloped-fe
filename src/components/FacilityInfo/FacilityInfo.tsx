@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import IsConvenient from "../IsConvenient/IsConvenient";
-import axios from "axios";
 import { serverUrl } from "../../constant/url";
 import { Facility } from "../../types/facility";
 import { Link } from "react-router-dom";
+import { FaStar } from "react-icons/fa";
+import axiosInstance from "../../service/axiosInstance";
 
 type Props = {
   id: number;
@@ -11,23 +12,49 @@ type Props = {
 
 const FacilityInfo = ({ id }: Props) => {
   const [info, setInfo] = useState<Facility>();
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
     const getFacilityInfo = async () => {
-      const { data } = await axios.get(`${serverUrl}/api/facilities/${id}`);
+      const { data } = await axiosInstance.get(
+        `${serverUrl}/api/facilities/${id}`,
+      );
       setInfo(data);
+      setIsBookmarked(data.isBookmarked);
     };
 
     getFacilityInfo();
   }, [id]);
 
+  const onClickBookmark = async () => {
+    setIsBookmarked(!isBookmarked);
+    const addBookmark = async () => {
+      await axiosInstance.post(`${serverUrl}/api/users/bookmark`, {
+        facilityId: id,
+      });
+    };
+
+    const removeBookmark = async () => {
+      await axiosInstance.delete(
+        `${serverUrl}/api/users/bookmark?facilityId=${id}`,
+      );
+    };
+
+    !isBookmarked ? addBookmark() : removeBookmark();
+  };
+
   return info ? (
     <div className="flex justify-between items-center">
       <div>
         <div className="mb-5">
-          <Link to={`/facility/details/${info.id}`}>
-            <h2 className="text-lg font-bold">{info.name}</h2>
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link to={`/facility/details/${info.id}`}>
+              <h2 className="text-lg font-bold">{info.name}</h2>
+            </Link>
+            <button onClick={onClickBookmark}>
+              <FaStar size={20} color={isBookmarked ? "#FFF500" : "#dfdfdf"} />
+            </button>
+          </div>
           <p className="text-sm text-gray-600">{info.address}</p>
         </div>
         <div className="flex items-center gap-3 mb-4">
