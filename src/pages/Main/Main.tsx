@@ -35,6 +35,7 @@ const Main = () => {
 
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [clickedId, setClickedId] = useState<number>(0);
+  const [roadClickId, setRoadClickedId] = useState<number | null>(null);
   const [map, setMap] = useState<any>();
   const [searchParams, setSearchParams] = useSearchParams();
   const [facilities, setFacilities] = useState<Facility[]>([]);
@@ -65,6 +66,29 @@ const Main = () => {
     searchParams.get("id") && setBottomSheetOpen(true);
   }, [searchParams]);
 
+  // 도로 마커 클릭 시에만 요청
+  useEffect(() => {
+    const fetchRoadReport = async () => {
+      if (roadClickId !== null) {
+        console.log(roadClickId);
+        try {
+          const response = await axios.get(
+            `${serverUrl}/api/roadReport/info/${roadClickId}`,
+          );
+          setRoadReport(response.data);
+          setIsRoadOpen(true);
+        } catch (error) {
+          console.error(
+            "로드 상세 정보를 불러오는 데 오류가 발생했습니다. :",
+            error,
+          );
+        }
+      }
+    };
+
+    fetchRoadReport();
+  }, [roadClickId]);
+
   useEffect(() => {
     // 즐겨찾기를 받아오는 로직
     const getBookmarks = async () => {
@@ -79,10 +103,10 @@ const Main = () => {
 
   useEffect(() => {
     // 불편 지역을 받아오는 로직
-    const fetchRoadsData = async () => {
+    const getRoadsData = async () => {
       try {
         const response = await axios.get<Road[]>(
-          `${serverUrl}/api/roads/get-points`,
+          `${serverUrl}/api/roads/get-points?latitude=${location && center.lat === 0 ? location.lat : center ? center.lat : 37.566481622437934}&longitude=${location && center.lng === 0 ? location.lng : center ? center.lng : 126.98502302169841}&distance_meters=50&limit=20`,
         );
         setRoads(response.data);
       } catch (error) {
@@ -90,8 +114,8 @@ const Main = () => {
       }
     };
 
-    visibleRoads && fetchRoadsData();
-  }, [visibleRoads]);
+    visibleRoads && getRoadsData();
+  }, [visibleRoads, location, map, center]);
 
   useEffect(() => {
     const getByCategory = async () => {
@@ -129,26 +153,9 @@ const Main = () => {
   };
 
   const onClickMarkerForModal = async (id: number) => {
+    console.log(id);
     closeBottomSheet();
-    setClickedId(id);
-    try {
-      const roadResponse = await axios.get<Road>(
-        `${serverUrl}/api/roads/${id}`,
-      );
-      const roadData = roadResponse.data;
-      setRequestRoad(roadData);
-
-      const response = await axios.get(
-        `${serverUrl}/api/roadReport/info/${id}`,
-      );
-      setRoadReport(response.data);
-      setIsRoadOpen(true);
-    } catch (error) {
-      console.error(
-        "로드 상세 정보를 불러오는 데 오류가 발생했습니다. :",
-        error,
-      );
-    }
+    setRoadClickedId(id);
   };
 
   // 도로 모달 > '민원' 클릭 시

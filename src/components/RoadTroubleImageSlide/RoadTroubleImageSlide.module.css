@@ -1,43 +1,3 @@
-/* .imageContentWrap {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.mainImage {
-  margin-top: 10px;
-  margin-bottom: 5px;
-  border-radius: 5%;
-  width: 320px;
-  height: 250px;
-}
-
-.mainImageWrap {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
-
-.previewImagesWrap {
-  display: flex;
-  justify-content: center;
-}
-
-.previewImage {
-  width: 80px;
-  height: 80px;
-  border-radius: 10%;
-  object-fit: cover;
-  margin-right: 10px;
-  cursor: pointer;
-}
-
-.buttonIcon {
-  cursor: pointer;
-  margin-top: 35%;
-} */
-
 .imageContentWrap {
   display: flex;
   justify-content: center;
@@ -63,7 +23,16 @@
 
 .previewImagesWrap {
   display: flex;
+  gap: 8px;
   justify-content: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.previewImagesWrap.visible {
+  display: flex;
 }
 
 .previewImage {
