@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../service/api";
+import { serverUrl } from "../../constant/url";
 
 // Props의 타입을 정의합니다.
 interface RegisterSocialFormProps {
@@ -18,7 +19,7 @@ const RegisterSocialForm = ({ email, oauthType }: RegisterSocialFormProps) => {
   const handleRegister = async () => {
     const isDisabled = userType === "disabled";
     try {
-      const response = await api.post("/api/auth/register/social", {
+      const response = await api.post(`${serverUrl}/api/auth/register/social`, {
         nickname,
         email,
         oauthType,

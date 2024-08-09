@@ -3,6 +3,7 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import VerificationCodeInput from "../AuthenticationForm/VerificationCodeInput";
 import api from "../../service/api";
 import { useNavigate } from "react-router-dom";
+import { serverUrl } from "../../constant/url";
 
 const RegisterIdForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -52,7 +53,7 @@ const RegisterIdForm = () => {
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
     const isDisabled = userType === "disabled";
     try {
-      const response = await api.post("/api/auth/register", {
+      const response = await api.post(`${serverUrl}/api/auth/register`, {
         memberId: id,
         password,
         email: fullEmail,

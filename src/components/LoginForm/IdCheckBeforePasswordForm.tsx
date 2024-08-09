@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import api from "../../service/api";
+import { serverUrl } from "../../constant/url";
 
 type Props = {
   setIsIdVerified: (verified: boolean) => void;
@@ -17,9 +18,12 @@ const IdCheckBeforePasswordForm = ({
 
   const handleDuplicateCheck = async () => {
     try {
-      const response = await api.post("/api/auth/duplicate-check/find-id", {
-        memberId: id,
-      });
+      const response = await api.post(
+        `${serverUrl}/api/auth/duplicate-check/find-id`,
+        {
+          memberId: id,
+        },
+      );
       if (response.status === 200) {
         // 아이디가 존재
         setIsIdVerified(true);

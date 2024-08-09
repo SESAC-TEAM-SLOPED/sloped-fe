@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../../service/api";
+import { serverUrl } from "../../constant/url";
 
 const useVerificationCode = (
   email: string,
@@ -35,8 +36,8 @@ const useVerificationCode = (
     const fullEmail = `${email}@${domain === "custom" ? customDomain : domain}`;
     const endpoint =
       pageType === "recovery"
-        ? "/api/auth/send-code/recovery-code"
-        : "/api/auth/send-code/verification-code";
+        ? `${serverUrl}/api/auth/send-code/recovery-code`
+        : `${serverUrl}/api/auth/send-code/verification-code`;
 
     try {
       await api.post(endpoint, { email: fullEmail });

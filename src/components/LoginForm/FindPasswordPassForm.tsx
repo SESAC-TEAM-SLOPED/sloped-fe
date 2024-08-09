@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import api from "../../service/api";
 import { useNavigate } from "react-router-dom";
-
+import { serverUrl } from "../../constant/url";
 type Props = {
   id: string;
 };
@@ -21,7 +21,7 @@ const FindPasswordPassForm = ({ id }: Props) => {
     setError("");
 
     try {
-      const response = await api.put("/api/auth/request-reset", {
+      const response = await api.put(`${serverUrl}/api/auth/request-reset`, {
         memberId: id,
         password: newPassword,
       });
