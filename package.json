@@ -26,8 +26,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "REACT_APP_ENV=development react-scripts start",
+    "start:dev": "REACT_APP_ENV=development react-scripts start",
+    "start:prod": "REACT_APP_ENV=production react-scripts start",
+    "build:prod": "REACT_APP_ENV=production react-scripts build",
+    "serve:prod": "REACT_APP_ENV=production serve -s build",
+    "build-and-serve:prod": "npm run build:prod && npm run serve:prod",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -50,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.57.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-jsx-a11y": "^6.8.0",
