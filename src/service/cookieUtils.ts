@@ -12,22 +12,15 @@ interface CookieOptions {
   sameSite?: "strict" | "lax" | "none";
 }
 
-export const setCookie = (
-  name: string,
-  value: string,
-  options: CookieOptions = {},
-): void => {
-  cookies.set(name, value, { path: "/", ...options });
+export const addToken = (name: string, value: string): void => {
+  localStorage.setItem(name, value);
 };
 
-export const getCookie = (name: string): string | undefined => {
-  console.log(cookies.getAll());
-  return cookies.get(name);
+export const getToken = (name: string): string | undefined => {
+  return localStorage.get(name);
 };
 
-export const removeCookie = (
-  name: string,
-  options: CookieOptions = {},
-): void => {
-  cookies.remove(name, { path: "/", ...options });
+export const removeToken = (): void => {
+  localStorage.removeItem("accessToken");
+  localStorage.removeItem("refreshToken");
 };

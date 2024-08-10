@@ -1,5 +1,5 @@
 import { jwtDecode } from "jwt-decode";
-import { getCookie, removeCookie } from "./cookieUtils";
+import { getToken } from "./cookieUtils";
 
 export const decodeTokenNickname = (token) => {
   try {
@@ -22,7 +22,7 @@ export const decodeTokenAuthType = (token) => {
 };
 
 export const isCookieAccessTokenExpired = () => {
-  const accessToken = getCookie("accessToken"); // 쿠키에서 Access Token 가져오기
+  const accessToken = getToken("accessToken"); // 쿠키에서 Access Token 가져오기
 
   if (!accessToken) {
     return true; // 토큰이 없으면 만료로 간주

@@ -1,4 +1,4 @@
-import { getCookie } from "../../service/cookieUtils";
+import { getToken } from "../../service/cookieUtils";
 import StarIcon from "../icons/StarIcon";
 import WarningIcon from "../icons/WarningIcon";
 
@@ -29,7 +29,7 @@ const RightSidebar = ({
         </span>
         <span>불편지역</span>
       </button>
-      {getCookie("accessToken") && (
+      {getToken("accessToken") && (
         <button
           className={`${BUTTON_STYLE} ${visibleBookmarks ? "text-white bg-[#fff500] border-[#fff500]" : "bg-white"}`}
           onClick={onClickBookmarks}
