@@ -22,7 +22,9 @@ const GetJwt = () => {
         console.log("Received response:", response);
 
         if (response.status === 200) {
-          const accessToken = response.headers["authorization"];
+          const accessToken =
+            response.headers["authorization"] ||
+            response.headers["Authorization"];
           console.log("Authorization header:", accessToken);
 
           if (accessToken && accessToken.startsWith("Bearer ")) {
