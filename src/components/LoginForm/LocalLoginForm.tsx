@@ -25,28 +25,16 @@ const LocalLoginForm = () => {
         },
         { withCredentials: true },
       );
-      console.log("전체 응답 헤더:", response.headers);
 
       if (response.status === 200) {
-        console.log("요청 완료, test");
-        const accessToken =
-          response.headers["authorization"] ||
-          response.headers["Authorization"];
-        console.log("원본 accessToken:", accessToken);
+        const { accessToken, message } = response.data;
         if (accessToken) {
-          const token = accessToken.startsWith("Bearer ")
-            ? accessToken.slice(7)
-            : accessToken;
-          console.log("처리된 token:", token);
-          localStorage.setItem("accessToken", token);
-
-          // API 인스턴스의 헤더 업데이트
-          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-          console.log("Navigating to home page");
+          localStorage.setItem("accessToken", accessToken);
+          api.defaults.headers.common["Authorization"] =
+            `Bearer ${accessToken}`;
+          console.log(message); // "Login successful" 메시지 출력
           navigate("/");
         } else {
-          console.log("요청 완료, test error");
           setError("Invalid access token received");
         }
       }
