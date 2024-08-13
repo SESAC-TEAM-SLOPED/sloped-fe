@@ -28,7 +28,9 @@ axiosInstance.interceptors.request.use(
         );
 
         if (response.status === 200) {
-          const newAccessToken = response.headers["authorization"];
+          const newAccessToken =
+            response.headers["authorization"] ||
+            response.headers["Authorization"];
           if (newAccessToken && newAccessToken.startsWith("Bearer ")) {
             const token = newAccessToken.slice(7); // 'Bearer ' 제거
             localStorage.setItem("accessToken", token);

@@ -27,7 +27,9 @@ const LocalLoginForm = () => {
       );
 
       if (response.status === 200) {
-        const accessToken = response.headers["authorization"];
+        const accessToken =
+          response.headers["authorization"] ||
+          response.headers["Authorization"];
         if (accessToken && accessToken.startsWith("Bearer ")) {
           const token = accessToken.slice(7); // 'Bearer ' 제거
           localStorage.setItem("accessToken", token);
