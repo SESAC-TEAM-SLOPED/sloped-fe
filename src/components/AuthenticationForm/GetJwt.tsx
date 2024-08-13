@@ -19,8 +19,12 @@ const GetJwt = () => {
           },
         );
 
+        console.log("Received response:", response);
+
         if (response.status === 200) {
           const accessToken = response.headers["authorization"];
+          console.log("Authorization header:", accessToken);
+
           if (accessToken && accessToken.startsWith("Bearer ")) {
             const token = accessToken.slice(7); // 'Bearer ' 제거
             localStorage.setItem("accessToken", token);

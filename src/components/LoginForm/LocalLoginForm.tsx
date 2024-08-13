@@ -3,7 +3,7 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import Button from "../ui/Button";
 import api from "../../service/api";
 import { useNavigate } from "react-router-dom";
-
+import { serverUrl } from "../../constant/url";
 const LocalLoginForm = () => {
   const [memberId, setmemberId] = useState("");
   const [password, setPassword] = useState("");
@@ -18,7 +18,7 @@ const LocalLoginForm = () => {
   const handleLogin = async () => {
     try {
       const response = await api.post(
-        "/api/auth/login",
+        `${serverUrl}/api/auth/login`,
         {
           memberId,
           password,
