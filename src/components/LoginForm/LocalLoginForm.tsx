@@ -32,8 +32,12 @@ const LocalLoginForm = () => {
         const accessToken =
           response.headers["authorization"] ||
           response.headers["Authorization"];
-        if (accessToken && accessToken.startsWith("Bearer ")) {
-          const token = accessToken.slice(7); // 'Bearer ' 제거
+        if (accessToken) {
+          console.log("원본 accessToken:", accessToken);
+          const token = accessToken.startsWith("Bearer ")
+            ? accessToken.slice(7)
+            : accessToken;
+          console.log("처리된 token:", token);
           localStorage.setItem("accessToken", token);
 
           // API 인스턴스의 헤더 업데이트
