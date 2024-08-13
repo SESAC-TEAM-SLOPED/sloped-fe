@@ -19,26 +19,17 @@ const GetJwt = () => {
           },
         );
 
-        console.log("Received response:", response);
-
         if (response.status === 200) {
-          const accessToken =
-            response.headers["authorization"] ||
-            response.headers["Authorization"];
-          console.log("Authorization header:", accessToken);
-
-          if (accessToken && accessToken.startsWith("Bearer ")) {
-            const token = accessToken.slice(7); // 'Bearer ' 제거
-            localStorage.setItem("accessToken", token);
-            console.log("New access token received and stored");
-
-            // 홈 페이지로 리다이렉트
+          const { accessToken, message } = response.data;
+          if (accessToken) {
+            localStorage.setItem("accessToken", accessToken);
+            axios.defaults.headers.common["Authorization"] =
+              `Bearer ${accessToken}`;
+            console.log(message); // "Login successful" 메시지 출력
             navigate("/");
           } else {
-            throw new Error("Access token not found in response headers");
+            setError("Invalid access token received");
           }
-        } else {
-          throw new Error("Failed to exchange token");
         }
       } catch (err: any) {
         console.error("Error exchanging token:", err);
