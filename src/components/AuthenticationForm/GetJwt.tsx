@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios"; // axios를 사용한다고 가정합니다.
-
+import { serverUrl } from "../../constant/url";
 const GetJwt = () => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ const GetJwt = () => {
       try {
         // 서버에 refresh token을 사용하여 새로운 access token 요청
         const response = await axios.post(
-          "/api/auth/exchange-token",
+          `${serverUrl}/api/auth/exchange-token`,
           {},
           {
             withCredentials: true, // 쿠키를 포함시키기 위해 필요합니다.
