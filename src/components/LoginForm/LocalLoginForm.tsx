@@ -25,6 +25,7 @@ const LocalLoginForm = () => {
         },
         { withCredentials: true },
       );
+      console.log("요청 완료, test");
 
       if (response.status === 200) {
         const accessToken =
