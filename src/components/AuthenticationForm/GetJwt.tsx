@@ -21,6 +21,7 @@ const GetJwt = () => {
 
         if (response.status === 200) {
           const { accessToken, message } = response.data;
+          localStorage.setItem("response.data", response.data);
           if (accessToken) {
             localStorage.setItem("accessToken", accessToken);
             axios.defaults.headers.common["Authorization"] =
