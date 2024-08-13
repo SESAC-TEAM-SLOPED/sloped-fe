@@ -32,8 +32,8 @@ const LocalLoginForm = () => {
         const accessToken =
           response.headers["authorization"] ||
           response.headers["Authorization"];
+        console.log("원본 accessToken:", accessToken);
         if (accessToken) {
-          console.log("원본 accessToken:", accessToken);
           const token = accessToken.startsWith("Bearer ")
             ? accessToken.slice(7)
             : accessToken;
