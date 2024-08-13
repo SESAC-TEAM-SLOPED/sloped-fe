@@ -1,6 +1,5 @@
 import axios from "axios";
-import { setCookie, getCookie, removeCookie } from "./cookieUtils";
-import { isCookieAccessTokenExpired } from "./tokenUtils";
+import { isLocalStorageAccessTokenExpired } from "./tokenUtils";
 import { serverUrl } from "../constant/url";
 
 // Axios 인스턴스 생성
@@ -12,47 +11,30 @@ const axiosInstance = axios.create({
 // 요청 인터셉터 추가
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const accessToken = getCookie("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
-    let newAccessToken = null; // 새로운 Access Token 변수
-    let newRefreshToken = null;
+    const accessToken = localStorage.getItem("accessToken");
 
-    if (accessToken && isCookieAccessTokenExpired()) {
+    if (accessToken && isLocalStorageAccessTokenExpired()) {
       try {
-        if (!refreshToken) {
-          throw new Error("No refresh token available");
-        }
-
         // 만료된 Access Token과 Refresh Token을 쿠키에 설정
-        setCookie("expiredAccessToken", accessToken, { maxAge: 300 });
-        setCookie("refreshToken", refreshToken, { maxAge: 300 });
+        config.headers.Authorization = `Bearer ${accessToken}`;
 
         // 새로운 Access Token 요청
         const response = await axios.post(
-          "/api/auth/refresh-token",
-          {}, // 요청 본문 없이
+          "/api/auth/renew-token",
+          {},
           {
             withCredentials: true, // 쿠키를 함께 전송하기 위해 설정
           },
         );
 
         if (response.status === 200) {
-          newAccessToken = getCookie("accessToken") || null; // 쿠키에서 새로운 Access Token 가져오기
-
-          const refreshTokenFromCookie = getCookie("refreshToken"); // 쿠키에서 새로운 Refresh Token 가져오기
-          newRefreshToken = refreshTokenFromCookie || null;
-          removeCookie("refreshToken");
-
-          if (newAccessToken) {
-            config.headers.Authorization = `Bearer ${newAccessToken}`; // 요청 헤더에 새로운 Access Token 설정
+          const newAccessToken = response.headers["authorization"];
+          if (newAccessToken && newAccessToken.startsWith("Bearer ")) {
+            const token = newAccessToken.slice(7); // 'Bearer ' 제거
+            localStorage.setItem("accessToken", token);
+            config.headers.Authorization = `Bearer ${token}`;
           } else {
-            throw new Error("Failed to retrieve new access token from cookie");
-          }
-
-          if (newRefreshToken) {
-            setCookie("refreshToken", newRefreshToken, {
-              maxAge: 604800,
-            });
+            throw new Error("New access token not found in response headers");
           }
         } else {
           throw new Error("Failed to refresh access token");

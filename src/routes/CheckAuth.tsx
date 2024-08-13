@@ -1,8 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { getCookie } from "../service/cookieUtils";
 const CheckAuth = () => {
   const { pathname } = useLocation();
-  const token = getCookie("accessToken");
+  const token = localStorage.getItem("accessToken");
 
   if (token) {
     // Token이 있는 경우
