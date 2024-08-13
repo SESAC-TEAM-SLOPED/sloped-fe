@@ -25,7 +25,7 @@ const LocalLoginForm = () => {
         },
         { withCredentials: true },
       );
-      console.log("요청 완료, test");
+      console.log("전체 응답 헤더:", response.headers);
 
       if (response.status === 200) {
         console.log("요청 완료, test");
