@@ -28,6 +28,7 @@ const LocalLoginForm = () => {
       console.log("요청 완료, test");
 
       if (response.status === 200) {
+        console.log("요청 완료, test");
         const accessToken =
           response.headers["authorization"] ||
           response.headers["Authorization"];
@@ -41,6 +42,7 @@ const LocalLoginForm = () => {
           console.log("Navigating to home page");
           navigate("/");
         } else {
+          console.log("요청 완료, test error");
           setError("Invalid access token received");
         }
       }
