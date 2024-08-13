@@ -1,4 +1,3 @@
-import { getCookie } from "../../service/cookieUtils";
 import StarIcon from "../icons/StarIcon";
 import WarningIcon from "../icons/WarningIcon";
 
@@ -11,6 +10,10 @@ type Props = {
 
 const BUTTON_STYLE =
   "rounded-full w-14 h-14 flex flex-col items-center justify-center shadow-xl border";
+
+const isAuthenticated = () => {
+  return Boolean(localStorage.getItem("accessToken"));
+};
 
 const RightSidebar = ({
   onClickBookmarks,
@@ -29,7 +32,7 @@ const RightSidebar = ({
         </span>
         <span>불편지역</span>
       </button>
-      {getCookie("accessToken") && (
+      {isAuthenticated() && (
         <button
           className={`${BUTTON_STYLE} ${visibleBookmarks ? "text-white bg-[#fff500] border-[#fff500]" : "bg-white"}`}
           onClick={onClickBookmarks}

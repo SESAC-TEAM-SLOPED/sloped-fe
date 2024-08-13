@@ -3,8 +3,6 @@ import { IoEye, IoEyeOff } from "react-icons/io5";
 import Button from "../ui/Button";
 import api from "../../service/api";
 import { useNavigate } from "react-router-dom";
-import { handleTokenStorageAndNavigation } from "../../service/tokenUtils";
-import { serverUrl } from "../../constant/url";
 
 const LocalLoginForm = () => {
   const [memberId, setmemberId] = useState("");
@@ -20,7 +18,7 @@ const LocalLoginForm = () => {
   const handleLogin = async () => {
     try {
       const response = await api.post(
-        `${serverUrl}/api/auth/login`,
+        "/api/auth/login",
         {
           memberId,
           password,
@@ -29,9 +27,19 @@ const LocalLoginForm = () => {
       );
 
       if (response.status === 200) {
-        const accessToken = response.data.accessToken;
-        const refreshToken = response.data.refreshToken;
-        handleTokenStorageAndNavigation(navigate, accessToken, refreshToken);
+        const accessToken = response.headers["authorization"];
+        if (accessToken && accessToken.startsWith("Bearer ")) {
+          const token = accessToken.slice(7); // 'Bearer ' 제거
+          localStorage.setItem("accessToken", token);
+
+          // API 인스턴스의 헤더 업데이트
+          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+          console.log("Navigating to home page");
+          navigate("/");
+        } else {
+          setError("Invalid access token received");
+        }
       }
     } catch (error: any) {
       if (error.response) {

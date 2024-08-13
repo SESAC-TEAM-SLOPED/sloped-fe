@@ -15,7 +15,6 @@ import {
   decodeTokenAuthType,
 } from "../../service/tokenUtils";
 import { handleLogout } from "../../service/authUtils";
-import { getCookie } from "../../service/cookieUtils";
 import axiosInstance from "../../service/axiosInstance";
 
 const MyPageBaseForm = () => {
@@ -24,7 +23,7 @@ const MyPageBaseForm = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = getCookie("accessToken");
+    const token = localStorage.getItem("accessToken");
     if (token) {
       const decodedNickname = decodeTokenNickname(token);
       setNickname(decodedNickname); // 닉네임 설정
@@ -32,7 +31,7 @@ const MyPageBaseForm = () => {
   }, []);
 
   const handleEditAccount = () => {
-    const token = getCookie("accessToken");
+    const token = localStorage.getItem("accessToken");
     if (token) {
       const authType = decodeTokenAuthType(token);
       if (authType === "LOCAL") {

@@ -13,7 +13,7 @@ import FacilityMarkers from "../../components/FacilityMarkers/FacilityMarkers";
 import RoadMarkers from "../../components/RoadMarkers/RoadMarkers";
 import BookmarkMarkers from "../../components/BookmarkMarkers/BookmarkMarkers";
 import Categories from "../../components/Categories/Categories";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import RightSidebar from "../../components/RightSidebar/RightSidebar";
@@ -26,14 +26,10 @@ import { RoadReportCenter } from "../../types/roadReportCenter";
 import { RoadReportCallTaxi } from "../../types/RoadReportCallTaxi";
 import { serverUrl } from "../../constant/url";
 import axiosInstance from "../../service/axiosInstance";
-import { getCookie } from "../../service/cookieUtils";
 import RightArrowIcon from "../../components/icons/RightArrowIcon";
 
 const Main = () => {
   const { location } = useGeoLocation();
-
-  const navigate = useNavigate();
-
   const [isBottomSheetOpen, setBottomSheetOpen] = useState(false);
   const [clickedId, setClickedId] = useState<number>(0);
   const [roadClickId, setRoadClickedId] = useState<number | null>(null);
@@ -62,6 +58,10 @@ const Main = () => {
   const [isComplaintCallOpen, setIsComplaintCallOpen] = useState(false);
   const [isCenterListOpen, setIsCenterListOpen] = useState(false);
   const [iscallTaxiOpen, setIscallTaxiOpen] = useState(false);
+
+  const isAuthenticated = () => {
+    return Boolean(localStorage.getItem("accessToken"));
+  };
 
   useEffect(() => {
     searchParams.get("id") && setBottomSheetOpen(true);
@@ -104,7 +104,7 @@ const Main = () => {
 
       setBookmarks(data);
     };
-    getCookie("accessToken") && getBookmarks();
+    isAuthenticated() && getBookmarks();
   }, [visibleBookmarks]);
 
   useEffect(() => {
